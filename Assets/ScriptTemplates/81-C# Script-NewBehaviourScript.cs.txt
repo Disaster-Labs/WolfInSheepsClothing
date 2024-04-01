@@ -1,0 +1,16 @@
+// ---------------------------------------
+// Creation Date:
+// Author: 
+// Modified By:
+// ---------------------------------------
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+    #ROOTNAMESPACEBEGIN#
+public class #SCRIPTNAME# : MonoBehaviour
+{
+    #NOTRIM#
+}
+#ROOTNAMESPACEEND#
