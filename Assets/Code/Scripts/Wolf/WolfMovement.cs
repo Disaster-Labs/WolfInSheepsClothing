@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WolfStateController : MonoBehaviour
+public class WolfMovement : MonoBehaviour
 {
     // State 
     private WolfState currentState;
@@ -24,12 +24,17 @@ public class WolfStateController : MonoBehaviour
     private float walkSpeed;
     private float sprintSpeed;
 
+    // Look Direction
+    private float startScaleX;
+
     private void Awake() {
         input = GetComponent<WolfInput>();
         rb = GetComponent<Rigidbody2D>();
 
         input.OnMove += (_, e) => moveDirection = e.direction;
         input.OnSprint += (_, e) => isSprinting = e.isSprinting;
+
+        startScaleX = transform.localScale.x;
     }
     
     private void Start() {
@@ -49,11 +54,26 @@ public class WolfStateController : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        // Handling Movement
+        HandleMovement();
+        HandleLookDirection();
+    }
+
+    private void HandleMovement() {
         if (isSprinting) rb.velocity = moveDirection * sprintSpeed;
         else rb.velocity = moveDirection * walkSpeed;
+    }
 
-        Debug.Log(moveDirection);
+    private void HandleLookDirection() {
+        if (moveDirection.x < 0) transform.localScale = new Vector3(-startScaleX, transform.localScale.y, transform.localScale.z);
+        else if (moveDirection.x >= 0) transform.localScale = new Vector3(startScaleX, transform.localScale.y, transform.localScale.z);
+
+        // θ = arctan(y/x)
+        float lookAngle = Mathf.Rad2Deg * Mathf.Atan(moveDirection.y/moveDirection.x);
+        if (moveDirection.x == 0) {
+            lookAngle = moveDirection.y == 0 ? transform.eulerAngles.x : 90 * moveDirection.y;
+        }
+
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, lookAngle);
     }
 }
 
@@ -64,7 +84,7 @@ public class WolfState {
 
     public virtual void OnEnter() {}
     // for changing in between states
-    public virtual void OnUpdate(WolfStateController stateController) {}
+    public virtual void OnUpdate(WolfMovement wolf) {}
 }
 
 public class DefaultState : WolfState
