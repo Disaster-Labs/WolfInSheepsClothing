@@ -6,6 +6,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 public class WolfMovement : MonoBehaviour
@@ -64,16 +65,42 @@ public class WolfMovement : MonoBehaviour
     }
 
     private void HandleLookDirection() {
-        if (moveDirection.x < 0) transform.localScale = new Vector3(-startScaleX, transform.localScale.y, transform.localScale.z);
-        else if (moveDirection.x >= 0) transform.localScale = new Vector3(startScaleX, transform.localScale.y, transform.localScale.z);
+        float scaleX;
+        float angleZ;
 
-        // θ = arctan(y/x)
-        float lookAngle = Mathf.Rad2Deg * Mathf.Atan(moveDirection.y/moveDirection.x);
-        if (moveDirection.x == 0) {
-            lookAngle = moveDirection.y == 0 ? transform.eulerAngles.x : 90 * moveDirection.y;
+        if (moveDirection.x < 0) {
+            scaleX = -startScaleX;
+            angleZ = 0;
+        } else if (moveDirection.x > 0) {
+            scaleX = startScaleX;
+            angleZ = 0;
+        } else if (moveDirection.y > 0) {
+            scaleX = startScaleX;
+            angleZ = 90;
+        } else if (moveDirection.y < 0) {
+            scaleX = startScaleX;
+            angleZ = -90;
+        } else {
+            scaleX = startScaleX;
+            angleZ = 0;
         }
 
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, lookAngle);
+        transform.localScale = new Vector3(scaleX, transform.localScale.y, transform.localScale.z);
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, angleZ);
+
+        // if (moveDirection.x < 0 && moveDirection.y >= 0) transform.localScale = new Vector3(-startScaleX, transform.localScale.y, transform.localScale.z);
+        // else if (moveDirection.x > 0) transform.localScale = new Vector3(startScaleX, transform.localScale.y, transform.localScale.z);
+
+        // // θ = arctan(y/x)
+        // // float lookAngle = Mathf.Rad2Deg * Mathf.Atan(moveDirection.y/moveDirection.x);
+        // float lookAngle;
+        // if (moveDirection.x == 0) {
+        //     lookAngle = moveDirection.y == 0 ? transform.eulerAngles.x : -90 * moveDirection.y;
+        // } else {
+        //     lookAngle = 0;
+        // }
+
+        // transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, lookAngle);
     }
 }
 
