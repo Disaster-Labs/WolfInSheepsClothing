@@ -132,13 +132,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 687362086}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Herds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &687362086
 Transform:
   m_ObjectHideFlags: 0
@@ -288,7 +288,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1531356221}
-  m_Layer: 0
+  - component: {fileID: 1531356222}
+  m_Layer: 6
   m_Name: SheepHerd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -311,6 +312,61 @@ Transform:
   - {fileID: 1942284091}
   m_Father: {fileID: 687362086}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1531356222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531356220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78396926cbbfc4ac3b48fc5fc34a87d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  data:
+    dataString: UEsDBBQAAAgIAACYn+u/P1yQZQIAAB0FAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFlVMty4jAQ/BVK5yVl8wiwt11DyB6SUGG3cvFFyGOsQpZcegRIin/fkWxjh5wQ3T2jnof8Sbg0FTCr9Frz7EllQH4OiD+TH4OOfIQT3Su55R/Qat54ZgsvokHzSi1XiMc+zKgSrObsl9wLL44QdJLnSperbA+JMtYgnFNhACmtrI+WCH0OyAl/hgsfcsbTaOZPH3haRIMLHhlIC7qTtsLJXRxH8/l8NlsNo1kTU4c4yQQtK8i8/y4ynjah8TTIJFbWKHwVTAnBTWOL2HMVyk5oZRwWhYKMUywzePH6Avi+sN5yP/glzw3Yxqem5yXX2K06K/mt6haW1BxqX+9UOLgar1M+fWOHcaBzrcrH9tY48jfYgrPDKz0zamyvw314+dW2k0cqDnQn4K0A+azWWjmZIWm186HOwGjZ/b0WlhTADh1eW70BXfV9Tu04fQ2XUPspEbzceepuUgNboUK3wxaAxrn8QcNhR0yTAlHv4p+Bv3TfX6aGeODaWKSaKqW3t1NOeylZhZ75apxNlJYQ4MZ0BZIKe95gGns7wBuud+0N80D9s2kub7j2NdyEBLjTR9ENtVHH67BMoY5PYIoXZwWX0Jn2xDP2KVFS1vvV70kbtnU6p6wXtnc8+7paJIriXZ7TnN6PonG8i4aTOaO7aDJdjBej8T27J2H3uMQ6qdjURpv24NRkl1zinrVfk8Fa0yrseqbpcc0/StVrOZe52jINIF/qDFfjoPESfJPZKuPYoC1Yy2WYN/lMiVDsAFl6TZSGSlcnq2naZUlJxd+V9UhKkvD5SImHr7u80fDO4egvb5NdyOU/UEsDBBQAAAgIAACYn+u0XmM9bQAAAHgAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jM011FQSi9KLMgoBooYgjilmSkgdrSSgYFhUlpaYlqimZGBsWGSga6JRXJikoGJqaWxpZGxWbKZUixQfUllQapfYm4qRE9AYklGWmZeSmZeup57UWaKO8hopdhaAFBLAQItABQAAAgIAACYn+u/P1yQZQIAAB0FAAALACQAAAAAAAAAAAAAAAAAAABncmFwaDAuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLAQItABQAAAgIAACYn+u0XmM9bQAAAHgAAAAJACQAAAAAAAAAAAAAALICAABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwUGAAAAAAIAAgC4AAAAagMAAAAA
+    upgradeData: 
+    file_cachedStartup: {fileID: 0}
+    data_cachedStartup: 
+    cacheStartup: 0
+  showNavGraphs: 1
+  showUnwalkableNodes: 1
+  debugMode: 0
+  debugFloor: 0
+  debugRoof: 1
+  manualDebugFloorRoof: 0
+  showSearchTree: 0
+  unwalkableNodeDebugSize: 0.3
+  logPathResults: 1
+  maxNearestNodeDistance: 100
+  scanOnStartup: 1
+  fullGetNearestSearch: 0
+  prioritizeGraphs: 0
+  prioritizeGraphsLimit: 1
+  colorSettings:
+    _SolidColor: {r: 0.11764706, g: 0.4, b: 0.7882353, a: 0.9}
+    _UnwalkableNode: {r: 1, g: 0, b: 0, a: 0.5}
+    _BoundsHandles: {r: 0.29, g: 0.454, b: 0.741, a: 0.9}
+    _ConnectionLowLerp: {r: 0, g: 1, b: 0, a: 0.5}
+    _ConnectionHighLerp: {r: 1, g: 0, b: 0, a: 0.5}
+    _MeshEdgeColor: {r: 0, g: 0, b: 0, a: 0.5}
+    _AreaColors:
+    - {r: 0, g: 0, b: 0, a: 0}
+  tagNames: []
+  heuristic: 2
+  heuristicScale: 1
+  threadCount: 1
+  maxFrameTime: 10
+  batchGraphUpdates: 0
+  graphUpdateBatchingInterval: 0.2
+  euclideanEmbedding:
+    mode: 0
+    seed: 0
+    pivotPointRoot: {fileID: 0}
+    spreadOutCount: 1
+  showGraphs: 1
 --- !u!1 &1942284090
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,7 +377,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1942284091}
   - component: {fileID: 1942284092}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sheep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -552,7 +608,7 @@ PrefabInstance:
     - target: {fileID: 1558658768307675693, guid: f0304e4fcb77e41998dfb1c7554423bf,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2806841580084952997, guid: f0304e4fcb77e41998dfb1c7554423bf,
         type: 3}
