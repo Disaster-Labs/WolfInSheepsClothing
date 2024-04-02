@@ -66,14 +66,6 @@ public class WolfMovement : MonoBehaviour
     private void HandleLookDirection() {
         if (moveDirection.x < 0) transform.localScale = new Vector3(-startScaleX, transform.localScale.y, transform.localScale.z);
         else if (moveDirection.x >= 0) transform.localScale = new Vector3(startScaleX, transform.localScale.y, transform.localScale.z);
-
-        // θ = arctan(y/x)
-        float lookAngle = Mathf.Rad2Deg * Mathf.Atan(moveDirection.y/moveDirection.x);
-        if (moveDirection.x == 0) {
-            lookAngle = moveDirection.y == 0 ? transform.eulerAngles.x : 90 * moveDirection.y;
-        }
-
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, lookAngle);
     }
 }
 
