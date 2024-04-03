@@ -4,6 +4,7 @@
 // Modified By:
 // ---------------------------------------
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
@@ -11,6 +12,9 @@ using UnityEngine;
 
 public class WolfMovement : MonoBehaviour
 {
+    // Events
+    public event EventHandler PlayBGMusic;
+
     // State 
     private WolfState currentState;
     private DefaultState defaultState = new DefaultState();
@@ -52,6 +56,10 @@ public class WolfMovement : MonoBehaviour
 
     private void Update() {
         if (currentState != null) currentState.OnUpdate(this);
+
+        if (Input.GetKeyDown("space")) {
+            PlayBGMusic.Invoke(this, EventArgs.Empty);
+        }
     }
 
     private void FixedUpdate() {
