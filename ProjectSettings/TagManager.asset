@@ -50,3 +50,6 @@ TagManager:
   - name: Wolf
     uniqueID: 212667645
     locked: 0
+  - name: Shepherd
+    uniqueID: 537050759
+    locked: 0
