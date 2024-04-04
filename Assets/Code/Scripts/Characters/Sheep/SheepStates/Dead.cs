@@ -10,7 +10,6 @@ using UnityEngine;
 
 public class Dead : SheepState {
     public void OnEnter(SheepHerd herd, Sheep sheep) {
-        Debug.Log("hi");
         Object.Destroy(sheep.gameObject);
     }
 

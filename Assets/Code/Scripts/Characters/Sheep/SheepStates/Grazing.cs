@@ -81,8 +81,8 @@ public class Grazing : SheepState
 
     private IEnumerator Stray()
     {
-        // actual [30, 120]
-        float waitTime = Random.Range(0, 5);
+        // time range for stray sheeps [30, 120]
+        float waitTime = Random.Range(30, 120);
         yield return new WaitForSeconds(waitTime);
         if (!herd.IsAStray()) {
             sheep.inHerd = false;
