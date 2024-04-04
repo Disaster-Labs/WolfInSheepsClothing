@@ -11,13 +11,11 @@ using UnityEngine;
 
 public class Shepherd : MonoBehaviour
 {
-    [SerializeField] private Sprite visual_forward;
-    [SerializeField] private Sprite visual_side;
-    [SerializeField] private Sprite visual_back;
+    [System.NonSerialized] public Wolf wolf;
 
     public AstarPath astar;
-    public Wolf wolf;
     public WolfDetection wolfDetection;
+    public ShepherdGun shepherdGun;
 
     public Patrolling patrolling = new Patrolling();
     public Hunting hunting = new Hunting();

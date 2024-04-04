@@ -17,6 +17,7 @@ public class Patrolling : ShepherdState {
 
     public void OnEnter(Shepherd shepherd) {
         shepherd.wolfDetection.gameObject.SetActive(true);
+        shepherd.shepherdGun.gameObject.SetActive(false);
         shepherd.wolfDetection.OnWolfDetected += (_, _) => shepherd.ChangeState(shepherd.hunting);
 
         this.shepherd = shepherd;

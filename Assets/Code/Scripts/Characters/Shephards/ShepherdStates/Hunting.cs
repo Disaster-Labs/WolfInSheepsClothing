@@ -29,6 +29,8 @@ public class Hunting : ShepherdState {
         aIMovement.speed = shepherdSpeed;
         aIMovement.gameObject = shepherd.gameObject;
 
+        shepherd.shepherdGun.gameObject.SetActive(true);
+
         scale = shepherd.transform.localScale;
         scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
 
@@ -41,6 +43,10 @@ public class Hunting : ShepherdState {
 
         UpdatePath();
         shepherd.StartCoroutine(InvokeUpdatePath());
+    }
+
+    private void ShootWolf() {
+        shepherd.shepherdGun.ShootAtPosition(wolf.transform.position);
     }
 
     private IEnumerator InvokeUpdatePath()
@@ -70,6 +76,8 @@ public class Hunting : ShepherdState {
     }
 
     public void OnUpdate() {
+        ShootWolf();
+
         Bounds shepherdBounds = new Bounds(shepherd.transform.position, graph.size);
         if (!shepherdBounds.Contains(wolf.transform.position)) {
             shepherd.ChangeState(shepherd.patrolling);
