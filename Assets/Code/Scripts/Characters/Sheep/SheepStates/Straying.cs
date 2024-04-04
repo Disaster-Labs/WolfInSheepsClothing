@@ -108,5 +108,7 @@ public class Straying : SheepState
         else if (dir.x > 0) sheep.gameObject.transform.localScale = new Vector3(scale.x, scale.y, scale.z);
     }
 
-    public void OnExit() {}
+    public void OnExit() {
+        herd.StopAllCoroutines();
+    }
 }

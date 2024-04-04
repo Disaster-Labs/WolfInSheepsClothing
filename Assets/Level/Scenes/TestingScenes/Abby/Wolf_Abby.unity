@@ -627,6 +627,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wolf
       objectReference: {fileID: 0}
+    - target: {fileID: 2866547204423789118, guid: f0304e4fcb77e41998dfb1c7554423bf,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5281436107688911554, guid: f0304e4fcb77e41998dfb1c7554423bf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -676,6 +681,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6328467298175954730, guid: f0304e4fcb77e41998dfb1c7554423bf,
+        type: 3}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6328467298175954730, guid: f0304e4fcb77e41998dfb1c7554423bf,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537358368910761398, guid: f0304e4fcb77e41998dfb1c7554423bf,
+        type: 3}
+      propertyPath: sheepLayerMask.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
