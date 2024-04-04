@@ -56,7 +56,7 @@ public class ShepherdGun : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab);
          
         startTime = Time.time;
-        float bulletTravelTime = 0.4f;
+        float bulletTravelTime = 0.35f;
         while (Time.time - startTime < bulletTravelTime) {
             Quaternion bulletRotation = Quaternion.FromToRotation(Vector3.right, (Vector3) wolfPos - transform.position);
             bullet.transform.rotation = bulletRotation;
