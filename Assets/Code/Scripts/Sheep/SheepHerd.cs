@@ -81,9 +81,12 @@ public class Grazing : SheepState {
     private bool reachedEndOfPath = true;
     private bool waiting = false;
 
+    private Vector3 scale;
+
     public void OnEnter(SheepHerd herd, Sheep sheep) {
         this.herd = herd;
         this.sheep = sheep;
+        scale = sheep.gameObject.transform.localScale;
         seeker = sheep.gameObject.GetComponent<Seeker>();
 
         herd.StartCoroutine(WaitForNewMovement());
@@ -149,6 +152,8 @@ public class Grazing : SheepState {
         Vector3 dir = (path.vectorPath[currentWaypoint] - sheep.gameObject.transform.position).normalized;
         Vector3 velocity = dir * speed;
         sheep.gameObject.GetComponent<Rigidbody2D>().velocity = velocity;
+        if (dir.x < 0) sheep.gameObject.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
+        else if (dir.x > 0) sheep.gameObject.transform.localScale = new Vector3(scale.x, scale.y, scale.z);
     }
 
     public void OnExit() {}
