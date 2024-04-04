@@ -65,8 +65,8 @@ public class WolfMovement : MonoBehaviour
     }
 
     private void HandleLookDirection() {
-        if (moveDirection.x < 0 && moveDirection.y >= 0) transform.localScale = new Vector3(-startScaleX, transform.localScale.y, transform.localScale.z);
-        else if (moveDirection.x > 0) transform.localScale = new Vector3(startScaleX, transform.localScale.y, transform.localScale.z);
+        if (rb.velocity.x < 0) transform.localScale = new Vector3(-startScaleX, transform.localScale.y, transform.localScale.z);
+        else if (rb.velocity.x > 0) transform.localScale = new Vector3(startScaleX, transform.localScale.y, transform.localScale.z);
     }
 }
 
