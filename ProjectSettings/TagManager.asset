@@ -11,7 +11,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Sheep
   - 
   - 
   - 
@@ -43,6 +43,9 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 3443225577
+    locked: 0
+  - name: Sheep
+    uniqueID: 2386535875
     locked: 0
   - name: Wolf
     uniqueID: 212667645
