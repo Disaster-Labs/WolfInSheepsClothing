@@ -16,12 +16,16 @@ public class Shepherd : MonoBehaviour
     [SerializeField] private Sprite visual_back;
 
     public AstarPath astar;
+    public Wolf wolf;
+    public WolfDetection wolfDetection;
 
-    private Patrolling patrolling = new Patrolling();
+    public Patrolling patrolling = new Patrolling();
+    public Hunting hunting = new Hunting();
 
     private ShepherdState shepherdState;
 
     private void Start() {
+        wolf = FindObjectOfType<Wolf>();
         ChangeState(patrolling);
     }
 
