@@ -16,7 +16,6 @@ public class WolfDetection : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D col) {
         if (wolfLayerMask == (wolfLayerMask | (1 << col.gameObject.layer))) {
             OnWolfDetected?.Invoke(this, EventArgs.Empty);
-            Debug.Log("wolf detected");
         }   
     }
 }

@@ -28,6 +28,10 @@ public class ShepherdGun : MonoBehaviour
         InvokeRepeating("ShootWolf", 4, 4);
     }
 
+    private void OnDisable() {
+        CancelInvoke();
+    }
+
     private void ShootWolf() {
         StartCoroutine(IncomingShot());
     }

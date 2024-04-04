@@ -88,8 +88,9 @@ public class Grazing : SheepState
             sheep.inHerd = false;
             herd.ChangeState(sheep, new Straying());
         }
-
     }
 
-    public void OnExit() {}
+    public void OnExit() {
+        herd.StopAllCoroutines();
+    }
 }
