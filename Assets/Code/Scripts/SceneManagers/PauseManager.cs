@@ -26,12 +26,14 @@ public class PauseManager : MonoBehaviour
             }
         }
     }
+
     public void Resume(){
         // soundManager.ResumeAudio();
         PauseCanvas.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
     }
+    
     public void Pause(){
         // soundManager.PauseAudio();
         PauseCanvas.SetActive(true);

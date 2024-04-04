@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance {get; private set; }
     
     // Scene Names
-    
     public const string MAIN_MENU_SCENE = "MainMenuScene";
     public const string GAME_SCENE = "Wolf_Abby";
     public const string GAME_OVER_SCENE = "GameOverScene";

@@ -23,14 +23,14 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene(GameManager.GAME_SCENE);
         Time.timeScale = 1f;
     }
+
     public void Btn_Credits()
     {
-        
         SceneManager.LoadScene(GameManager.CREDITS_SCENE);
     }
+
     public void Btn_BackMenu()
     {
-        
         SceneManager.LoadScene(GameManager.MAIN_MENU_SCENE);
         Time.timeScale = 1f;
     }
