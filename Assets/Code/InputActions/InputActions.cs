@@ -44,6 +44,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Eat"",
+                    ""type"": ""Button"",
+                    ""id"": ""9dce0b01-81aa-4f12-b386-a9c0fc2e5381"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,6 +121,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2086ef72-dbe1-4f2f-bf7d-67f2a1e97f2e"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Eat"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -122,6 +142,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Wolf = asset.FindActionMap("Wolf", throwIfNotFound: true);
         m_Wolf_Move = m_Wolf.FindAction("Move", throwIfNotFound: true);
         m_Wolf_Sprint = m_Wolf.FindAction("Sprint", throwIfNotFound: true);
+        m_Wolf_Eat = m_Wolf.FindAction("Eat", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -185,12 +206,14 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private List<IWolfActions> m_WolfActionsCallbackInterfaces = new List<IWolfActions>();
     private readonly InputAction m_Wolf_Move;
     private readonly InputAction m_Wolf_Sprint;
+    private readonly InputAction m_Wolf_Eat;
     public struct WolfActions
     {
         private @InputActions m_Wrapper;
         public WolfActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Wolf_Move;
         public InputAction @Sprint => m_Wrapper.m_Wolf_Sprint;
+        public InputAction @Eat => m_Wrapper.m_Wolf_Eat;
         public InputActionMap Get() { return m_Wrapper.m_Wolf; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -206,6 +229,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @Eat.started += instance.OnEat;
+            @Eat.performed += instance.OnEat;
+            @Eat.canceled += instance.OnEat;
         }
 
         private void UnregisterCallbacks(IWolfActions instance)
@@ -216,6 +242,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @Eat.started -= instance.OnEat;
+            @Eat.performed -= instance.OnEat;
+            @Eat.canceled -= instance.OnEat;
         }
 
         public void RemoveCallbacks(IWolfActions instance)
@@ -237,5 +266,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnEat(InputAction.CallbackContext context);
     }
 }
