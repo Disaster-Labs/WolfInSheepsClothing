@@ -17,7 +17,7 @@ public class Hunting : ShepherdState {
     private GridGraph graph;
     private Vector3 scale;
 
-    private int shepherdHuntRange = 40;
+    private int shepherdHuntRange = 60;
     private float shepherdSpeed = 4;
     private float shepherdWolfRange = 10;
 

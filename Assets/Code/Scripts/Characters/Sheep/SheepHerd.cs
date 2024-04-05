@@ -24,6 +24,7 @@ public class SheepHerd : MonoBehaviour
     private Sheep[] sheeps;
     private int maxSheepCount = 10;
     private int minSheepCount = 3;
+    private float deadSheep = 0;
 
     private void Start() {
         GridGraph graph = astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
@@ -62,9 +63,14 @@ public class SheepHerd : MonoBehaviour
     public void EatSheep(GameObject eatenSheep) {
         foreach (Sheep sheep in sheeps) {
             if (sheep.gameObject == eatenSheep) {
+                deadSheep++;
                 ChangeState(sheep, new Dead());
-                return;
-            } 
+            }
+        }
+
+        if (deadSheep == sheeps.Length) {
+            astar.data.RemoveGraph(gridGraph);
+            Destroy(gameObject);
         }
     }
 
