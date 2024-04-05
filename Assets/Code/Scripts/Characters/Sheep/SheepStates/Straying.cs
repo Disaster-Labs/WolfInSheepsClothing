@@ -109,6 +109,7 @@ public class Straying : SheepState
     }
 
     public void OnExit() {
+        herd.astar.data.RemoveGraph(graph);
         herd.StopAllCoroutines();
     }
 }

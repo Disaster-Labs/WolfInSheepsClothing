@@ -9,12 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Level/Scenes/TestingScenes/Boyi/CreditsScene.unity
-    guid: 1f4b4046abcb80b4bbb60b993bd4f154
+    path: Assets/Level/Scenes/FinalScenes/MainMenuScene.unity
+    guid: 35242ef026aff4b349244a8a22c0b14a
   - enabled: 1
-    path: Assets/Level/Scenes/TestingScenes/Boyi/MainMenuScene.unity
-    guid: 5cc39e3a2ab06b446ad184e904f13f79
+    path: Assets/Level/Scenes/FinalScenes/Wolf_Abby.unity
+    guid: 82a2dff2848d1401291832a28b95096a
   - enabled: 1
-    path: Assets/Level/Scenes/TestingScenes/Boyi/Wolf_Abby.unity
-    guid: 1c2aeb14cb971e94a8018760075a7810
+    path: Assets/Level/Scenes/FinalScenes/CreditsScene.unity
+    guid: 1c7170a311466460fbf1a2c58f72511a
   m_configObjects: {}

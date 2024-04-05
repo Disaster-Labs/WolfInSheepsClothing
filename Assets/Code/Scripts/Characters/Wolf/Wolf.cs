@@ -20,7 +20,7 @@ public class Wolf : MonoBehaviour
         wolfInput = GetComponent<WolfInput>();
     }
 
-    private void OnTriggerEnter2D(Collider2D col) {
+    private void OnTriggerStay2D(Collider2D col) {
         if (sheepLayerMask == (sheepLayerMask | (1 << col.gameObject.layer))) {
             wolfInput.OnEat += HandleEating;
             eatenSheep = col.gameObject;

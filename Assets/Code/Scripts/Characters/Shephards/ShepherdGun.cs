@@ -17,6 +17,7 @@ public class ShepherdGun : MonoBehaviour
 
     private Vector2 wolfPosOnShot;
     private Vector2 wolfPos;
+    private GameObject bullet;
 
     public void ShootAtPosition(Vector2 pos) {
         wolfPos = pos;
@@ -30,6 +31,7 @@ public class ShepherdGun : MonoBehaviour
 
     private void OnDisable() {
         CancelInvoke();
+        Destroy(bullet);
     }
 
     private void ShootWolf() {
@@ -57,7 +59,7 @@ public class ShepherdGun : MonoBehaviour
         // play shooting sound
         lineRenderer.startColor = Color.clear;
         lineRenderer.endColor = Color.clear;
-        GameObject bullet = Instantiate(bulletPrefab);
+        bullet = Instantiate(bulletPrefab);
          
         startTime = Time.time;
         float bulletTravelTime = 0.35f;
