@@ -12,9 +12,14 @@ using UnityEngine;
 public class Wolf : MonoBehaviour
 {
     [SerializeField] private LayerMask sheepLayerMask;
+    [SerializeField] private AlertSheep alertSheep;
     private WolfInput wolfInput;
 
     private GameObject eatenSheep;
+
+    public void SetBeingChased(bool beingChased) {
+        alertSheep.CanAlertSheep(beingChased);
+    }
 
     private void Start() {
         wolfInput = GetComponent<WolfInput>();

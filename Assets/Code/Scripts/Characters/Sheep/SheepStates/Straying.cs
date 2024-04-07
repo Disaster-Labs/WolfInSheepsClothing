@@ -95,6 +95,7 @@ public class Straying : SheepState
             return;
         } else if (aIMovement.reachedEndOfPath) {
             sheep.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            sheep.inHerd = false;
             return;
         }
 

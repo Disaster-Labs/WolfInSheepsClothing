@@ -88,7 +88,6 @@ public class Grazing : SheepState
         float waitTime = Random.Range(30, 120);
         yield return new WaitForSeconds(waitTime);
         if (!herd.IsAStray()) {
-            sheep.inHerd = false;
             herd.ChangeState(sheep, new Straying());
         }
     }

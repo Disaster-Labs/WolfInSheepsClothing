@@ -17,13 +17,14 @@ public class Hunting : ShepherdState {
     private GridGraph graph;
     private Vector3 scale;
 
-    private int shepherdHuntRange = 60;
+    private int shepherdHuntRange = 50;
     private float shepherdSpeed = 4;
     private float shepherdWolfRange = 10;
 
     public void OnEnter(Shepherd shepherd) {
         this.shepherd = shepherd;
         wolf = shepherd.wolf;
+        wolf.SetBeingChased(true);
 
         aIMovement = new AIMovement(shepherd.GetComponent<Seeker>(), shepherdSpeed, shepherd.gameObject);
 
@@ -98,6 +99,7 @@ public class Hunting : ShepherdState {
     }
 
     public void OnExit() {
+        wolf.SetBeingChased(false);
         shepherd.astar.data.RemoveGraph(graph);
     }
 }

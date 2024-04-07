@@ -76,6 +76,15 @@ public class SheepHerd : MonoBehaviour
         }
     }
 
+    public void ChangeStateByGameObject(GameObject sheep, SheepState sheepState) {
+        foreach(Sheep herdSheep in sheeps) {
+            if (herdSheep.gameObject == sheep) {
+                ChangeState(herdSheep, sheepState);
+                break;
+            }
+        }
+    }
+
     public void ChangeState(Sheep sheep, SheepState sheepState) {
         if (sheep.sheepState != null) sheep.sheepState.OnExit();
         sheep.sheepState = sheepState;
