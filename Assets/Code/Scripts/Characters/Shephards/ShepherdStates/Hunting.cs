@@ -12,7 +12,7 @@ using UnityEngine;
 
 public class Hunting : ShepherdState {
     private Shepherd shepherd;
-    private AIMovement aIMovement = new AIMovement();
+    private AIMovement aIMovement;
     private Wolf wolf;
     private GridGraph graph;
     private Vector3 scale;
@@ -25,9 +25,7 @@ public class Hunting : ShepherdState {
         this.shepherd = shepherd;
         wolf = shepherd.wolf;
 
-        aIMovement.seeker = shepherd.GetComponent<Seeker>();
-        aIMovement.speed = shepherdSpeed;
-        aIMovement.gameObject = shepherd.gameObject;
+        aIMovement = new AIMovement(shepherd.GetComponent<Seeker>(), shepherdSpeed, shepherd.gameObject);
 
         shepherd.shepherdGun.gameObject.SetActive(true);
 

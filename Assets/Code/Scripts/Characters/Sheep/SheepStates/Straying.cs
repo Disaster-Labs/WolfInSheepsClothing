@@ -14,19 +14,17 @@ public class Straying : SheepState
     private GridGraph graph;
     private SheepHerd herd;
     private Sheep sheep;
-    private AIMovement aIMovement = new AIMovement();
+    private AIMovement aIMovement;
     private bool waiting = false;
-    private Vector3 scale;
     private bool isFirstStray = true;
 
     public void OnEnter(SheepHerd herd, Sheep sheep) {
         this.herd = herd;
         this.sheep = sheep;
-        scale = sheep.gameObject.transform.localScale;
-        scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
-        aIMovement.seeker = sheep.gameObject.GetComponent<Seeker>();
-        aIMovement.speed = 2;
-        aIMovement.gameObject = sheep.gameObject;
+        
+        aIMovement = new AIMovement(sheep.gameObject.GetComponent<Seeker>(), 2, sheep.gameObject);
+        Vector3 scale = sheep.gameObject.transform.localScale;
+        aIMovement.scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
 
         graph = herd.astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
 
@@ -91,8 +89,7 @@ public class Straying : SheepState
     }
 
     public void OnUpdate() {
-        if (aIMovement.path == null) return;
-        else if (aIMovement.reachedEndOfPath && !waiting) {
+        if (aIMovement.reachedEndOfPath && !waiting) {
             sheep.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             herd.StartCoroutine(WaitForNewMovement());  
             return;
@@ -102,10 +99,6 @@ public class Straying : SheepState
         }
 
         aIMovement.UpdateMovement();
-
-        Vector3 dir = (aIMovement.path.vectorPath[aIMovement.currentWaypoint] - sheep.gameObject.transform.position).normalized;
-        if (dir.x < 0) sheep.gameObject.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
-        else if (dir.x > 0) sheep.gameObject.transform.localScale = new Vector3(scale.x, scale.y, scale.z);
     }
 
     public void OnExit() {
