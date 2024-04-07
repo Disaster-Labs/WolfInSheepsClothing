@@ -75,6 +75,6 @@ public class Fleeing : SheepState
     }
 
     public void OnExit() {
-        herd.StopCoroutine(WaitToGraze());
+        herd.StopAllCoroutines();
     }
 }

@@ -17,7 +17,7 @@ public class Hunting : ShepherdState {
     private GridGraph graph;
     private Vector3 scale;
 
-    private int shepherdHuntRange = 50;
+    private int shepherdHuntRange = 70;
     private float shepherdSpeed = 4;
     private float shepherdWolfRange = 10;
 
@@ -51,7 +51,7 @@ public class Hunting : ShepherdState {
     private IEnumerator InvokeUpdatePath()
     {
         while (true) {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1);
             UpdatePath();
             yield return null;
         }
@@ -101,5 +101,6 @@ public class Hunting : ShepherdState {
     public void OnExit() {
         wolf.SetBeingChased(false);
         shepherd.astar.data.RemoveGraph(graph);
+        shepherd.StopCoroutine(InvokeUpdatePath());
     }
 }
