@@ -12,22 +12,21 @@ using UnityEngine;
 
 public class Hunting : ShepherdState {
     private Shepherd shepherd;
-    private AIMovement aIMovement = new AIMovement();
+    private AIMovement aIMovement;
     private Wolf wolf;
     private GridGraph graph;
     private Vector3 scale;
 
-    private int shepherdHuntRange = 60;
+    private int shepherdHuntRange = 50;
     private float shepherdSpeed = 4;
     private float shepherdWolfRange = 10;
 
     public void OnEnter(Shepherd shepherd) {
         this.shepherd = shepherd;
         wolf = shepherd.wolf;
+        wolf.SetBeingChased(true);
 
-        aIMovement.seeker = shepherd.GetComponent<Seeker>();
-        aIMovement.speed = shepherdSpeed;
-        aIMovement.gameObject = shepherd.gameObject;
+        aIMovement = new AIMovement(shepherd.GetComponent<Seeker>(), shepherdSpeed, shepherd.gameObject);
 
         shepherd.shepherdGun.gameObject.SetActive(true);
 
@@ -100,6 +99,7 @@ public class Hunting : ShepherdState {
     }
 
     public void OnExit() {
+        wolf.SetBeingChased(false);
         shepherd.astar.data.RemoveGraph(graph);
     }
 }

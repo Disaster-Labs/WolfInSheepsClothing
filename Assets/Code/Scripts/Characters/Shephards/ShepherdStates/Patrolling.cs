@@ -11,9 +11,8 @@ using UnityEngine;
 
 public class Patrolling : ShepherdState {
     private Shepherd shepherd;
-    private AIMovement aIMovement = new AIMovement();
+    private AIMovement aIMovement;
     private GridGraph graph;
-    private Vector3 scale;
 
     public void OnEnter(Shepherd shepherd) {
         shepherd.wolfDetection.gameObject.SetActive(true);
@@ -21,11 +20,11 @@ public class Patrolling : ShepherdState {
         shepherd.wolfDetection.OnWolfDetected += (_, _) => shepherd.ChangeState(shepherd.hunting);
 
         this.shepherd = shepherd;
-        aIMovement.seeker = shepherd.GetComponent<Seeker>();
-        aIMovement.speed = 4;
-        aIMovement.gameObject = shepherd.gameObject;
-        scale = shepherd.transform.localScale;
-        scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
+
+        aIMovement = new AIMovement(shepherd.GetComponent<Seeker>(), 4, shepherd.gameObject);
+
+        Vector3 scale = shepherd.transform.localScale;
+        aIMovement.scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
 
         graph = shepherd.astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
         graph.SetDimensions(20, 1 ,1);
@@ -69,10 +68,6 @@ public class Patrolling : ShepherdState {
         else if (aIMovement.reachedEndOfPath) UpdatePath();
 
         aIMovement.UpdateMovement();
-
-        Vector3 dir = (aIMovement.path.vectorPath[aIMovement.currentWaypoint] - shepherd.transform.position).normalized;
-        if (dir.x < 0) shepherd.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
-        else if (dir.x > 0) shepherd.transform.localScale = new Vector3(scale.x, scale.y, scale.z);
     }
 
     public void OnExit() {

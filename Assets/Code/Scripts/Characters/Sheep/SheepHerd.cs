@@ -21,21 +21,23 @@ public class SheepHerd : MonoBehaviour
 
     [SerializeField] public AstarPath astar; 
     [SerializeField] private GameObject sheepPrefab;
-    private Sheep[] sheeps;
+    public Sheep[] sheeps;
     private int maxSheepCount = 10;
     private int minSheepCount = 3;
     private float deadSheep = 0;
 
     private void Start() {
-        GridGraph graph = astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
-        graph.SetDimensions(15, 15 ,1);
-        graph.center = transform.localPosition;
-        graph.is2D = true;
-        graph.collision.use2D = true;
-        AstarPath.active.Scan();
-
-        gridGraph = graph;
         SpawnSheeps();
+    }
+
+    public void UpdateGraph(Vector3 dimensions) {
+        if (gridGraph != null) astar.data.RemoveGraph(gridGraph);
+        gridGraph = astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
+        gridGraph.SetDimensions((int) dimensions.x, (int) dimensions.y, dimensions.z);
+        gridGraph.center = transform.localPosition;
+        gridGraph.is2D = true;
+        gridGraph.collision.use2D = true;
+        AstarPath.active.Scan();
     }
 
     private void SpawnSheeps() {
@@ -71,6 +73,15 @@ public class SheepHerd : MonoBehaviour
         if (deadSheep == sheeps.Length) {
             astar.data.RemoveGraph(gridGraph);
             Destroy(gameObject);
+        }
+    }
+
+    public void ChangeStateByGameObject(GameObject sheep, SheepState sheepState) {
+        foreach(Sheep herdSheep in sheeps) {
+            if (herdSheep.gameObject == sheep) {
+                ChangeState(herdSheep, sheepState);
+                break;
+            }
         }
     }
 

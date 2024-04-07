@@ -11,7 +11,6 @@ using UnityEngine;
 
 public class ShepherdGun : MonoBehaviour
 {
-    [SerializeField] private GameObject incomingShotSpotPrefab;
     [SerializeField] private GameObject bulletPrefab;
     private LineRenderer lineRenderer;
 

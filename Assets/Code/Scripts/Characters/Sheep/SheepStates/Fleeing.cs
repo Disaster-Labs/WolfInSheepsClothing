@@ -1,5 +1,5 @@
 // ---------------------------------------
-// Creation Date: 4/3/24
+// Creation Date: 4/7/24
 // Author: Abigail Andam
 // Modified By:
 // ---------------------------------------
@@ -9,16 +9,17 @@ using System.Collections.Generic;
 using Pathfinding;
 using UnityEngine;
 
-public class Grazing : SheepState
+public class Fleeing : SheepState
 {
     private SheepHerd herd;
     private Sheep sheep;
     private AIMovement aIMovement;
-    private bool waiting = false;
 
     public void OnEnter(SheepHerd herd, Sheep sheep) {
         this.herd = herd;
         this.sheep = sheep;
+
+        aIMovement = new AIMovement(sheep.gameObject.GetComponent<Seeker>(), 4, sheep.gameObject);
 
         int firstNotDeadSheep = 0;
         for (int i = 0; i < herd.sheeps.Length; i++) {
@@ -29,13 +30,10 @@ public class Grazing : SheepState
         }
 
         if (herd.sheeps[firstNotDeadSheep] == sheep) {
-            herd.UpdateGraph(new Vector3(15, 15 ,1));
+            herd.UpdateGraph(new Vector3(25, 25 ,1));
         }
-
-        aIMovement = new AIMovement(sheep.gameObject.GetComponent<Seeker>(), 2, sheep.gameObject);
-
+        
         UpdatePath();
-        herd.StartCoroutine(Stray());
     }
 
     private void UpdatePath() {
@@ -48,9 +46,10 @@ public class Grazing : SheepState
 
     private Vector2 CalculateTargetPos()
     {
-        GridGraph grid = herd.gridGraph;
-        GraphNode node = grid.nodes[Random.Range(0, grid.nodes.Length)];
-        return node.RandomPointOnSurface();
+        Vector2 dir = sheep.gameObject.transform.position - herd.transform.position;
+        float dist = Random.Range(10, 15);
+        Vector2 target = (Vector2) sheep.gameObject.transform.position + (dist * dir.normalized);
+        return target;
     }
 
     private void OnPathComplete(Path p) {
@@ -59,40 +58,23 @@ public class Grazing : SheepState
             aIMovement.currentWaypoint = 0;
         }
     }
-
-    private IEnumerator WaitForNewMovement()
-    {
-        waiting = true;
-        float waitTime = Random.Range(5, 20);
-        yield return new WaitForSeconds(waitTime);
-        waiting = false;
-        UpdatePath();
-    }
-
+    
     public void OnUpdate() {
-        if (aIMovement.reachedEndOfPath && !waiting) {
+        if (aIMovement.reachedEndOfPath) {
             sheep.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            herd.StartCoroutine(WaitForNewMovement());  
-            return;
-        } else if (aIMovement.reachedEndOfPath) {
-            sheep.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            herd.StartCoroutine(WaitToGraze());
             return;
         }
 
         aIMovement.UpdateMovement();
     }
 
-    private IEnumerator Stray()
-    {
-        // time range for stray sheeps [30, 120]
-        float waitTime = Random.Range(30, 120);
-        yield return new WaitForSeconds(waitTime);
-        if (!herd.IsAStray()) {
-            herd.ChangeState(sheep, new Straying());
-        }
+    private IEnumerator WaitToGraze() {
+        yield return new WaitForSeconds(5);
+        herd.ChangeState(sheep, new Grazing());
     }
 
     public void OnExit() {
-        herd.StopAllCoroutines();
+        herd.StopCoroutine(WaitToGraze());
     }
 }

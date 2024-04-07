@@ -10,6 +10,15 @@ using UnityEngine;
 
 public class Dead : SheepState {
     public void OnEnter(SheepHerd herd, Sheep sheep) {
+
+        if (sheep.inHerd) {
+            foreach (Sheep herdSheep in herd.sheeps) {
+                if (herdSheep.sheepState.GetType() == typeof(Grazing)) {
+                    herd.ChangeState(herdSheep, new Fleeing()); 
+                } 
+            }
+        }
+
         Object.Destroy(sheep.gameObject);
     }
 
