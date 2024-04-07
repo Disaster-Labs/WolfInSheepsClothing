@@ -19,6 +19,7 @@ public class Shepherd : MonoBehaviour
 
     public Patrolling patrolling = new Patrolling();
     public Hunting hunting = new Hunting();
+    public HuntingAround huntingAround = new HuntingAround();
 
     private ShepherdState shepherdState;
 
