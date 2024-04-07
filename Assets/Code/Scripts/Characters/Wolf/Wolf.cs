@@ -11,6 +11,14 @@ using UnityEngine;
 
 public class Wolf : MonoBehaviour
 {
+    public event EventHandler OnEnterForest;
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.Tab)) {
+            OnEnterForest?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
     [SerializeField] private LayerMask sheepLayerMask;
     [SerializeField] private AlertSheep alertSheep;
     private WolfInput wolfInput;

@@ -1,7 +1,7 @@
 // ---------------------------------------
-// Creation Date:
-// Author: 
-// Modified By:
+// Creation Date: 4/7/24
+// Author: Abigail Andam
+// Modified By: 
 // ---------------------------------------
 
 using System;
@@ -10,28 +10,28 @@ using System.Collections.Generic;
 using Pathfinding;
 using UnityEngine;
 
-public class Hunting : ShepherdState {
+public class HuntingAround : ShepherdState
+{
     private Shepherd shepherd;
     private AIMovement aIMovement;
     private Wolf wolf;
     private GridGraph graph;
 
-    private int shepherdHuntRange = 70;
-    private float shepherdSpeed = 4;
-    private float shepherdWolfRange = 10;
+    private int shepherdHuntRange = 20;
+    private float shepherdSpeed = 3;
+    private float radius;
 
     public void OnEnter(Shepherd shepherd) {
         this.shepherd = shepherd;
         wolf = shepherd.wolf;
-        wolf.SetBeingChased(true);
-        wolf.OnEnterForest += ChangeState;
+        
+        shepherd.wolfDetection.gameObject.SetActive(true);
+        shepherd.wolfDetection.OnWolfDetected += ChangeState;
 
         aIMovement = new AIMovement(shepherd.GetComponent<Seeker>(), shepherdSpeed, shepherd.gameObject);
 
         Vector3 scale = shepherd.transform.localScale;
         aIMovement.scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
-
-        shepherd.shepherdGun.gameObject.SetActive(true);
 
         graph = shepherd.astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
         graph.SetDimensions(shepherdHuntRange, shepherdHuntRange, 1);
@@ -40,26 +40,16 @@ public class Hunting : ShepherdState {
         graph.collision.use2D = true;
         AstarPath.active.Scan();
 
+        float x_i = shepherd.gameObject.transform.position.x - graph.center.x;
+        float y_i = shepherd.gameObject.transform.position.y - graph.center.y;
+        radius = Mathf.Sqrt(Vector2.SqrMagnitude(new Vector2(x_i, y_i)));
+
         UpdatePath();
-        shepherd.StartCoroutine(InvokeUpdatePath());
+        shepherd.StartCoroutine(GiveUp());
     }
 
-    private void ChangeState(object sender, EventArgs e)
-    {
-        shepherd.ChangeState(shepherd.huntingAround);
-    }
-
-    private void ShootWolf() {
-        shepherd.shepherdGun.ShootAtPosition(wolf.transform.position);
-    }
-
-    private IEnumerator InvokeUpdatePath()
-    {
-        while (true) {
-            yield return new WaitForSeconds(1);
-            UpdatePath();
-            yield return null;
-        }
+    private void ChangeState(object sender, EventArgs e) {
+        shepherd.ChangeState(shepherd.hunting);
     }
 
     private void UpdatePath() {
@@ -69,7 +59,16 @@ public class Hunting : ShepherdState {
 
     private Vector2 CalculateTargetPos()
     {
-        return wolf.transform.position;
+        int points = 10;
+        float x_i = shepherd.gameObject.transform.position.x - graph.center.x;
+        float y_i = shepherd.gameObject.transform.position.y - graph.center.y;
+        float angle_i = Mathf.Atan2(y_i, x_i);
+        float dAngle = 2 * Mathf.PI / points;
+        float angle_f = angle_i + dAngle;
+        Vector2 target = new Vector2(radius * Mathf.Cos(angle_f) + graph.center.x, radius * Mathf.Sin(angle_f) + graph.center.y);
+
+        Debug.Log(target);
+        return target;
     }
 
     private void OnPathComplete(Path p) {
@@ -80,28 +79,20 @@ public class Hunting : ShepherdState {
     }
 
     public void OnUpdate() {
-        ShootWolf();
-
-        Bounds shepherdBounds = new Bounds(shepherd.transform.position, graph.size);
-        if (!shepherdBounds.Contains(wolf.transform.position)) {
-            shepherd.ChangeState(shepherd.patrolling);
-            return;
-        }
-        
-        if (Vector2.Distance(wolf.transform.position, shepherd.transform.position) <= shepherdWolfRange) {
-            aIMovement.reachedEndOfPath = true;
-            shepherd.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            return;
+        if (aIMovement.reachedEndOfPath) {
+            UpdatePath();
         }
 
         aIMovement.UpdateMovement();
     }
 
+    private IEnumerator GiveUp() {
+        yield return new WaitForSeconds(60);
+        shepherd.ChangeState(shepherd.patrolling);
+    }
+
     public void OnExit() {
-        wolf.SetBeingChased(false);
-        wolf.OnEnterForest -= ChangeState;
-        shepherd.shepherdGun.gameObject.SetActive(false);
         shepherd.astar.data.RemoveGraph(graph);
-        shepherd.StopCoroutine(InvokeUpdatePath());
+        shepherd.wolfDetection.gameObject.SetActive(false);
     }
 }

@@ -35,7 +35,7 @@ public class AIMovement
         reachedEndOfPath = false;
         while (true) {
             distanceToWaypoint = Vector3.SqrMagnitude(gameObject.transform.position - path.vectorPath[currentWaypoint]);
-            if (distanceToWaypoint < nextWaypointDistance) {
+            if (distanceToWaypoint < Mathf.Pow(nextWaypointDistance, 2)) {
                 if (currentWaypoint + 1 < path.vectorPath.Count) {
                     currentWaypoint++;
                 } else {
