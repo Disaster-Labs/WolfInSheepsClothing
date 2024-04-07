@@ -20,6 +20,11 @@ public class Grazing : SheepState
         this.herd = herd;
         this.sheep = sheep;
 
+        if (sheep.gameObject == null) {
+            herd.ChangeState(sheep, new Dead());
+            return;
+        }
+
         int firstNotDeadSheep = 0;
         for (int i = 0; i < herd.sheeps.Length; i++) {
             if (herd.sheeps[i].sheepState.GetType() != typeof(Dead)) {

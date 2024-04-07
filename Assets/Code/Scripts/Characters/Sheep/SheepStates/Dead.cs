@@ -10,16 +10,37 @@ using UnityEngine;
 
 public class Dead : SheepState {
     public void OnEnter(SheepHerd herd, Sheep sheep) {
-
         if (sheep.inHerd) {
             foreach (Sheep herdSheep in herd.sheeps) {
                 if (herdSheep.sheepState.GetType() == typeof(Grazing)) {
                     herd.ChangeState(herdSheep, new Fleeing()); 
                 } 
             }
+
+            Shepherd closestShepherd = FindNearestShepherdToWolf();
+            closestShepherd.ChangeState(closestShepherd.hunting);
         }
 
         Object.Destroy(sheep.gameObject);
+    }
+
+    private Shepherd FindNearestShepherdToWolf() {
+        Wolf wolf = Object.FindFirstObjectByType<Wolf>();
+        Shepherd[] shepherds = Object.FindObjectsByType<Shepherd>(FindObjectsSortMode.None);
+        Shepherd closestShepherd = shepherds[0];
+
+        foreach (Shepherd shepherd in shepherds) {
+            Vector2 curPos = closestShepherd.transform.position;
+            Vector2 newPos = shepherd.transform.position;
+            Vector2 wolfPos = wolf.transform.position;
+
+            // comparing distances without doing a square root which causes frame drops
+            if (Vector2.SqrMagnitude(newPos - wolfPos) < Vector2.SqrMagnitude(curPos - wolfPos)) {
+                closestShepherd = shepherd;
+            }
+        }
+
+        return closestShepherd;
     }
 
     public void OnExit() {}
