@@ -39,8 +39,7 @@ public class Wolf : MonoBehaviour
         }
     }
 
-    private void HandleEating(object sender, EventArgs e)
-    {
+    private void HandleEating(object sender, EventArgs e) {
         if (eatenSheep != null) {
             eatenSheep.transform.parent.GetComponent<SheepHerd>().EatSheep(eatenSheep);
             eatenSheep = null;
