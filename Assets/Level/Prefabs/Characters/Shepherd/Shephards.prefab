@@ -45,8 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aa521dcb91014913833d1bc07b45384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  incomingShotSpotPrefab: {fileID: 1930927004839806137, guid: a14187cbc086a4c9a86142c2ecc3d2ca,
-    type: 3}
   bulletPrefab: {fileID: 5919095000702235846, guid: 42ab9633e486f40f195b2db93ea25d08,
     type: 3}
 --- !u!120 &86219511990838800
