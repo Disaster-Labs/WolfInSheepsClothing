@@ -12,19 +12,31 @@ public class AlertSheep : MonoBehaviour
 {
     [SerializeField] private LayerMask sheepLayerMask;
 
+    private bool canAlertSheep = false;
     public void CanAlertSheep(bool canAlertSheep) {
-        if (canAlertSheep) {
-            CircleCollider2D collider = gameObject.AddComponent<CircleCollider2D>();
-            collider.isTrigger = true;
-            collider.radius = 5;
-        } else {
-            Destroy(GetComponent<CircleCollider2D>());
-        }
+        this.canAlertSheep = canAlertSheep;
+    }
+
+    private bool sheepFollowing = false;
+    public void SheepCanFollow() {
+        sheepFollowing = true;
+    }
+
+    public void StopSheepFollowing(GameObject sheep) {
+        if (sheep == null) return;
+        sheepFollowing = false;
+        sheep.transform.parent.GetComponent<SheepHerd>().ChangeStateByGameObject(sheep, new WanderAlone());
     }
 
     private void OnTriggerEnter2D(Collider2D col) {
         if (sheepLayerMask == (sheepLayerMask | (1 << col.gameObject.layer))) {
-            col.transform.parent.GetComponent<SheepHerd>().ChangeStateByGameObject(col.gameObject, new Fleeing());
+            if (canAlertSheep) {
+                col.transform.parent.GetComponent<SheepHerd>().ChangeStateByGameObject(col.gameObject, new Fleeing());
+            } else if (sheepFollowing) {
+                transform.parent.GetComponent<Wolf>().followingSheep = col.gameObject;
+                col.transform.parent.GetComponent<SheepHerd>().ChangeStateByGameObject(col.gameObject, new Following());
+                sheepFollowing = false;
+            }
         }
     }
 }
