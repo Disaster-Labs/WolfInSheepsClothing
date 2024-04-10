@@ -15,6 +15,7 @@ public class SoundManager : MonoBehaviour
     // Events
     //[SerializeField] private WolfMovement wolf;
     public event EventHandler<Boolean> WolfWalking;
+    public event EventHandler<Boolean> PlayBGMusic;
 
     // Audio Sources
     private AudioSource audioSrc;
@@ -22,10 +23,15 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource wolfAudio;
 
     // Audio Clips
+    // Background Music
+    [SerializeField] private AudioClip undetected;
+
+    // Wolf
     [SerializeField] private AudioClip wolfWalkingAudio;
 
     void Awake() {
-        WolfWalking += PlayWalkingAudio;
+        PlayBGMusic += UpdateBGMusic;
+        WolfWalking += PlayWolfWalkingAudio;
     }
 
     void Start() {
@@ -42,9 +48,21 @@ public class SoundManager : MonoBehaviour
             Debug.Log("Wolf stopped walking");
             WolfWalking.Invoke(this, false);
         }
+
+        if (Input.GetKeyDown("u")) {
+            Debug.Log("Playing undetected Music");
+            PlayBGMusic.Invoke(this, true);
+        }
     }
 
-    public void PlayWalkingAudio(object sender, Boolean isWalking ) {
+    public void UpdateBGMusic(object sender, Boolean playMusic) {
+        if (playMusic) {
+            backgroundSrc.clip = undetected;
+            backgroundSrc.Play();
+        }
+    }
+
+    public void PlayWolfWalkingAudio(object sender, Boolean isWalking ) {
         if (isWalking) {
             wolfAudio.clip = wolfWalkingAudio;
             wolfAudio.Play();

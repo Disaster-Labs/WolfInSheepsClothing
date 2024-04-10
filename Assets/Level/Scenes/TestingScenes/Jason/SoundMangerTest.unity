@@ -170,7 +170,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -521,6 +521,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backgroundSrc: {fileID: 773839057}
   wolfAudio: {fileID: 1152755597}
+  undetected: {fileID: 8300000, guid: d420baaaabf350ee3bdda762f22d61de, type: 3}
   wolfWalkingAudio: {fileID: 8300000, guid: 427872f07afe76f4a98fde6d17b31a4e, type: 3}
 --- !u!1 &2111800247
 GameObject:
