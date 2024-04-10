@@ -17,6 +17,12 @@ public class SoundManager : MonoBehaviour
     public event EventHandler<Boolean> WolfWalking;
     public event EventHandler<Boolean> PlayBGMusic;
 
+    // Audio Fade
+    [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private String exposedParameter;
+    [SerializeField] private float duration;
+    [SerializeField] private float targetVolume;
+
     // Audio Sources
     private AudioSource audioSrc;
     [SerializeField] private AudioSource backgroundSrc;
@@ -52,6 +58,10 @@ public class SoundManager : MonoBehaviour
         if (Input.GetKeyDown("u")) {
             Debug.Log("Playing undetected Music");
             PlayBGMusic.Invoke(this, true);
+        }
+
+        if (Input.GetKeyDown("f")) {
+            StartCoroutine(FadeMixerGroup.StartFade(audioMixer, exposedParameter, duration, targetVolume));
         }
     }
 
