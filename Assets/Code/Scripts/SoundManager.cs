@@ -19,9 +19,9 @@ public class SoundManager : MonoBehaviour
 
     // Audio Fade
     [SerializeField] private AudioMixer audioMixer;
-    [SerializeField] private String exposedParameter;
     [SerializeField] private float duration;
-    [SerializeField] private float targetVolume;
+    private String undetectedExposedParam = "UndetectedVol";
+    private String suspiciousExposedParam = "SuspiciousVol";
 
     // Audio Sources
     private AudioSource audioSrc;
@@ -61,7 +61,14 @@ public class SoundManager : MonoBehaviour
         }
 
         if (Input.GetKeyDown("f")) {
-            StartCoroutine(FadeMixerGroup.StartFade(audioMixer, exposedParameter, duration, targetVolume));
+            StartCoroutine(FadeMixerGroup.StartFade(audioMixer,
+                                                    undetectedExposedParam,
+                                                    duration,
+                                                    0.0f));
+            StartCoroutine(FadeMixerGroup.StartFade(audioMixer,
+                                                    suspiciousExposedParam,
+                                                    duration,
+                                                    1.0f));
         }
     }
 
