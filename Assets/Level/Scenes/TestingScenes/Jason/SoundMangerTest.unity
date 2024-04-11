@@ -651,6 +651,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: 7adfb119fa8fc33a0b2e9f4dd44bb879, type: 2}
   duration: 5
+  suspiciousAudioSrc: {fileID: 474760905}
   backgroundSrc: {fileID: 773839057}
   wolfAudio: {fileID: 1152755597}
   undetected: {fileID: 8300000, guid: d420baaaabf350ee3bdda762f22d61de, type: 3}

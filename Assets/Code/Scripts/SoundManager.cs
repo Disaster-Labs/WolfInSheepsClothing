@@ -25,6 +25,7 @@ public class SoundManager : MonoBehaviour
 
     // Audio Sources
     private AudioSource audioSrc;
+    [SerializeField] private AudioSource suspiciousAudioSrc;
     [SerializeField] private AudioSource backgroundSrc;
     [SerializeField] private AudioSource wolfAudio;
 
@@ -65,6 +66,8 @@ public class SoundManager : MonoBehaviour
                                                     undetectedExposedParam,
                                                     duration,
                                                     0.0f));
+
+            suspiciousAudioSrc.time = 25.0f;
             StartCoroutine(FadeMixerGroup.StartFade(audioMixer,
                                                     suspiciousExposedParam,
                                                     duration,
