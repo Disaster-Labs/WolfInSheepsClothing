@@ -10,12 +10,21 @@ using System.Collections.Generic;
 using UnityEngine.Audio;
 using UnityEngine;
 
+public static enum WolfStatus { Undetected, Suspicious, Identified };
+
 public class SoundManager : MonoBehaviour
 {
     // Events
     //[SerializeField] private WolfMovement wolf;
     public event EventHandler<Boolean> WolfWalking;
-    public event EventHandler<Boolean> PlayBGMusic;
+    public event EventHandler<Boolean> WolfRunning;
+    public class MusicEventArgs { public WolfStatus currentState; public WolfStatus newState; }
+    public event EventHandler<MusicEventArgs> UpdateBGMusic;
+    public event EventHandler<Boolean> WolfNearSheep;
+    public event EventHandler SheepEaten;
+    public event EventHandler ShepherdSuspicious;
+    public event EventHandler ShepherdAlerted;
+    public event EventHandler ShepherdHunting;
 
     // Audio Fade
     [SerializeField] private AudioMixer audioMixer;
