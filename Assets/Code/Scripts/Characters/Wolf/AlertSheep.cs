@@ -11,6 +11,7 @@ using UnityEngine;
 public class AlertSheep : MonoBehaviour
 {
     [SerializeField] private LayerMask sheepLayerMask;
+    private GameObject followingSheep;
 
     private bool canAlertSheep = false;
     public void CanAlertSheep(bool canAlertSheep) {
@@ -22,18 +23,18 @@ public class AlertSheep : MonoBehaviour
         sheepFollowing = true;
     }
 
-    public void StopSheepFollowing(GameObject sheep) {
-        if (sheep == null) return;
+    public void StopSheepFollowing() {
+        if (followingSheep == null) return;
         sheepFollowing = false;
-        sheep.transform.parent.GetComponent<SheepHerd>().ChangeStateByGameObject(sheep, new WanderAlone());
+        followingSheep.transform.parent.GetComponent<SheepHerd>().ChangeStateByGameObject(followingSheep, new WanderAlone());
     }
 
-    private void OnTriggerEnter2D(Collider2D col) {
+    private void OnTriggerStay2D(Collider2D col) {
         if (sheepLayerMask == (sheepLayerMask | (1 << col.gameObject.layer))) {
             if (canAlertSheep) {
                 col.transform.parent.GetComponent<SheepHerd>().ChangeStateByGameObject(col.gameObject, new Fleeing());
             } else if (sheepFollowing) {
-                transform.parent.GetComponent<Wolf>().followingSheep = col.gameObject;
+                followingSheep = col.gameObject;
                 col.transform.parent.GetComponent<SheepHerd>().ChangeStateByGameObject(col.gameObject, new Following());
                 sheepFollowing = false;
             }

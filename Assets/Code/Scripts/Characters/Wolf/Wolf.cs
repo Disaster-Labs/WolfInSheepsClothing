@@ -29,7 +29,6 @@ public class Wolf : MonoBehaviour
 
     public LayerMask sheepLayerMask;
     public LayerMask sheepFoodLayerMask;
-    [NonSerialized] public GameObject followingSheep;
     public HoldingFood holdingFood = new HoldingFood();
     public NotHoldingFood notHoldingFood = new NotHoldingFood();
 
@@ -67,7 +66,7 @@ public class Wolf : MonoBehaviour
 
     public void SpawnFood() { Instantiate(sheepFoodPrefab, transform.position, Quaternion.identity, sheepFoodParent); }
 
-    public void StopSheepFollowing() { alertSheep.StopSheepFollowing(followingSheep); }
+    public void StopSheepFollowing() { alertSheep.StopSheepFollowing(); }
 }
 
 public interface WolfState {
@@ -80,10 +79,10 @@ public interface WolfState {
 
 public class HoldingFood : WolfState {
     private Wolf wolf;
-    private bool first = true;
 
     public void OnEnter(Wolf wolf) {
         this.wolf = wolf;
+        wolf.HaveSheepFollow();
     }
 
     public void OnInteract() {
@@ -92,18 +91,11 @@ public class HoldingFood : WolfState {
         wolf.ChangeState(wolf.notHoldingFood);
     }
 
-    public void OnCollisionEnter(Collider2D col) {
-        if (!first) return;
-        if (wolf.sheepLayerMask == (wolf.sheepLayerMask | (1 << col.gameObject.layer))) {
-            wolf.HaveSheepFollow();
-            wolf.followingSheep = col.gameObject;
-            first = false;
-        }
-    }
+    public void OnCollisionEnter(Collider2D col) {}
+
     public void OnCollisionExit(Collider2D col) {}
 
     public void OnExit() {
-        first = true;
     }
 }
 
@@ -118,12 +110,14 @@ public class NotHoldingFood : WolfState {
 
     public void OnInteract() {
         if (eatenSheep != null) {
-            Debug.Log("Eating");
             eatenSheep.transform.parent.GetComponent<SheepHerd>().EatSheep(eatenSheep);
-        }
-        else if (sheepFood != null) {
-            UnityEngine.Object.Destroy(sheepFood);
-            wolf.ChangeState(wolf.holdingFood);
+        } else if (sheepFood != null) {
+            SheepFood food = sheepFood.GetComponent<SheepFood>();
+            if (food != null && food.EatSheepFood()) wolf.ChangeState(wolf.holdingFood);
+            else if (food == null) {
+                UnityEngine.Object.Destroy(sheepFood);
+                wolf.ChangeState(wolf.holdingFood);
+            }
         }
     }
 
@@ -147,5 +141,8 @@ public class NotHoldingFood : WolfState {
         }
     }
 
-    public void OnExit() {}
+    public void OnExit() {
+        eatenSheep = null;
+        sheepFood = null;
+    }
 }

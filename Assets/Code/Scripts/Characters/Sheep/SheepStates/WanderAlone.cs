@@ -79,6 +79,12 @@ public class WanderAlone : SheepState
     }
 
     public void OnUpdate() {
+        if (aIMovement.reachedEndOfPath) {
+            aIMovement.speed = 0;
+        } else {
+            aIMovement.speed = 2;
+        }
+        
         aIMovement.UpdateMovement();
     }
 
