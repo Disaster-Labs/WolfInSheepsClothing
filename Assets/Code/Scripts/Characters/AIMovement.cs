@@ -21,6 +21,8 @@ public class AIMovement
 
     public Vector3 scale;
 
+    private float timePassedSinceFlip = 0.21f;
+
     public AIMovement(Seeker seeker, float speed, GameObject gameObject) {
         this.seeker = seeker;
         this.speed = speed;
@@ -29,6 +31,8 @@ public class AIMovement
     }
 
     public void UpdateMovement() {
+        timePassedSinceFlip += Time.deltaTime;
+
         if (path == null) return;
 
         float distanceToWaypoint;
@@ -49,7 +53,12 @@ public class AIMovement
         Vector3 velocity = dir * speed;
         gameObject.GetComponent<Rigidbody2D>().velocity = velocity;
 
-        if (dir.x < 0) gameObject.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
-        else if (dir.x > 0) gameObject.transform.localScale = new Vector3(scale.x, scale.y, scale.z);
+        if (dir.x < 0 && timePassedSinceFlip > 0.2f) {
+            gameObject.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
+            timePassedSinceFlip = 0;
+        } else if (dir.x > 0 && timePassedSinceFlip > 0.2f) {
+            gameObject.transform.localScale = new Vector3(scale.x, scale.y, scale.z);
+            timePassedSinceFlip = 0;
+        }
     }
 }

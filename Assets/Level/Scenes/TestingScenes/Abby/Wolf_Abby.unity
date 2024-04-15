@@ -123,11 +123,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &323488050 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8883165670700975874, guid: f0304e4fcb77e41998dfb1c7554423bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 8745554136842084850}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &323488054
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323488050}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!4 &809112214 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5281436107688911554, guid: f0304e4fcb77e41998dfb1c7554423bf,
     type: 3}
   m_PrefabInstance: {fileID: 8745554136842084850}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1020510097 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+    type: 3}
+  m_PrefabInstance: {fileID: 1522625081723407862}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1374722963
 GameObject:
@@ -327,6 +366,74 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 630897e3ab54e4b2781fea7bc7ad80ba, type: 3}
+--- !u!1001 &1522625081723407862
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2028485711681179214, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_Name
+      value: SheepFoods
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c0e259815e8c741fd863b9d1a2499437, type: 3}
 --- !u!1001 &4860710674222798907
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -549,6 +656,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1183223103947964464, guid: 04476e2f435db4114a59422e4127ee04,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.35
+      objectReference: {fileID: 0}
     - target: {fileID: 2801625703792151677, guid: 04476e2f435db4114a59422e4127ee04,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -677,10 +789,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8537358368910761398, guid: f0304e4fcb77e41998dfb1c7554423bf,
+        type: 3}
+      propertyPath: sheepFoodParent
+      value: 
+      objectReference: {fileID: 1020510097}
+    - target: {fileID: 8537358368910761398, guid: f0304e4fcb77e41998dfb1c7554423bf,
+        type: 3}
+      propertyPath: sheepFoodPrefab
+      value: 
+      objectReference: {fileID: 5439091074318914312, guid: 59abc4311d7f84f3aa34a63c36b0311c,
+        type: 3}
+    - target: {fileID: 8537358368910761398, guid: f0304e4fcb77e41998dfb1c7554423bf,
+        type: 3}
+      propertyPath: sheepFoodLayerMask.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8883165670700975874, guid: f0304e4fcb77e41998dfb1c7554423bf,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 323488054}
   m_SourcePrefab: {fileID: 100100000, guid: f0304e4fcb77e41998dfb1c7554423bf, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -693,3 +825,4 @@ SceneRoots:
   - {fileID: 4860710674222798907}
   - {fileID: 8584675007256835788}
   - {fileID: 1503743362845667213}
+  - {fileID: 1522625081723407862}
