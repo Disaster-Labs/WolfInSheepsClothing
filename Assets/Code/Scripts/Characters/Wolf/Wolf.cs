@@ -60,7 +60,7 @@ public class Wolf : MonoBehaviour
     public void ChangeState(WolfState wolfState) {
         if (this.wolfState != null) this.wolfState.OnExit();
         this.wolfState = wolfState;
-        this.wolfState.OnEnter(this);
+        wolfState.OnEnter(this);
     }
 
     public void HaveSheepFollow() { alertSheep.SheepCanFollow(); }
@@ -102,7 +102,9 @@ public class HoldingFood : WolfState {
     }
     public void OnCollisionExit(Collider2D col) {}
 
-    public void OnExit() {}
+    public void OnExit() {
+        first = true;
+    }
 }
 
 public class NotHoldingFood : WolfState {
@@ -115,7 +117,10 @@ public class NotHoldingFood : WolfState {
     }
 
     public void OnInteract() {
-        if (eatenSheep != null) eatenSheep.transform.parent.GetComponent<SheepHerd>().EatSheep(eatenSheep);
+        if (eatenSheep != null) {
+            Debug.Log("Eating");
+            eatenSheep.transform.parent.GetComponent<SheepHerd>().EatSheep(eatenSheep);
+        }
         else if (sheepFood != null) {
             UnityEngine.Object.Destroy(sheepFood);
             wolf.ChangeState(wolf.holdingFood);
