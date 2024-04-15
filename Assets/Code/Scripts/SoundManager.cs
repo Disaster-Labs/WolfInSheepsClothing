@@ -34,8 +34,9 @@ public class SoundManager : MonoBehaviour
 
     // Audio Sources
     private AudioSource audioSrc;
+    [SerializeField] private AudioSource undetectedAudioSrc;
     [SerializeField] private AudioSource suspiciousAudioSrc;
-    [SerializeField] private AudioSource backgroundSrc;
+    [SerializeField] private AudioSource identifiedAudioSrc;
     [SerializeField] private AudioSource wolfAudio;
 
     // Audio Clips
@@ -80,8 +81,8 @@ public class SoundManager : MonoBehaviour
 
         if (Input.GetKeyDown("u")) {
             Debug.Log("Playing undetected Music");
-            backgroundSrc.clip = undetected;
-            backgroundSrc.Play();
+            audioSrc.clip = undetected;
+            audioSrc.Play();
         }
 
         if (Input.GetKeyDown("f")) {
@@ -99,8 +100,8 @@ public class SoundManager : MonoBehaviour
     }
 
     public void PlayBGMusic(object sender, MusicEventArgs e) {
-        backgroundSrc.clip = undetected;
-        backgroundSrc.Play();
+        audioSrc.clip = undetected;
+        audioSrc.Play();
     }
 
     public void PlayWolfWalkingAudio(object sender, Boolean isWalking ) {
