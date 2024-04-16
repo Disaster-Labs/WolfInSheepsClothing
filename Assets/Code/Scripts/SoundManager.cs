@@ -23,7 +23,7 @@ public class SoundManager : MonoBehaviour
     public event EventHandler SheepEaten;
     public event EventHandler ShepherdSuspicious;
     public event EventHandler ShepherdAlerted;
-    public event EventHandler ShepherdHunting;
+    public event EventHandler<Boolean> ShepherdHunting;
 
     // Audio Fade
     [Header("Audio Fade")]
@@ -48,16 +48,24 @@ public class SoundManager : MonoBehaviour
     [Header("Sheep Audio")]
     [SerializeField] private AudioClip[] sheepBaahhs;
     [SerializeField] private AudioClip sheepDeath;
+    private float sheepAudioTimer = 0.0f;
+    private float sheepMinDelay = 3.0f;
+    private float sheepMaxDelay = 5.0f;
 
     // Shepherd
     [Header("Shepherd Audio")]
     [SerializeField] private AudioClip shepherdSuspicious;
     [SerializeField] private AudioClip shepherdAlerted;
     [SerializeField] private AudioClip shepherdHunting;
+    private float shepherdAudioTimer = 0.0f;
+    private float shepherdMinDelay = 10.0f;
+    private float shepherdMaxDelay = 15.0f;
 
     private bool isWalking = false;
     private bool playSheepSound = false;
     private bool wolfBeingHunted = false;
+
+    private bool testToggle = false;
 
     void Awake() {
         UpdateBGMusic += PlayBGMusic;
@@ -76,6 +84,20 @@ public class SoundManager : MonoBehaviour
     }
 
     void Update() {
+        // Audio
+        if (playSheepSound && sheepAudioTimer > 0) {
+            sheepAudioTimer -= Time.deltaTime;
+        } else if (playSheepSound) {
+            WolfNearSheep.Invoke(this, true);
+        }
+
+        if (wolfBeingHunted && shepherdAudioTimer > 0) {
+            shepherdAudioTimer -= Time.deltaTime;
+        } else if (wolfBeingHunted) {
+            ShepherdHunting.Invoke(this, true);
+        }
+        
+        // Testing
         if (Input.GetKeyDown("w")) {
             Debug.Log("Wolf started walking");
             isWalking = true;
@@ -101,6 +123,16 @@ public class SoundManager : MonoBehaviour
         if (Input.GetKeyDown("1")) {
             Debug.Log("Undetected to Suspicious");
             UpdateBGMusic.Invoke(this, new MusicEventArgs {currentState = WolfStatus.Undetected, newState = WolfStatus.Suspicious});
+        }
+
+        if (Input.GetKeyDown("s")) {
+            testToggle = !testToggle;
+            WolfNearSheep.Invoke(this, testToggle);
+        }
+
+        if (Input.GetKeyDown("h")) {
+            testToggle = !testToggle;
+            ShepherdHunting.Invoke(this, testToggle);
         }
     }
 
@@ -134,6 +166,7 @@ public class SoundManager : MonoBehaviour
         if (playSheepSound) {
             int i = UnityEngine.Random.Range(0, sheepBaahhs.Length);
             audioSrc.PlayOneShot(sheepBaahhs[i]);
+            sheepAudioTimer = UnityEngine.Random.Range(sheepMinDelay, sheepMaxDelay);
         }
     }
 
@@ -149,7 +182,11 @@ public class SoundManager : MonoBehaviour
         audioSrc.PlayOneShot(shepherdAlerted);
     }
 
-    public void PlayShepherdHuntingAudio(object sender, EventArgs e) {
-        audioSrc.PlayOneShot(shepherdHunting);
+    public void PlayShepherdHuntingAudio(object sender, Boolean isHunting) {
+        wolfBeingHunted = isHunting;
+        if (wolfBeingHunted) {
+            audioSrc.PlayOneShot(shepherdHunting);
+            shepherdAudioTimer = UnityEngine.Random.Range(shepherdMinDelay, shepherdMaxDelay);
+        }
     }
 }
