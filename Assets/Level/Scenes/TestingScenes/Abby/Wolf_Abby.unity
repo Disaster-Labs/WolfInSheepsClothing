@@ -123,6 +123,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!212 &161735285 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7303308922561905289, guid: 04476e2f435db4114a59422e4127ee04,
+    type: 3}
+  m_PrefabInstance: {fileID: 8584675007256835788}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &323488050 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8883165670700975874, guid: f0304e4fcb77e41998dfb1c7554423bf,
@@ -716,6 +722,34 @@ PrefabInstance:
       propertyPath: astar
       value: 
       objectReference: {fileID: 1967228463}
+    - target: {fileID: 7440695392672448977, guid: 04476e2f435db4114a59422e4127ee04,
+        type: 3}
+      propertyPath: visual
+      value: 
+      objectReference: {fileID: 161735285}
+    - target: {fileID: 7440695392672448977, guid: 04476e2f435db4114a59422e4127ee04,
+        type: 3}
+      propertyPath: shepherdUp
+      value: 
+      objectReference: {fileID: 21300000, guid: c8a794faaf0d4417783455a149bf7164,
+        type: 3}
+    - target: {fileID: 7440695392672448977, guid: 04476e2f435db4114a59422e4127ee04,
+        type: 3}
+      propertyPath: shepherdDown
+      value: 
+      objectReference: {fileID: 21300000, guid: b2583be38dca1460e9649a1574ecadfd,
+        type: 3}
+    - target: {fileID: 7440695392672448977, guid: 04476e2f435db4114a59422e4127ee04,
+        type: 3}
+      propertyPath: shepherdSide
+      value: 
+      objectReference: {fileID: 21300000, guid: f154770d96f6b476eb830adf9e38d6a2,
+        type: 3}
+    - target: {fileID: 7440695392672448977, guid: 04476e2f435db4114a59422e4127ee04,
+        type: 3}
+      propertyPath: shepherdPathType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7750272191215753864, guid: 04476e2f435db4114a59422e4127ee04,
         type: 3}
       propertyPath: m_Name
