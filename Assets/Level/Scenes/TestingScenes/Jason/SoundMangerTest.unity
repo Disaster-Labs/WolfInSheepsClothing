@@ -425,7 +425,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 8071762190240664542, guid: 7adfb119fa8fc33a0b2e9f4dd44bb879,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: d420baaaabf350ee3bdda762f22d61de, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -781,7 +781,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: 7adfb119fa8fc33a0b2e9f4dd44bb879, type: 2}
   duration: 5
-  undetectedAudioSrc: {fileID: 0}
+  undetectedAudioSrc: {fileID: 773839057}
   suspiciousAudioSrc: {fileID: 474760905}
   identifiedAudioSrc: {fileID: 327699062}
   wolfAudio: {fileID: 1152755597}
@@ -794,7 +794,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c44a7c42e01969638a1a7a9118a8416e, type: 3}
   - {fileID: 8300000, guid: bc7b8eff9d7547d7eb51cf952ccdefb1, type: 3}
   sheepDeath: {fileID: 8300000, guid: f62cedf9f7227088d910397a71da2e71, type: 3}
-  shepherdSuspicious: {fileID: 0}
+  shepherdSuspicious: {fileID: 8300000, guid: 26a517c6eeb75931798296ad54e5677f, type: 3}
+  shepherdAlerted: {fileID: 8300000, guid: 2758926700d6462f4bae49790c8f976b, type: 3}
+  shepherdHunting: {fileID: 8300000, guid: 1361dc1575486f0ffbc8f9696795ba4b, type: 3}
 --- !u!82 &2086534738
 AudioSource:
   m_ObjectHideFlags: 0

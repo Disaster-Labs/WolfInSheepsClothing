@@ -15,8 +15,8 @@ public enum WolfStatus { Undetected, Suspicious, Identified };
 public class SoundManager : MonoBehaviour
 {
     // Events
-    public event EventHandler<Boolean> WolfWalking;
-    public event EventHandler<Boolean> WolfRunning;
+    public class WolfMoveEventArgs { public bool isWalking = false; public bool isRunning = false; }
+    public event EventHandler<WolfMoveEventArgs> WolfMoving;
     public class MusicEventArgs { public WolfStatus currentState; public WolfStatus newState; }
     public event EventHandler<MusicEventArgs> UpdateBGMusic;
     public event EventHandler<Boolean> WolfNearSheep;
@@ -29,9 +29,6 @@ public class SoundManager : MonoBehaviour
     [Header("Audio Fade")]
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private float duration;
-    private String undetectedExposedParam = "UndetectedVol";
-    private String suspiciousExposedParam = "SuspiciousVol";
-    private String identifiedExposedParam = "IdentifiedVol";
 
     // Audio Sources
     private AudioSource audioSrc;
@@ -55,16 +52,18 @@ public class SoundManager : MonoBehaviour
     // Shepherd
     [Header("Shepherd Audio")]
     [SerializeField] private AudioClip shepherdSuspicious;
+    [SerializeField] private AudioClip shepherdAlerted;
+    [SerializeField] private AudioClip shepherdHunting;
 
+    private bool isWalking = false;
     private bool playSheepSound = false;
     private bool wolfBeingHunted = false;
 
     void Awake() {
         UpdateBGMusic += PlayBGMusic;
 
-        WolfWalking += PlayWolfWalkingAudio;
-        WolfRunning += PlayWolfRunningAudio;
-WolfNearSheep += PlaySheepBaahhAudio;
+        WolfMoving += PlayWolfMovingAudio;
+        WolfNearSheep += PlaySheepBaahhAudio;
         SheepEaten += PlaySheepEatenAudio;
 
         ShepherdSuspicious += PlayShepherdSuspiciousAudio;
@@ -79,53 +78,50 @@ WolfNearSheep += PlaySheepBaahhAudio;
     void Update() {
         if (Input.GetKeyDown("w")) {
             Debug.Log("Wolf started walking");
-            WolfWalking.Invoke(this, true);
+            isWalking = true;
+            WolfMoving.Invoke(this, new WolfMoveEventArgs {isWalking = true});
         }
 
         if (Input.GetKeyUp("w")) {
             Debug.Log("Wolf stopped walking");
-            WolfWalking.Invoke(this, false);
+            isWalking = false;
+            WolfMoving.Invoke(this, new WolfMoveEventArgs {});
         }
 
         if (Input.GetKeyDown(KeyCode.LeftShift)) {
             Debug.Log("Wolf started running");
-            WolfRunning.Invoke(this, true);
+            WolfMoving.Invoke(this, new WolfMoveEventArgs {isRunning = true});
         }
 
         if (Input.GetKeyUp(KeyCode.LeftShift)) {
             Debug.Log("Wolf stopped running");
-            WolfRunning.Invoke(this, false);
+            WolfMoving.Invoke(this, new WolfMoveEventArgs {isWalking = isWalking});
         }
 
-        if (Input.GetKeyDown("f")) {
-            StartCoroutine(FadeMixerGroup.StartFade(audioMixer,
-                                                    undetectedExposedParam,
-                                                    duration,
-                                                    0.0f));
-
-            suspiciousAudioSrc.time = 25.0f;
-            StartCoroutine(FadeMixerGroup.StartFade(audioMixer,
-                                                    suspiciousExposedParam,
-                                                    duration,
-                                                    1.0f));
+        if (Input.GetKeyDown("1")) {
+            Debug.Log("Undetected to Suspicious");
+            UpdateBGMusic.Invoke(this, new MusicEventArgs {currentState = WolfStatus.Undetected, newState = WolfStatus.Suspicious});
         }
     }
 
     public void PlayBGMusic(object sender, MusicEventArgs e) {
+        StartCoroutine(FadeMixerGroup.StartFade(audioMixer,
+                                                e.currentState.ToString(),
+                                                duration,
+                                                0.0f));
 
+        //suspiciousAudioSrc.time = 25.0f;
+        StartCoroutine(FadeMixerGroup.StartFade(audioMixer,
+                                                e.newState.ToString(),
+                                                duration,
+                                                1.0f));
     }
 
-    public void PlayWolfWalkingAudio(object sender, Boolean isWalking ) {
-        if (isWalking) {
+    public void PlayWolfMovingAudio(object sender, WolfMoveEventArgs e) {
+        if (e.isWalking) {
             wolfAudio.clip = wolfWalkingAudio;
             wolfAudio.Play();
-        } else {
-            wolfAudio.Stop();
-        }
-    }
-
-    public void PlayWolfRunningAudio(object sender, Boolean isRunning ) {
-        if (isRunning) {
+        } else if (e.isRunning) {
             wolfAudio.clip = wolfRunningAudio;
             wolfAudio.Play();
         } else {
@@ -147,14 +143,13 @@ WolfNearSheep += PlaySheepBaahhAudio;
 
     public void PlayShepherdSuspiciousAudio(object sender, EventArgs e) {
         audioSrc.PlayOneShot(shepherdSuspicious);
-
     }
 
     public void PlayShepherdAlertedAudio(object sender, EventArgs e) {
-
+        audioSrc.PlayOneShot(shepherdAlerted);
     }
 
     public void PlayShepherdHuntingAudio(object sender, EventArgs e) {
-
+        audioSrc.PlayOneShot(shepherdHunting);
     }
 }
