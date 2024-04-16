@@ -19,7 +19,7 @@ public class Fleeing : SheepState
         this.herd = herd;
         this.sheep = sheep;
 
-        aIMovement = new AIMovement(sheep.gameObject.GetComponent<Seeker>(), 4, sheep.gameObject);
+        aIMovement = new AIMovement(sheep.gameObject.GetComponent<Seeker>(), 6, sheep.gameObject);
 
         int firstNotDeadSheep = 0;
         for (int i = 0; i < herd.sheeps.Length; i++) {
@@ -30,9 +30,18 @@ public class Fleeing : SheepState
         }
 
         if (herd.sheeps[firstNotDeadSheep] == sheep) {
-            herd.UpdateGraph(new Vector3(25, 25 ,1));
+            herd.UpdateGraph(new Vector3(25, 25 ,1), true);
         }
         
+        herd.StartCoroutine(WaitForGraph());
+    }
+
+    private IEnumerator WaitForGraph()
+    {
+        while(!herd.fleeingGraphGenerated) {
+            yield return null;
+        }
+
         UpdatePath();
     }
 
@@ -76,5 +85,6 @@ public class Fleeing : SheepState
 
     public void OnExit() {
         herd.StopAllCoroutines();
+        herd.fleeingGraphGenerated = false; 
     }
 }

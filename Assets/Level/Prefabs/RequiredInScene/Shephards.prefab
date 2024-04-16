@@ -48,7 +48,7 @@ PrefabInstance:
     - target: {fileID: 1086072405588249745, guid: 8a5ceeeed63e84632974f7413357de58,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 5.35
       objectReference: {fileID: 0}
     - target: {fileID: 1086072405588249745, guid: 8a5ceeeed63e84632974f7413357de58,
         type: 3}
@@ -95,6 +95,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shephard
       objectReference: {fileID: 0}
+    - target: {fileID: 8663675763247746416, guid: 8a5ceeeed63e84632974f7413357de58,
+        type: 3}
+      propertyPath: visual
+      value: 
+      objectReference: {fileID: 7303308922561905289}
+    - target: {fileID: 8663675763247746416, guid: 8a5ceeeed63e84632974f7413357de58,
+        type: 3}
+      propertyPath: shepherdUp
+      value: 
+      objectReference: {fileID: 21300000, guid: c8a794faaf0d4417783455a149bf7164,
+        type: 3}
+    - target: {fileID: 8663675763247746416, guid: 8a5ceeeed63e84632974f7413357de58,
+        type: 3}
+      propertyPath: shepherdDown
+      value: 
+      objectReference: {fileID: 21300000, guid: b2583be38dca1460e9649a1574ecadfd,
+        type: 3}
+    - target: {fileID: 8663675763247746416, guid: 8a5ceeeed63e84632974f7413357de58,
+        type: 3}
+      propertyPath: shepherdSide
+      value: 
+      objectReference: {fileID: 21300000, guid: f154770d96f6b476eb830adf9e38d6a2,
+        type: 3}
+    - target: {fileID: 8663675763247746416, guid: 8a5ceeeed63e84632974f7413357de58,
+        type: 3}
+      propertyPath: shepherdPathType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -103,6 +131,12 @@ PrefabInstance:
 --- !u!4 &1183223103947964464 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1086072405588249745, guid: 8a5ceeeed63e84632974f7413357de58,
+    type: 3}
+  m_PrefabInstance: {fileID: 2267885934545177761}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &7303308922561905289 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8801079276864917032, guid: 8a5ceeeed63e84632974f7413357de58,
     type: 3}
   m_PrefabInstance: {fileID: 2267885934545177761}
   m_PrefabAsset: {fileID: 0}
