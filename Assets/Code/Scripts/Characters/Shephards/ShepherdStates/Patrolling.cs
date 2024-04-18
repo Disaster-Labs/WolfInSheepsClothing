@@ -29,6 +29,7 @@ public class Patrolling : ShepherdState {
         Vector3 scale = shepherd.transform.localScale;
         aIMovement.scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
 
+    
         graph = shepherd.astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
         graph.SetDimensions(100, 100 ,1);
         graph.center = shepherd.transform.position;

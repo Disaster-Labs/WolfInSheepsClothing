@@ -34,7 +34,7 @@ public class Grazing : SheepState
         }
 
         if (herd.sheeps[firstNotDeadSheep] == sheep) {
-            herd.UpdateGraph(new Vector3(15, 15 ,1));
+            herd.UpdateGraph(new Vector3(15, 15 ,1), false);
         }
 
         aIMovement = new AIMovement(sheep.gameObject.GetComponent<Seeker>(), 2, sheep.gameObject);

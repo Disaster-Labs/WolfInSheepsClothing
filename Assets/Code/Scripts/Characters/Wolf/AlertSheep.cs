@@ -32,7 +32,8 @@ public class AlertSheep : MonoBehaviour
     private void OnTriggerStay2D(Collider2D col) {
         if (sheepLayerMask == (sheepLayerMask | (1 << col.gameObject.layer))) {
             if (canAlertSheep) {
-                col.transform.parent.GetComponent<SheepHerd>().ChangeStateByGameObject(col.gameObject, new Fleeing());
+                col.transform.parent.GetComponent<SheepHerd>().SheepFlee();
+                canAlertSheep = false;
             } else if (sheepFollowing) {
                 followingSheep = col.gameObject;
                 col.transform.parent.GetComponent<SheepHerd>().ChangeStateByGameObject(col.gameObject, new Following());
