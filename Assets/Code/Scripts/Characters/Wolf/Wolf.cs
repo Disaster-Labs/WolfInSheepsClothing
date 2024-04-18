@@ -21,11 +21,12 @@ public class Wolf : MonoBehaviour
     public event EventHandler OnEnterForest;
     private WolfInput wolfInput;
 
+    // Handles eating and herding sheep
+    private bool beingChased = false;
     public void SetBeingChased(bool beingChased) {
         alertSheep.CanAlertSheep(beingChased);
+        this.beingChased = beingChased;
     }
-
-    // Handles eating and herding sheep
 
     public LayerMask sheepLayerMask;
     public LayerMask sheepFoodLayerMask;
@@ -35,8 +36,12 @@ public class Wolf : MonoBehaviour
     [SerializeField] private AlertSheep alertSheep;
     [SerializeField] private GameObject sheepFoodPrefab;
     [SerializeField] private Transform sheepFoodParent;
+    [SerializeField] private LayerMask hideObjectLayerMask;
 
     private WolfState wolfState;
+
+    private bool isHiding = false;
+    public bool GetIsHiding() { return isHiding; }
 
     private void Start() {
         wolfInput = GetComponent<WolfInput>();
@@ -49,10 +54,18 @@ public class Wolf : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D col) {
+        if (hideObjectLayerMask == (hideObjectLayerMask | (1 << col.gameObject.layer))) {
+            isHiding = !beingChased;
+        }
+
         wolfState.OnCollisionEnter(col);
     }
 
     private void OnTriggerExit2D(Collider2D col) {
+        if (hideObjectLayerMask == (hideObjectLayerMask | (1 << col.gameObject.layer))) {
+            isHiding = false;
+        }
+
         wolfState.OnCollisionExit(col);
     }
 

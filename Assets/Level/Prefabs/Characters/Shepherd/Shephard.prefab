@@ -263,8 +263,8 @@ Transform:
   m_GameObject: {fileID: 4494368242113145752}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 4.32, y: -0.48, z: 0}
-  m_LocalScale: {x: 1.69, y: 3.17, z: 1}
+  m_LocalPosition: {x: 9.34, y: -0.48, z: 0}
+  m_LocalScale: {x: 2.47, y: 6.76, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1086072405588249745}
@@ -444,9 +444,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc759e98a5c644c1b9320847fc8ecfdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shepherdPathType: 0
+  shepherdUp: {fileID: 0}
+  shepherdDown: {fileID: 0}
+  shepherdSide: {fileID: 0}
+  visual: {fileID: 0}
   astar: {fileID: 0}
   wolfDetection: {fileID: 868084773040941156}
   shepherdGun: {fileID: 565105828428478090}
+  startPos: {x: 0, y: 0}
 --- !u!50 &5784418571400186432
 Rigidbody2D:
   serializedVersion: 4
