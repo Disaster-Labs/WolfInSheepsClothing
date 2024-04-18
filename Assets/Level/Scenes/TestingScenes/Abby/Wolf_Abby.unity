@@ -129,6 +129,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8745554136842084850}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1020510097 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+    type: 3}
+  m_PrefabInstance: {fileID: 1522625081723407862}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1374722963
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,6 +333,74 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 630897e3ab54e4b2781fea7bc7ad80ba, type: 3}
+--- !u!1001 &1522625081723407862
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2028485711681179214, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_Name
+      value: SheepFoods
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796114268913968923, guid: c0e259815e8c741fd863b9d1a2499437,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c0e259815e8c741fd863b9d1a2499437, type: 3}
 --- !u!1001 &4860710674222798907
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -677,6 +751,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8537358368910761398, guid: f0304e4fcb77e41998dfb1c7554423bf,
+        type: 3}
+      propertyPath: sheepFoodParent
+      value: 
+      objectReference: {fileID: 1020510097}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -693,3 +772,4 @@ SceneRoots:
   - {fileID: 4860710674222798907}
   - {fileID: 8584675007256835788}
   - {fileID: 1503743362845667213}
+  - {fileID: 1522625081723407862}

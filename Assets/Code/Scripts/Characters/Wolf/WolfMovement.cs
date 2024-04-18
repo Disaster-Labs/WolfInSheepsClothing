@@ -16,7 +16,7 @@ public class WolfMovement : MonoBehaviour
     public event EventHandler PlayBGMusic;
 
     // State 
-    private WolfState currentState;
+    private WolfMovementState currentState;
     private DefaultState defaultState = new DefaultState();
 
     // Input
@@ -46,7 +46,7 @@ public class WolfMovement : MonoBehaviour
         ChangeState(defaultState);
     }
 
-    public void ChangeState(WolfState state) {
+    public void ChangeState(WolfMovementState state) {
         currentState = state;
 
         currentState.OnEnter();
@@ -79,7 +79,7 @@ public class WolfMovement : MonoBehaviour
 }
 
 // States that affect movement
-public class WolfState {
+public class WolfMovementState {
     public float walkSpeed;
     public float sprintSpeed;
 
@@ -88,7 +88,7 @@ public class WolfState {
     public virtual void OnUpdate(WolfMovement wolf) {}
 }
 
-public class DefaultState : WolfState
+public class DefaultState : WolfMovementState
 {
     public override void OnEnter() {
         walkSpeed = 5f;

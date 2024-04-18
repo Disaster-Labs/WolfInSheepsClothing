@@ -18,6 +18,7 @@ public class Sheep {
 public class SheepHerd : MonoBehaviour
 {
     public GridGraph gridGraph;
+    public bool fleeingGraphGenerated = false;
 
     [SerializeField] public AstarPath astar; 
     [SerializeField] private GameObject sheepPrefab;
@@ -30,7 +31,7 @@ public class SheepHerd : MonoBehaviour
         SpawnSheeps();
     }
 
-    public void UpdateGraph(Vector3 dimensions) {
+    public void UpdateGraph(Vector3 dimensions, bool generateFleeingGraph) {
         if (gridGraph != null) astar.data.RemoveGraph(gridGraph);
         gridGraph = astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
         gridGraph.SetDimensions((int) dimensions.x, (int) dimensions.y, dimensions.z);
@@ -38,6 +39,10 @@ public class SheepHerd : MonoBehaviour
         gridGraph.is2D = true;
         gridGraph.collision.use2D = true;
         AstarPath.active.Scan();
+
+        if (generateFleeingGraph) {
+            fleeingGraphGenerated = true;
+        }
     }
 
     private void SpawnSheeps() {
@@ -81,6 +86,14 @@ public class SheepHerd : MonoBehaviour
             if (herdSheep.gameObject == sheep) {
                 ChangeState(herdSheep, sheepState);
                 break;
+            }
+        }
+    }
+
+    public void SheepFlee() {
+        foreach(Sheep herdSheep in sheeps) {
+            if (herdSheep.sheepState.GetType() != typeof(Dead)) {
+                ChangeState(herdSheep, new Fleeing());
             }
         }
     }

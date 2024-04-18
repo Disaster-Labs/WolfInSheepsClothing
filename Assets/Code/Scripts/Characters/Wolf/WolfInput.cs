@@ -15,7 +15,7 @@ public class WolfInput : MonoBehaviour
     public event EventHandler<DirectionEventArgs> OnMove;
     public class SprintingEventArgs { public bool isSprinting; }
     public event EventHandler<SprintingEventArgs> OnSprint;
-    public event EventHandler OnEat;
+    public event EventHandler OnInteract;
 
     private InputActions inputActions;
 
@@ -25,7 +25,7 @@ public class WolfInput : MonoBehaviour
 
         inputActions.Wolf.Sprint.started += ctx => OnSprint?.Invoke(this, new SprintingEventArgs {isSprinting = true});
         inputActions.Wolf.Sprint.canceled += ctx => OnSprint?.Invoke(this, new SprintingEventArgs {isSprinting = false});
-        inputActions.Wolf.Eat.started += ctx => OnEat?.Invoke(this, EventArgs.Empty);
+        inputActions.Wolf.Interact.started += ctx => OnInteract?.Invoke(this, EventArgs.Empty);
     }
 
     private void FixedUpdate() {
