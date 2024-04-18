@@ -74,7 +74,7 @@ public class Following : SheepState
         graph = herd.astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
 
         graph.SetDimensions(15, 15 ,1);
-        graph.center = sheep.gameObject.transform.localPosition;
+        graph.center = sheep.gameObject.transform.position;
         graph.is2D = true;
         graph.collision.use2D = true;
         AstarPath.active.Scan();

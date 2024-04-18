@@ -19,6 +19,9 @@ public class Dead : SheepState {
 
             Shepherd closestShepherd = FindNearestShepherdToWolf();
             closestShepherd.ChangeState(closestShepherd.hunting);
+
+            Wolf wolf = Object.FindFirstObjectByType<Wolf>();
+            wolf.SetBeingChased(true);
         }
 
         Object.Destroy(sheep.gameObject);
