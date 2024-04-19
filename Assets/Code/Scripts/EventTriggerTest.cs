@@ -18,5 +18,11 @@ public class EventTriggerTest : MonoBehaviour
 
             GameManager.TriggerSheepEaten();
         }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+
+            GameManager.TriggerWolfHit();
+        }
     }
 }

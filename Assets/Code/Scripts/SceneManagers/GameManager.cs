@@ -20,7 +20,14 @@ public class GameManager : MonoBehaviour
     public const string CREDITS_SCENE = "CreditsScene";
     
     public static event System.Action OnSheepEaten;    
+      public static event System.Action OnWolfHit ;    
     public static int score = 0; 
+
+    public static float hunger = 3;
+    public float hungerDecayRate = 0.1f;
+
+    public static int HealthCurrent;
+    public int HealthMax = 3;
     
     void Awake() {
         if (Instance != null && Instance != this) {
@@ -34,22 +41,46 @@ public class GameManager : MonoBehaviour
     {
 
         OnSheepEaten += SheepEaten;
+        OnWolfHit += WolfHit;
+        HealthCurrent = HealthMax;
+    }
+
+    void Update()
+    {
+        if (hunger > 0)
+        {
+            hunger -= Time.deltaTime * hungerDecayRate;
+            // StatusBoardManager.UpdateHunger(Mathf.Ceil(hunger)); 
+            Debug.Log(hunger);
+        }
     }
 
     void OnDestroy()
     {
 
         OnSheepEaten -= SheepEaten;
+        OnWolfHit -= WolfHit;
     }
-    
+    private void WolfHit()
+    {
+        HealthCurrent -= 1;
+        Debug.Log("Wolf been hit");
+
+    }
     private void SheepEaten()
     {
         score += 1;
+        hunger += 0.5f;
         Debug.Log("A sheep has been eaten! Updating game state...");
 
     }
     public static void TriggerSheepEaten()
     {
         OnSheepEaten?.Invoke();
+
+    }
+    public static void TriggerWolfHit()
+    {
+        OnWolfHit?.Invoke();
     }
 }
