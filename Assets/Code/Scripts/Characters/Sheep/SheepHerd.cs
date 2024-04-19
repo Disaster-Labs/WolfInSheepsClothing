@@ -97,7 +97,7 @@ public class SheepHerd : MonoBehaviour
 
     public void SheepFlee() {
         foreach(Sheep herdSheep in sheeps) {
-            if (herdSheep.inHerd && herdSheep.sheepState.GetType() != typeof(Dead)) {
+            if (herdSheep.inHerd && herdSheep.sheepState.GetType() == typeof(Grazing)) {
                 ChangeState(herdSheep, new Fleeing());
             }
         }

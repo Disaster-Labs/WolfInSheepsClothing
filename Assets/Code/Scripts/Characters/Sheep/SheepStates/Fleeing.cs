@@ -19,7 +19,9 @@ public class Fleeing : SheepState
         this.herd = herd;
         this.sheep = sheep;
 
-        aIMovement = new AIMovement(sheep.gameObject.GetComponent<Seeker>(), 6, sheep.gameObject);
+        Animator anim = sheep.gameObject.GetComponent<Animator>();
+
+        aIMovement = new AIMovement(sheep.gameObject.GetComponent<Seeker>(), 6, sheep.gameObject, anim);
 
         int firstNotDeadSheep = 0;
         for (int i = 0; i < herd.sheeps.Length; i++) {

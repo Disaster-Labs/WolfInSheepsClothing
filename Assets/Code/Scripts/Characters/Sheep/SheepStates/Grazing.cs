@@ -37,7 +37,8 @@ public class Grazing : SheepState
             herd.UpdateGraph(new Vector3(15, 15 ,1), false);
         }
 
-        aIMovement = new AIMovement(sheep.gameObject.GetComponent<Seeker>(), 2, sheep.gameObject);
+        Animator anim = sheep.gameObject.GetComponent<Animator>();
+        aIMovement = new AIMovement(sheep.gameObject.GetComponent<Seeker>(), 2, sheep.gameObject, anim);
 
         UpdatePath();
         herd.StartCoroutine(Stray());

@@ -28,7 +28,8 @@ public class HuntingAround : ShepherdState
         shepherd.wolfDetection.gameObject.SetActive(true);
         shepherd.wolfDetection.OnWolfDetected += ChangeState;
 
-        aIMovement = new AIMovement(shepherd.GetComponent<Seeker>(), shepherdSpeed, shepherd.gameObject);
+        Animator anim = shepherd.transform.GetChild(0).GetComponent<Animator>();
+        aIMovement = new AIMovement(shepherd.GetComponent<Seeker>(), shepherdSpeed, shepherd.gameObject, anim);
 
         Vector3 scale = shepherd.transform.localScale;
         aIMovement.scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);

@@ -4,6 +4,7 @@
 // Modified By:
 // ---------------------------------------
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,8 +30,12 @@ public class AlertSheep : MonoBehaviour
         followingSheep.transform.parent.GetComponent<SheepHerd>().ChangeStateByGameObject(followingSheep, new WanderAlone());
     }
 
+    public event EventHandler<Boolean> WolfNearSheep;
+
     private void OnTriggerStay2D(Collider2D col) {
         if (sheepLayerMask == (sheepLayerMask | (1 << col.gameObject.layer))) {
+            WolfNearSheep?.Invoke(this, true);
+
             if (canAlertSheep) {
                 col.transform.parent.GetComponent<SheepHerd>().SheepFlee();
                 canAlertSheep = false;
@@ -40,5 +45,13 @@ public class AlertSheep : MonoBehaviour
                 sheepFollowing = false;
             }
         }
+    }
+
+    public void InvokeNearSheep(bool nearSheep) {
+        WolfNearSheep?.Invoke(this, nearSheep);
+    }
+
+    private void OnTriggerExit2D(Collider2D col) {
+        WolfNearSheep?.Invoke(this, false);
     }
 }

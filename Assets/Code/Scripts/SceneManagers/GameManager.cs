@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     
     // Scene Names
     public const string MAIN_MENU_SCENE = "MainMenuScene";
-    public const string GAME_SCENE = "Wolf_Abby";
+    public const string GAME_SCENE = "GameScene_Abby";
     public const string GAME_OVER_SCENE = "GameOverScene";
     public const string CREDITS_SCENE = "CreditsScene";
     

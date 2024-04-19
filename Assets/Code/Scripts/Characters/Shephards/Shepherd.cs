@@ -4,6 +4,7 @@
 // Modified By:
 // ---------------------------------------
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Pathfinding;
@@ -37,6 +38,9 @@ public class Shepherd : MonoBehaviour
 
     private ShepherdState shepherdState;
 
+    // Sound
+    public event EventHandler<Boolean> ShepherdHunting;
+
     private void Start() {
         wolf = FindObjectOfType<Wolf>();
         startPos = transform.position;
@@ -51,6 +55,10 @@ public class Shepherd : MonoBehaviour
         if (shepherdState != null) shepherdState.OnExit();
         shepherdState = state;
         shepherdState.OnEnter(this);
+    }
+
+    public void InvokeHunting(bool isHunting) {
+        ShepherdHunting?.Invoke(this, isHunting);
     }
 }
 

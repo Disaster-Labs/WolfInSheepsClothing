@@ -23,7 +23,9 @@ public class Following : SheepState
 
         wolf = Object.FindFirstObjectByType<Wolf>();
 
-        aIMovement = new AIMovement(sheep.gameObject.GetComponent<Seeker>(), 2, sheep.gameObject);
+        Animator anim = sheep.gameObject.GetComponent<Animator>();
+
+        aIMovement = new AIMovement(sheep.gameObject.GetComponent<Seeker>(), 2, sheep.gameObject, anim);
         Vector3 scale = sheep.gameObject.transform.localScale;
         aIMovement.scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
 
