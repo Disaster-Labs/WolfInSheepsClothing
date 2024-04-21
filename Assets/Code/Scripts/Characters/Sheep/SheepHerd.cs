@@ -18,10 +18,11 @@ public class Sheep {
 public class SheepHerd : MonoBehaviour
 {
     public GridGraph gridGraph;
-    public bool fleeingGraphGenerated = false;
+    [System.NonSerialized] public bool fleeingGraphGenerated = false;
 
     [SerializeField] public AstarPath astar; 
     [SerializeField] private GameObject sheepPrefab;
+    [SerializeField] private bool isLoneSheep;
     public Sheep[] sheeps;
     private int maxSheepCount = 10;
     private int minSheepCount = 3;
@@ -46,7 +47,11 @@ public class SheepHerd : MonoBehaviour
     }
 
     private void SpawnSheeps() {
-        sheeps = new Sheep[Random.Range(minSheepCount, maxSheepCount)];
+        if (isLoneSheep) {
+            sheeps = new Sheep[1];
+        } else {
+            sheeps = new Sheep[Random.Range(minSheepCount, maxSheepCount)];
+        }
 
         for (int i = 0; i < sheeps.Length; i++) sheeps[i] = new Sheep();
         
@@ -56,7 +61,7 @@ public class SheepHerd : MonoBehaviour
             sheeps[i].gameObject = Instantiate(sheepPrefab, transform);
             sheeps[i].gameObject.transform.localPosition = new Vector2(randomStartX, randomStartY);
             sheeps[i].gameObject.GetComponent<SpriteRenderer>().sortingOrder = i;
-            sheeps[i].inHerd = true;
+            sheeps[i].inHerd = !isLoneSheep;
             ChangeState(sheeps[i], new Grazing());
         }
     }
@@ -92,7 +97,7 @@ public class SheepHerd : MonoBehaviour
 
     public void SheepFlee() {
         foreach(Sheep herdSheep in sheeps) {
-            if (herdSheep.sheepState.GetType() != typeof(Dead)) {
+            if (herdSheep.inHerd && herdSheep.sheepState.GetType() == typeof(Grazing)) {
                 ChangeState(herdSheep, new Fleeing());
             }
         }

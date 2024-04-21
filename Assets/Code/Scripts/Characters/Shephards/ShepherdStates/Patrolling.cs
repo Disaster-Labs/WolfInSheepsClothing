@@ -24,12 +24,12 @@ public class Patrolling : ShepherdState {
 
         this.shepherd = shepherd;
 
-        aIMovement = new AIMovement(shepherd.GetComponent<Seeker>(), 4, shepherd.gameObject);
+        Animator anim = shepherd.transform.GetChild(0).GetComponent<Animator>();
+        aIMovement = new AIMovement(shepherd.GetComponent<Seeker>(), 4, shepherd.gameObject, anim);
 
         Vector3 scale = shepherd.transform.localScale;
         aIMovement.scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
 
-    
         graph = shepherd.astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
         graph.SetDimensions(100, 100 ,1);
         graph.center = shepherd.transform.position;

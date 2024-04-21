@@ -23,10 +23,23 @@ public class AIMovement
 
     private float timePassedSinceFlip = 0.21f;
 
-    public AIMovement(Seeker seeker, float speed, GameObject gameObject) {
+    // Animations
+    private Animator anim;
+
+    private const string IS_WALKING = "IsWalking";
+    private const string IS_RUNNING = "IsRunning";
+    private const string DIRECTION = "Direction";
+    private enum Direction {
+        Side,
+        Up,
+        Down
+    }
+
+    public AIMovement(Seeker seeker, float speed, GameObject gameObject, Animator anim) {
         this.seeker = seeker;
         this.speed = speed;
         this.gameObject = gameObject;
+        this.anim = anim;
         scale = gameObject.transform.localScale;
     }
 
@@ -43,6 +56,8 @@ public class AIMovement
                 if (currentWaypoint + 1 < path.vectorPath.Count) {
                     currentWaypoint++;
                 } else {
+                    anim.SetBool(IS_WALKING, false);
+                    anim.SetBool(IS_RUNNING, false);
                     reachedEndOfPath = true;
                     break;
                 }
@@ -51,14 +66,31 @@ public class AIMovement
 
         Vector3 dir = (path.vectorPath[currentWaypoint] - gameObject.transform.position).normalized;
         Vector3 velocity = dir * speed;
-        gameObject.GetComponent<Rigidbody2D>().velocity = velocity;
 
-        if (dir.x < 0 && timePassedSinceFlip > 0.2f) {
+        Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
+        rb.velocity = velocity;
+
+        if (dir.x < 0 && timePassedSinceFlip > 0f) {
             gameObject.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
             timePassedSinceFlip = 0;
-        } else if (dir.x > 0 && timePassedSinceFlip > 0.2f) {
+        } else if (dir.x > 0 && timePassedSinceFlip > 0f) {
             gameObject.transform.localScale = new Vector3(scale.x, scale.y, scale.z);
             timePassedSinceFlip = 0;
         }
+
+        if (!reachedEndOfPath && speed == 2) {
+            anim.SetBool(IS_WALKING, dir != Vector3.zero);
+        } else if (!reachedEndOfPath) {
+            anim.SetBool(IS_RUNNING, dir != Vector3.zero);
+        }
+
+        if (Mathf.Approximately(rb.velocity.x, 0) && rb.velocity.y < 0) {
+            anim.SetInteger(DIRECTION, ((int)Direction.Down));
+        } else if (Mathf.Approximately(rb.velocity.x, 0) && rb.velocity.y > 0) {
+            anim.SetInteger(DIRECTION, ((int)Direction.Up));
+        } else {
+            anim.SetInteger(DIRECTION, ((int)Direction.Side));
+        }
+
     }
 }

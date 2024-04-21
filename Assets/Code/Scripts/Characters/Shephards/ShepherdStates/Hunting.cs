@@ -21,12 +21,15 @@ public class Hunting : ShepherdState {
     private float shepherdWolfRange = 10;
 
     public void OnEnter(Shepherd shepherd) {
+        shepherd.InvokeHunting(true);
+
         this.shepherd = shepherd;
         wolf = shepherd.wolf;
         wolf.SetBeingChased(true);
         wolf.OnEnterForest += ChangeState;
 
-        aIMovement = new AIMovement(shepherd.GetComponent<Seeker>(), shepherdSpeed, shepherd.gameObject);
+        Animator anim = shepherd.transform.GetChild(0).GetComponent<Animator>();
+        aIMovement = new AIMovement(shepherd.GetComponent<Seeker>(), shepherdSpeed, shepherd.gameObject, anim);
 
         Vector3 scale = shepherd.transform.localScale;
         aIMovement.scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
@@ -98,6 +101,7 @@ public class Hunting : ShepherdState {
     }
 
     public void OnExit() {
+        shepherd.InvokeHunting(false);
         wolf.SetBeingChased(false);
         wolf.OnEnterForest -= ChangeState;
         shepherd.shepherdGun.gameObject.SetActive(false);

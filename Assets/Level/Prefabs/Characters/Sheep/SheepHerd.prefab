@@ -47,3 +47,4 @@ MonoBehaviour:
   astar: {fileID: 0}
   sheepPrefab: {fileID: 6794662808714986722, guid: ddb22350a1069432c9875c56c6d3626d,
     type: 3}
+  isLoneSheep: 0

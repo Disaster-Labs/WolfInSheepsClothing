@@ -15,7 +15,7 @@ TagManager:
   - Shepherd
   - Wolf
   - SheepFood
-  - 
+  - HideableObject
   - 
   - 
   - 
@@ -52,4 +52,7 @@ TagManager:
     locked: 0
   - name: Shepherd
     uniqueID: 537050759
+    locked: 0
+  - name: HideableObject
+    uniqueID: 611437737
     locked: 0

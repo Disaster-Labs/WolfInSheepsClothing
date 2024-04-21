@@ -32,9 +32,26 @@ public class WolfMovement : MonoBehaviour
     // Look Direction
     private float startScaleX;
 
+    // Animation
+    private const string IS_WALKING = "IsWalking";
+    private const string IS_RUNNING = "IsRunning";
+    private const string DIRECTION = "Direction";
+    private enum Direction {
+        Side,
+        Up,
+        Down
+    }
+
+    // Sound Events
+    public class WolfMoveEventArgs { public bool isWalking = false; public bool isRunning = false; }
+    public event EventHandler<WolfMoveEventArgs> WolfMoving;
+    
+    private Animator anim;
+
     private void Awake() {
         input = GetComponent<WolfInput>();
         rb = GetComponent<Rigidbody2D>();
+        anim = transform.GetChild(0).GetComponent<Animator>();
 
         input.OnMove += (_, e) => moveDirection = e.direction;
         input.OnSprint += (_, e) => isSprinting = e.isSprinting;
@@ -68,13 +85,28 @@ public class WolfMovement : MonoBehaviour
     }
 
     private void HandleMovement() {
+        Vector2 prevVel = rb.velocity;
         if (isSprinting) rb.velocity = moveDirection * sprintSpeed;
         else rb.velocity = moveDirection * walkSpeed;
+
+        anim.SetBool(IS_RUNNING, isSprinting && rb.velocity != Vector2.zero);
+        anim.SetBool(IS_WALKING, !isSprinting && rb.velocity != Vector2.zero);
+
+        if (prevVel == Vector2.zero && rb.velocity != Vector2.zero) WolfMoving?.Invoke(this, new WolfMoveEventArgs {isWalking = !isSprinting, isRunning = isSprinting});
+        else if (prevVel != Vector2.zero && rb.velocity == Vector2.zero) WolfMoving?.Invoke(this, new WolfMoveEventArgs {isWalking = false, isRunning = false});
     }
 
     private void HandleLookDirection() {
         if (rb.velocity.x < 0) transform.localScale = new Vector3(-startScaleX, transform.localScale.y, transform.localScale.z);
         else if (rb.velocity.x > 0) transform.localScale = new Vector3(startScaleX, transform.localScale.y, transform.localScale.z);
+
+        if (Mathf.Approximately(rb.velocity.x, 0) && rb.velocity.y < 0) {
+            anim.SetInteger(DIRECTION, ((int)Direction.Down));
+        } else if (Mathf.Approximately(rb.velocity.x, 0) && rb.velocity.y > 0) {
+            anim.SetInteger(DIRECTION, ((int)Direction.Up));
+        } else {
+            anim.SetInteger(DIRECTION, ((int)Direction.Side));
+        }
     }
 }
 
@@ -92,7 +124,7 @@ public class DefaultState : WolfMovementState
 {
     public override void OnEnter() {
         walkSpeed = 5f;
-        sprintSpeed = 8f;
+        sprintSpeed = 12f;
 
         // start some animation
     }

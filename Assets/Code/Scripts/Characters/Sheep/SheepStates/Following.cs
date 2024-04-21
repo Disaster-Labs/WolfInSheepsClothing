@@ -23,7 +23,9 @@ public class Following : SheepState
 
         wolf = Object.FindFirstObjectByType<Wolf>();
 
-        aIMovement = new AIMovement(sheep.gameObject.GetComponent<Seeker>(), 2, sheep.gameObject);
+        Animator anim = sheep.gameObject.GetComponent<Animator>();
+
+        aIMovement = new AIMovement(sheep.gameObject.GetComponent<Seeker>(), 2, sheep.gameObject, anim);
         Vector3 scale = sheep.gameObject.transform.localScale;
         aIMovement.scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
 
@@ -74,7 +76,7 @@ public class Following : SheepState
         graph = herd.astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
 
         graph.SetDimensions(15, 15 ,1);
-        graph.center = sheep.gameObject.transform.localPosition;
+        graph.center = sheep.gameObject.transform.position;
         graph.is2D = true;
         graph.collision.use2D = true;
         AstarPath.active.Scan();

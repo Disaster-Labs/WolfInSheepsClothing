@@ -55,10 +55,11 @@ public class WorldSpawner : MonoBehaviour
         for (int i = 0; i < resourceCount; i++)
         {
             int aRandomTile = Random.Range(0, grassTileCount);
+            float offset = Random.Range(-0.5f, 0.5f);
             Vector3 randomPosition = grassTileworldPos[aRandomTile]; 
             int aRandomRes = Random.Range(0, prefabCount);
             GameObject randomPrefab = environmentPrefabs[aRandomRes];
-            Instantiate(randomPrefab, randomPosition, Quaternion.identity);
+            Instantiate(randomPrefab, new Vector3(randomPosition.x + offset, randomPosition.y, randomPosition.z), Quaternion.identity, transform);
             // Tile tileToPlace = resourceTiles[Random.Range(0, resourceTiles.Length)];
             // tilemap.SetTile(randomPosition, tileToPlace);
         }
