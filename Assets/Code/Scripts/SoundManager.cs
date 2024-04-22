@@ -15,6 +15,7 @@ public enum WolfStatus { Undetected, Suspicious, Identified };
 public class SoundManager : MonoBehaviour
 {
     // Events
+    private PauseManager pauseManager;
     private WolfMovement wolfMovement; // wolfMovement.WolfMoving
     private Wolf wolf; // wolf.UpdateBGMusic wolf.SheepEaten
     private AlertSheep alertSheep; //alertSheep.WolfNearSheep
@@ -66,10 +67,13 @@ public class SoundManager : MonoBehaviour
     // private bool testToggle = false;
 
     void Awake() {
+        pauseManager = FindObjectOfType<PauseManager>();
         wolf = FindObjectOfType<Wolf>();
         wolfMovement = FindObjectOfType<WolfMovement>();
         alertSheep = FindObjectOfType<AlertSheep>();
         shepherds = FindObjectsOfType<Shepherd>();
+
+        pauseManager.PauseAudio += PauseSounds;
 
         wolf.UpdateBGMusic += PlayBGMusic;
 
@@ -154,6 +158,23 @@ public class SoundManager : MonoBehaviour
                                                 e.newState.ToString(),
                                                 duration,
                                                 1.0f));
+    }
+
+    public void PauseSounds(object sender, Boolean pauseAudio) {
+        if (pauseAudio) {
+            audioSrc.Pause();
+            wolfAudio.Pause();
+            undetectedAudioSrc.Pause();
+            suspiciousAudioSrc.Pause();
+            identifiedAudioSrc.Pause();
+        } else {
+            audioSrc.UnPause();
+            wolfAudio.UnPause();
+            undetectedAudioSrc.UnPause();
+            suspiciousAudioSrc.UnPause();
+            identifiedAudioSrc.UnPause();
+        }
+
     }
 
     public void PlayWolfMovingAudio(object sender, WolfMovement.WolfMoveEventArgs e) {
