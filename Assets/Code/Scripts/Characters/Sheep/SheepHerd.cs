@@ -60,7 +60,6 @@ public class SheepHerd : MonoBehaviour
             float randomStartY = Random.Range(-6f, 6f);
             sheeps[i].gameObject = Instantiate(sheepPrefab, transform);
             sheeps[i].gameObject.transform.localPosition = new Vector2(randomStartX, randomStartY);
-            sheeps[i].gameObject.GetComponent<SpriteRenderer>().sortingOrder = i;
             sheeps[i].inHerd = !isLoneSheep;
             ChangeState(sheeps[i], new Grazing());
         }

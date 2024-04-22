@@ -38,20 +38,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
-    locked: 0
   - name: Background
     uniqueID: 3443225577
     locked: 0
-  - name: Sheep
-    uniqueID: 2386535875
+  - name: Default
+    uniqueID: 0
     locked: 0
-  - name: Wolf
-    uniqueID: 212667645
-    locked: 0
-  - name: Shepherd
-    uniqueID: 537050759
+  - name: Characters
+    uniqueID: 968833355
     locked: 0
   - name: HideableObject
     uniqueID: 611437737

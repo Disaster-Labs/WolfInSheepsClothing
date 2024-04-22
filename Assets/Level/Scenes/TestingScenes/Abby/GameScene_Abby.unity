@@ -6174,6 +6174,11 @@ PrefabInstance:
       propertyPath: astar
       value: 
       objectReference: {fileID: 1642790710}
+    - target: {fileID: 7242319805594304649, guid: cac44c547078c4b6389f2c9614a28c7d,
+        type: 3}
+      propertyPath: isLoneSheep
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
