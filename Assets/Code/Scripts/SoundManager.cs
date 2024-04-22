@@ -42,6 +42,7 @@ public class SoundManager : MonoBehaviour
     [Header("Wolf Audio")]
     [SerializeField] private AudioClip wolfWalkingAudio;
     [SerializeField] private AudioClip wolfRunningAudio;
+    [SerializeField] private AudioClip wolfEatingAudio;
 
     // Sheep
     [Header("Sheep Audio")]
@@ -200,6 +201,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySheepEatenAudio(object sender, EventArgs e) {
         audioSrc.PlayOneShot(sheepDeath);
+        audioSrc.PlayOneShot(wolfEatingAudio);
     }
 
     public void PlayShepherdSuspiciousAudio(object sender, EventArgs e) {
