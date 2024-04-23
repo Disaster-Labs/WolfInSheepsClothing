@@ -57,6 +57,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip shepherdSuspicious;
     [SerializeField] private AudioClip shepherdAlerted;
     [SerializeField] private AudioClip shepherdHunting;
+    [SerializeField] private AudioClip rifleShot;
     private float shepherdAudioTimer = 0.0f;
     private float shepherdMinDelay = 10.0f;
     private float shepherdMaxDelay = 15.0f;
@@ -216,5 +217,9 @@ public class SoundManager : MonoBehaviour
             audioSrc.PlayOneShot(shepherdHunting, oneShotVol);
             shepherdAudioTimer = UnityEngine.Random.Range(shepherdMinDelay, shepherdMaxDelay);
         }
+    }
+
+    public void PlayHuntingRifleAudio(object sender, EventArgs e) {
+        audioSrc.PlayOneShot(rifleShot, oneShotVol);
     }
 }

@@ -454,6 +454,7 @@ MonoBehaviour:
   shepherdSuspicious: {fileID: 8300000, guid: 26a517c6eeb75931798296ad54e5677f, type: 3}
   shepherdAlerted: {fileID: 8300000, guid: 2758926700d6462f4bae49790c8f976b, type: 3}
   shepherdHunting: {fileID: 8300000, guid: 1361dc1575486f0ffbc8f9696795ba4b, type: 3}
+  rifleShot: {fileID: 8300000, guid: 28c7ad41120e196d1a840003b53be731, type: 3}
 --- !u!82 &2484179419233494804
 AudioSource:
   m_ObjectHideFlags: 0
