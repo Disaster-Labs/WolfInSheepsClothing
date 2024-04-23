@@ -224,7 +224,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 968833355
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: b2583be38dca1460e9649a1574ecadfd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 6262101172146330102}
   - component: {fileID: 8290715460343625811}
   m_Layer: 7
-  m_Name: WolfDetection
+  m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -284,13 +284,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4494368242113145752}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 9.34, y: -0.48, z: 0}
-  m_LocalScale: {x: 2.47, y: 6.76, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.65295804, w: 0.75739413}
+  m_LocalPosition: {x: 9.860001, y: -0.41999817, z: 0}
+  m_LocalScale: {x: 2.4700003, y: 6.76, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1086072405588249745}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_Father: {fileID: 8042423467206709107}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 81.53}
 --- !u!114 &868084773040941156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,11 +344,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 537050759
-  m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingLayerID: 968833355
+  m_SortingLayer: 1
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 296cf84347ffe4246a0db914758a0ee7, type: 3}
-  m_Color: {r: 0.990566, g: 0.93898785, b: 0.71488965, a: 0.6666667}
+  m_Color: {r: 1, g: 0.5330188, b: 0.5330188, a: 0.3882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -417,6 +417,38 @@ PolygonCollider2D:
       - {x: 1.5511429, y: -1.1593131}
       - {x: 1.52, y: -0.91999996}
   m_UseDelaunayMesh: 0
+--- !u!1 &4682675675602061030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8042423467206709107}
+  m_Layer: 7
+  m_Name: WolfDetection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8042423467206709107
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4682675675602061030}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0.06261629, w: 0.9980377}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5894273557939628379}
+  m_Father: {fileID: 1086072405588249745}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 7.18}
 --- !u!1 &7148985252838422322
 GameObject:
   m_ObjectHideFlags: 0
@@ -450,7 +482,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1169597266462250458}
-  - {fileID: 5894273557939628379}
+  - {fileID: 8042423467206709107}
   - {fileID: 7887149274326833841}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

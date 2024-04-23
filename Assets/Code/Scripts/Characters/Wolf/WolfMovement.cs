@@ -12,9 +12,6 @@ using UnityEngine;
 
 public class WolfMovement : MonoBehaviour
 {
-    // Events
-    public event EventHandler PlayBGMusic;
-
     // State 
     private WolfMovementState currentState;
     private DefaultState defaultState = new DefaultState();
@@ -73,10 +70,6 @@ public class WolfMovement : MonoBehaviour
 
     private void Update() {
         if (currentState != null) currentState.OnUpdate(this);
-
-        if (Input.GetKeyDown("space")) {
-            PlayBGMusic.Invoke(this, EventArgs.Empty);
-        }
     }
 
     private void FixedUpdate() {
@@ -101,11 +94,11 @@ public class WolfMovement : MonoBehaviour
         else if (rb.velocity.x > 0) transform.localScale = new Vector3(startScaleX, transform.localScale.y, transform.localScale.z);
 
         if (Mathf.Approximately(rb.velocity.x, 0) && rb.velocity.y < 0) {
-            anim.SetInteger(DIRECTION, ((int)Direction.Down));
+            anim.SetInteger(DIRECTION, (int) Direction.Down);
         } else if (Mathf.Approximately(rb.velocity.x, 0) && rb.velocity.y > 0) {
-            anim.SetInteger(DIRECTION, ((int)Direction.Up));
+            anim.SetInteger(DIRECTION, (int) Direction.Up);
         } else {
-            anim.SetInteger(DIRECTION, ((int)Direction.Side));
+            anim.SetInteger(DIRECTION, (int) Direction.Side);
         }
     }
 }
@@ -123,7 +116,7 @@ public class WolfMovementState {
 public class DefaultState : WolfMovementState
 {
     public override void OnEnter() {
-        walkSpeed = 5f;
+        walkSpeed = 7f;
         sprintSpeed = 12f;
 
         // start some animation

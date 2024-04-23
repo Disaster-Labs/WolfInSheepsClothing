@@ -63,7 +63,11 @@ MonoBehaviour:
   hideObjectLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  anim: {fileID: 0}
+  wolfHideInLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  hidingInObject: {fileID: 0}
+  anim: {fileID: 2707675744546289409}
 --- !u!114 &803737882901986996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,7 +181,7 @@ Transform:
   m_GameObject: {fileID: 4627554886229943558}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.3, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 1
   m_Children: []
