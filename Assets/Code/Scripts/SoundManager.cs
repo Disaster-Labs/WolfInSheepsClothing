@@ -97,10 +97,8 @@ public class SoundManager : MonoBehaviour
     void Update() {
         // Audio
         if (playSheepSound && sheepAudioTimer > 0) {
-            Debug.Log("Cooldown");
             sheepAudioTimer -= Time.deltaTime;
         } else if (playSheepSound) {
-            Debug.Log("PLaying sound");
             int i = UnityEngine.Random.Range(0, sheepBaahhs.Length);
             audioSrc.PlayOneShot(sheepBaahhs[i]);
             sheepAudioTimer = UnityEngine.Random.Range(sheepMinDelay, sheepMaxDelay);
@@ -195,13 +193,12 @@ public class SoundManager : MonoBehaviour
     }
 
     public void PlaySheepBaahhAudio(object sender, Boolean wolfNearSheep) {
-        Debug.Log("Wolf near sheep" + wolfNearSheep.ToString());
         playSheepSound = wolfNearSheep;
     }
 
     public void PlaySheepEatenAudio(object sender, EventArgs e) {
         audioSrc.PlayOneShot(sheepDeath);
-        audioSrc.PlayOneShot(wolfEatingAudio);
+        audioSrc.PlayOneShot(wolfEatingAudio, 0.5f);
     }
 
     public void PlayShepherdSuspiciousAudio(object sender, EventArgs e) {

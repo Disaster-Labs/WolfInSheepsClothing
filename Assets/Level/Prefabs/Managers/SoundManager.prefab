@@ -441,6 +441,7 @@ MonoBehaviour:
   wolfAudio: {fileID: 6474472917297169176}
   wolfWalkingAudio: {fileID: 8300000, guid: 427872f07afe76f4a98fde6d17b31a4e, type: 3}
   wolfRunningAudio: {fileID: 8300000, guid: 3393dc3c724ece789ae780056ccfbbeb, type: 3}
+  wolfEatingAudio: {fileID: 8300000, guid: bf53ecf08dd4b78209375943f3be3861, type: 3}
   sheepBaahhs:
   - {fileID: 8300000, guid: 97c9f6c8fce5b053597e1761f0e9ba0f, type: 3}
   - {fileID: 8300000, guid: 73857d004c3854f66b88596fd4b226a5, type: 3}
