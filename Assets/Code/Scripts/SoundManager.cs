@@ -64,6 +64,7 @@ public class SoundManager : MonoBehaviour
     // private bool isWalking = false;
     private bool playSheepSound = false;
     private bool wolfBeingHunted = false;
+    private float oneShotVol = 0.5f;
 
     // private bool testToggle = false;
 
@@ -100,7 +101,7 @@ public class SoundManager : MonoBehaviour
             sheepAudioTimer -= Time.deltaTime;
         } else if (playSheepSound) {
             int i = UnityEngine.Random.Range(0, sheepBaahhs.Length);
-            audioSrc.PlayOneShot(sheepBaahhs[i]);
+            audioSrc.PlayOneShot(sheepBaahhs[i], oneShotVol);
             sheepAudioTimer = UnityEngine.Random.Range(sheepMinDelay, sheepMaxDelay);
         }
 
@@ -134,10 +135,10 @@ public class SoundManager : MonoBehaviour
         //     WolfMoving.Invoke(this, new WolfMoveEventArgs {isWalking = isWalking});
         // }
 
-        // if (Input.GetKeyDown("1")) {
-        //     Debug.Log("Undetected to Suspicious");
-        //     UpdateBGMusic.Invoke(this, new Wolf.MusicEventArgs {currentState = WolfStatus.Undetected, newState = WolfStatus.Suspicious});
-        // }
+        if (Input.GetKeyDown("1")) {
+             Debug.Log("Undetected to Suspicious");
+             PlayBGMusic(this, new Wolf.MusicEventArgs {currentState = WolfStatus.Undetected, newState = WolfStatus.Suspicious});
+        }
 
         // if (Input.GetKeyDown("s")) {
         //     testToggle = !testToggle;
@@ -197,22 +198,22 @@ public class SoundManager : MonoBehaviour
     }
 
     public void PlaySheepEatenAudio(object sender, EventArgs e) {
-        audioSrc.PlayOneShot(sheepDeath);
-        audioSrc.PlayOneShot(wolfEatingAudio, 0.5f);
+        audioSrc.PlayOneShot(sheepDeath, oneShotVol);
+        audioSrc.PlayOneShot(wolfEatingAudio, oneShotVol);
     }
 
     public void PlayShepherdSuspiciousAudio(object sender, EventArgs e) {
-        audioSrc.PlayOneShot(shepherdSuspicious);
+        audioSrc.PlayOneShot(shepherdSuspicious, oneShotVol);
     }
 
     public void PlayShepherdAlertedAudio(object sender, EventArgs e) {
-        audioSrc.PlayOneShot(shepherdAlerted);
+        audioSrc.PlayOneShot(shepherdAlerted, oneShotVol);
     }
 
     public void PlayShepherdHuntingAudio(object sender, Boolean isHunting) {
         wolfBeingHunted = isHunting;
         if (wolfBeingHunted) {
-            audioSrc.PlayOneShot(shepherdHunting);
+            audioSrc.PlayOneShot(shepherdHunting, oneShotVol);
             shepherdAudioTimer = UnityEngine.Random.Range(shepherdMinDelay, shepherdMaxDelay);
         }
     }
