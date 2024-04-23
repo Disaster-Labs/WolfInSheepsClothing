@@ -50,6 +50,7 @@ public class Hunting : ShepherdState {
     private void ChangeState(object sender, EventArgs e)
     {
         shepherd.ChangeState(shepherd.huntingAround);
+        wolf.OnEnterForest -= ChangeState;
     }
 
     private void ShootWolf() {

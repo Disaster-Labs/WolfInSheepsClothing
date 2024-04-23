@@ -6,10 +6,7 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using Pathfinding;
-using Unity.Collections;
 using UnityEngine;
 
 public class Patrolling : ShepherdState {
@@ -17,9 +14,17 @@ public class Patrolling : ShepherdState {
     private AIMovement aIMovement;
     private GridGraph graph;
     private bool onFirstPathReached = false;
+    private float startTime;
+    private float startRot = -720;
 
     public void OnEnter(Shepherd shepherd) {
-        shepherd.wolfDetection.gameObject.SetActive(true);
+        startTime = Time.time;
+
+        if (startRot == -720) {
+            startRot = shepherd.wolfDetection.transform.parent.transform.rotation.eulerAngles.z - 360;
+        }
+
+        shepherd.wolfDetection.gameObject.SetActive(false);
         shepherd.wolfDetection.OnWolfDetected += (_, _) => shepherd.ChangeState(shepherd.hunting);
 
         this.shepherd = shepherd;
@@ -107,25 +112,43 @@ public class Patrolling : ShepherdState {
         }
         else if (aIMovement.reachedEndOfPath) UpdatePath();
 
+        // if (((Vector2) shepherd.transform.position - shepherd.startPos).SqrMagnitude() <= 0.1f) {
+        //     shepherd.wolfDetection.gameObject.SetActive(true);
+        // }
+
         aIMovement.UpdateMovement();
 
-        HandleRotation();
+        if (onFirstPathReached) HandleRotation();
     }
+    
+    private bool reverse = false;
 
-    private void HandleRotation()
-    {
+    private void HandleRotation() {
         Rigidbody2D rb = shepherd.GetComponent<Rigidbody2D>();
+        shepherd.wolfDetection.gameObject.SetActive(true);
         
         if (shepherd.shepherdPathType != ShepherdPathType.Turn) {
-            if (Mathf.Approximately(rb.velocity.x, 0) && rb.velocity.y < 0) {
+            if (Mathf.Abs(rb.velocity.x) < 0.2f && rb.velocity.y < 0) {
                 shepherd.visual.sprite = shepherd.shepherdDown;
-            } else if (Mathf.Approximately(rb.velocity.x, 0) && rb.velocity.y > 0) {
+            } else if (Mathf.Abs(rb.velocity.x) < 0.2f && rb.velocity.y > 0) {
                 shepherd.visual.sprite = shepherd.shepherdUp;
             } else {
                 shepherd.visual.sprite = shepherd.shepherdSide;
             }
         } else {
+            shepherd.visual.sprite = shepherd.shepherdDown;
+            shepherd.transform.localScale = new Vector3(1, 1, 1);
+
+            float panTime = 4;
+            if (Time.time - startTime > panTime) {
+                startTime = Time.time;
+                reverse = !reverse;
+            }
+
             // have an animation for turning
+            float rotationZ = Mathf.Lerp(startRot, -startRot, (Time.time - startTime) / panTime);
+            rotationZ *= reverse ? -1 : 1;
+            shepherd.wolfDetection.transform.parent.transform.rotation = Quaternion.Euler(0, 0 ,rotationZ);
         }
     }
 
@@ -133,5 +156,6 @@ public class Patrolling : ShepherdState {
         shepherd.astar.data.RemoveGraph(graph);
         shepherd.wolfDetection.gameObject.SetActive(false);
         onFirstPathReached = false;
+        shepherd.visual.sprite = shepherd.shepherdSide;
     }
 }

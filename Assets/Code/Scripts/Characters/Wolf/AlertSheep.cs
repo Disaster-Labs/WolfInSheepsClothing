@@ -30,12 +30,11 @@ public class AlertSheep : MonoBehaviour
         followingSheep.transform.parent.GetComponent<SheepHerd>().ChangeStateByGameObject(followingSheep, new WanderAlone());
     }
 
-    public event EventHandler<Boolean> WolfNearSheep;
+    public event EventHandler<bool> WolfNearSheep;
 
     private void OnTriggerStay2D(Collider2D col) {
         if (sheepLayerMask == (sheepLayerMask | (1 << col.gameObject.layer))) {
             WolfNearSheep?.Invoke(this, true);
-
             if (canAlertSheep) {
                 col.transform.parent.GetComponent<SheepHerd>().SheepFlee();
                 canAlertSheep = false;
