@@ -35,12 +35,7 @@ public class Patrolling : ShepherdState {
         Vector3 scale = shepherd.transform.localScale;
         aIMovement.scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
 
-        graph = shepherd.astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
-        graph.SetDimensions(100, 100 ,1);
-        graph.center = shepherd.transform.position;
-        graph.is2D = true;
-        graph.collision.use2D = true;
-        AstarPath.active.Scan();
+        graph = shepherd.gridGraph;
 
         DoFirstPath();
     }
@@ -63,21 +58,22 @@ public class Patrolling : ShepherdState {
 
     private Vector2 CalculateTargetPos()
     {
+        float range = 8;
         Vector2 target;
 
         switch (shepherd.shepherdPathType) {
             case ShepherdPathType.Vertical:
-                if (shepherd.transform.position.y >= graph.center.y) {
-                    target = new Vector2(shepherd.transform.position.x, graph.center.y - graph.width);
+                if (shepherd.transform.position.y >= shepherd.startPos.y + range) {
+                    target = new Vector2(shepherd.transform.position.x, shepherd.startPos.y - range);
                 } else {
-                    target = new Vector2(shepherd.transform.position.x, graph.center.y + graph.width);
+                    target = new Vector2(shepherd.transform.position.x, shepherd.startPos.y + range);
                 }
                 break;
             case ShepherdPathType.Horizontal:
-                if (shepherd.transform.position.x >= graph.center.x) {
-                    target = new Vector2(graph.center.x - graph.depth, shepherd.transform.position.y);
+                if (shepherd.transform.position.x >= shepherd.startPos.x + range) {
+                    target = new Vector2(shepherd.startPos.x - range, shepherd.transform.position.y);
                 } else {
-                    target = new Vector2(graph.center.x + graph.depth, shepherd.transform.position.y);
+                    target = new Vector2(shepherd.startPos.x + range, shepherd.transform.position.y);
                 }
                 break;
             case ShepherdPathType.Turn:
@@ -101,20 +97,9 @@ public class Patrolling : ShepherdState {
     public void OnUpdate() {
         if (aIMovement.path == null) return;
         else if (aIMovement.reachedEndOfPath && !onFirstPathReached) {
-            shepherd.astar.data.RemoveGraph(graph);
-            graph = shepherd.astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
-            graph.SetDimensions(20, 20 ,1);
-            graph.center = shepherd.transform.position;
-            graph.is2D = true;
-            graph.collision.use2D = true;
-            AstarPath.active.Scan();
             onFirstPathReached = true;
         }
         else if (aIMovement.reachedEndOfPath) UpdatePath();
-
-        // if (((Vector2) shepherd.transform.position - shepherd.startPos).SqrMagnitude() <= 0.1f) {
-        //     shepherd.wolfDetection.gameObject.SetActive(true);
-        // }
 
         aIMovement.UpdateMovement();
 
@@ -153,7 +138,6 @@ public class Patrolling : ShepherdState {
     }
 
     public void OnExit() {
-        shepherd.astar.data.RemoveGraph(graph);
         shepherd.wolfDetection.gameObject.SetActive(false);
         onFirstPathReached = false;
         shepherd.visual.sprite = shepherd.shepherdSide;

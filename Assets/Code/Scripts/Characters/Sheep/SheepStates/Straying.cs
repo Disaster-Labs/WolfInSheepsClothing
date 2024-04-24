@@ -28,13 +28,7 @@ public class Straying : SheepState
         Vector3 scale = sheep.gameObject.transform.localScale;
         aIMovement.scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
 
-        graph = herd.astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
-
-        graph.SetDimensions(40, 40 ,1);
-        graph.center = herd.transform.localPosition;
-        graph.is2D = true;
-        graph.collision.use2D = true;
-        AstarPath.active.Scan();
+        graph = herd.graph;
 
         UpdatePath();
     }
@@ -47,10 +41,12 @@ public class Straying : SheepState
         aIMovement.reachedEndOfPath = false;
     }
 
+    private Vector2 strayCenter;
+
     private Vector2 CalculateTargetPos() {
         if (isFirstStray) {
-            float minDist = 30;
-            float maxDist = 40;
+            float minDist = 25;
+            float maxDist = 30;
 
             Vector2 randomDirection = Random.insideUnitCircle.normalized;
             float randomDistance = Random.Range(minDist, maxDist);
@@ -58,21 +54,18 @@ public class Straying : SheepState
 
             return point;
         } else {
-            GraphNode node = graph.nodes[Random.Range(0, graph.nodes.Length)];
-            return node.RandomPointOnSurface();
+            float sheepGrazeRange = 7.5f;
+            float randomX = Random.Range(-sheepGrazeRange, sheepGrazeRange);
+            float randomY = Random.Range(-sheepGrazeRange, sheepGrazeRange);
+
+            return new Vector2(randomX, randomY) + strayCenter;
         }
     }
 
     private IEnumerator WaitForNewMovement()
     {
         if (isFirstStray) {
-            herd.astar.data.RemoveGraph(graph);
-            graph = herd.astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
-            graph.SetDimensions(10, 10,1);
-            graph.center = sheep.gameObject.transform.position;
-            graph.is2D = true;
-            graph.collision.use2D = true;
-            AstarPath.active.Scan();
+            strayCenter = sheep.gameObject.transform.position;
             isFirstStray = false;
         }
 
@@ -105,7 +98,6 @@ public class Straying : SheepState
     }
 
     public void OnExit() {
-        herd.astar.data.RemoveGraph(graph);
         herd.StopAllCoroutines();
     }
 }

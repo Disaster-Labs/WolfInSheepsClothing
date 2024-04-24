@@ -49,7 +49,7 @@ public class Wolf : MonoBehaviour
     private bool isHiding = false;
     public bool GetIsHiding() { return isHiding; }
 
-    public GameObject hidingInObject;
+    [NonSerialized] public GameObject hidingInObject;
 
     // Animations
     public Animator anim;

@@ -17,7 +17,6 @@ public class HuntingAround : ShepherdState
     private Wolf wolf;
     private GridGraph graph;
 
-    private int shepherdHuntRange = 40;
     private float shepherdSpeed = 3;
     private float radius;
 
@@ -36,15 +35,8 @@ public class HuntingAround : ShepherdState
         Vector3 scale = shepherd.transform.localScale;
         aIMovement.scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
 
-        graph = shepherd.astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
-        graph.SetDimensions(shepherdHuntRange, shepherdHuntRange, 1);
-        graph.center = wolf.hidingInObject.transform.position;
-        graph.is2D = true;
-        graph.collision.use2D = true;
-        AstarPath.active.Scan();
+        graph = shepherd.gridGraph;
 
-        float x_i = shepherd.gameObject.transform.position.x - graph.center.x;
-        float y_i = shepherd.gameObject.transform.position.y - graph.center.y;
         radius = 10;
 
         GoToBush();
@@ -68,13 +60,14 @@ public class HuntingAround : ShepherdState
 
     private Vector2 CalculateTargetPos()
     {
+        Vector2 center = wolf.hidingInObject.transform.position;
         int points = 10;
-        float x_i = shepherd.gameObject.transform.position.x - graph.center.x;
-        float y_i = shepherd.gameObject.transform.position.y - graph.center.y;
+        float x_i = shepherd.gameObject.transform.position.x - center.x;
+        float y_i = shepherd.gameObject.transform.position.y - center.y;
         float angle_i = Mathf.Atan2(y_i, x_i);
         float dAngle = 2 * Mathf.PI / points;
         float angle_f = angle_i + dAngle;
-        Vector2 target = new Vector2(radius * Mathf.Cos(angle_f) + graph.center.x, radius * Mathf.Sin(angle_f) + graph.center.y);
+        Vector2 target = new Vector2(radius * Mathf.Cos(angle_f) + center.x, radius * Mathf.Sin(angle_f) + center.y);
 
         return target;
     }
@@ -100,7 +93,6 @@ public class HuntingAround : ShepherdState
     }
 
     public void OnExit() {
-        shepherd.astar.data.RemoveGraph(graph);
         shepherd.wolfDetection.gameObject.SetActive(false);
         wolf.OnExitForest -= ChangeState;
         shepherd.StopCoroutine(cor);
