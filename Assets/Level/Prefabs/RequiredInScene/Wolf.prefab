@@ -65,8 +65,7 @@ MonoBehaviour:
     m_Bits: 1024
   wolfHideInLayerMask:
     serializedVersion: 2
-    m_Bits: 0
-  hidingInObject: {fileID: 0}
+    m_Bits: 2048
   anim: {fileID: 2707675744546289409}
 --- !u!114 &803737882901986996
 MonoBehaviour:
