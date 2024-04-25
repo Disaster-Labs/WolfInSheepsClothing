@@ -5,7 +5,6 @@
 // ---------------------------------------
 
 using System.Collections;
-using System.Collections.Generic;
 using Pathfinding;
 using UnityEngine;
 
@@ -14,6 +13,7 @@ public class Fleeing : SheepState
     private SheepHerd herd;
     private Sheep sheep;
     private AIMovement aIMovement;
+    private GridGraph graph;
 
     public void OnEnter(SheepHerd herd, Sheep sheep) {
         this.herd = herd;
@@ -23,27 +23,8 @@ public class Fleeing : SheepState
 
         aIMovement = new AIMovement(sheep.gameObject.GetComponent<Seeker>(), 6, sheep.gameObject, anim);
 
-        int firstNotDeadSheep = 0;
-        for (int i = 0; i < herd.sheeps.Length; i++) {
-            if (herd.sheeps[i].sheepState.GetType() != typeof(Dead)) {
-                firstNotDeadSheep = i;
-                break;
-            }
-        }
-
-        if (herd.sheeps[firstNotDeadSheep] == sheep) {
-            herd.UpdateGraph(new Vector3(25, 25 ,1), true);
-        }
+        graph = herd.graph;
         
-        herd.StartCoroutine(WaitForGraph());
-    }
-
-    private IEnumerator WaitForGraph()
-    {
-        while(!herd.fleeingGraphGenerated) {
-            yield return null;
-        }
-
         UpdatePath();
     }
 
@@ -51,7 +32,7 @@ public class Fleeing : SheepState
         if (!aIMovement.seeker.IsDone()) return;
 
         Vector2 targetPos = CalculateTargetPos();
-        aIMovement.seeker.StartPath(sheep.gameObject.transform.position, targetPos, OnPathComplete, GraphMask.FromGraph(herd.gridGraph));
+        aIMovement.seeker.StartPath(sheep.gameObject.transform.position, targetPos, OnPathComplete, GraphMask.FromGraph(graph));
         aIMovement.reachedEndOfPath = false;
     }
 
@@ -87,6 +68,5 @@ public class Fleeing : SheepState
 
     public void OnExit() {
         herd.StopAllCoroutines();
-        herd.fleeingGraphGenerated = false; 
     }
 }

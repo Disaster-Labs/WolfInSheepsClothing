@@ -4,6 +4,7 @@
 // Modified By:
 // ---------------------------------------
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,7 @@ public class PauseManager : MonoBehaviour
     public static bool GameIsPaused = false;
     [SerializeField] private GameObject PauseCanvas;
 
-    // [SerializeField] private GameSoundManager soundManager;
+    public event EventHandler<Boolean> PauseAudio;
     
     void Update() {
         if (Input.GetKeyDown(KeyCode.Escape)){
@@ -28,14 +29,14 @@ public class PauseManager : MonoBehaviour
     }
 
     public void Resume(){
-        // soundManager.ResumeAudio();
+        PauseAudio.Invoke(this, false);
         PauseCanvas.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
     }
     
     public void Pause(){
-        // soundManager.PauseAudio();
+        PauseAudio.Invoke(this, true);
         PauseCanvas.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
