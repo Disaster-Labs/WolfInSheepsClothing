@@ -19,12 +19,11 @@ public class StatusBoardManager : MonoBehaviour
 
     public GameObject[] healthBar;
     
-    private TimeSpan timeLeft = TimeSpan.FromMilliseconds(GameManager.gameTime);
 
     void Update()
     {
         ScoreBoard(GameManager.score); 
-        UpdateTimerDisplay();
+        UpdateTimerDisplay(GameManager.timeLeft);
         UpdateHunger(GameManager.hunger);
         UpdateHealth(GameManager.HealthCurrent);
     }
@@ -48,24 +47,15 @@ public class StatusBoardManager : MonoBehaviour
             healthBar[i].transform.Find("FullVisual").gameObject.SetActive(i < health);
         }
     }
-    public void UpdateTimerDisplay()
+    public void UpdateTimerDisplay(TimeSpan timeLeft)
     {   
-        if (timeLeft.TotalMilliseconds > 0)
-        {
-            timeLeft = timeLeft.Subtract(TimeSpan.FromMilliseconds(Time.deltaTime * 1000));
 
-            if (timeLeft.TotalSeconds <= 10)
-            {
-                timerText.color = Color.red; 
-            }
 
-            timerText.text = string.Format("{0:D2}:{1:D2}:{2:D2}",
-                timeLeft.Minutes, timeLeft.Seconds, timeLeft.Milliseconds / 10);
-        }
-        else
+        if (timeLeft.TotalSeconds <= 10)
         {
-            timerText.text = "00:00:00";
-            enabled = false; // Stop updating
+            timerText.color = Color.red; 
         }
+
+        timerText.text = string.Format("{0:D2}:{1:D2}:{2:D2}",timeLeft.Minutes, timeLeft.Seconds, timeLeft.Milliseconds / 10);
     }  
 }

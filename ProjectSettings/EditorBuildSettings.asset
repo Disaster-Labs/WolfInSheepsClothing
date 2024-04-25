@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Level/Scenes/FinalScenes/CreditsScene.unity
     guid: 1c7170a311466460fbf1a2c58f72511a
+  - enabled: 1
+    path: Assets/Level/Scenes/TestingScenes/Boyi/GameScene_Abby.unity
+    guid: 1086b6ef840103a42b9ee310fad1b0e3
   m_configObjects: {}
