@@ -78,7 +78,7 @@ public class AIMovement
             timePassedSinceFlip = 0;
         }
 
-        if (!reachedEndOfPath && speed == 2) {
+        if (!reachedEndOfPath && speed < 6) {
             anim.SetBool(IS_WALKING, dir != Vector3.zero);
         } else if (!reachedEndOfPath) {
             anim.SetBool(IS_RUNNING, dir != Vector3.zero);

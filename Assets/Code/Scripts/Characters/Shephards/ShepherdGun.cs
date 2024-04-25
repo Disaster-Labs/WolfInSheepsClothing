@@ -17,9 +17,16 @@ public class ShepherdGun : MonoBehaviour
     private Vector2 wolfPosOnShot;
     private Vector2 wolfPos;
     private GameObject bullet;
+    private Animator anim;
+
+    private const string IS_SHOOTING = "IsShooting";
 
     public void ShootAtPosition(Vector2 pos) {
         wolfPos = pos;
+    }
+
+    private void Start() {
+        anim = transform.parent.GetChild(0).GetComponent<Animator>();
     }
 
     private void OnEnable() {
@@ -50,6 +57,8 @@ public class ShepherdGun : MonoBehaviour
         while (Time.time - startTime < shotPrepTime) {
             lineRenderer.SetPosition(0, transform.position);
             lineRenderer.SetPosition(1, wolfPos);
+
+            if (Time.time - startTime >= shotPrepTime - 0.2f) anim.SetBool(IS_SHOOTING, true);
             yield return null;
         }
 
@@ -77,5 +86,6 @@ public class ShepherdGun : MonoBehaviour
         }
 
         Destroy(bullet);
+        anim.SetBool(IS_SHOOTING, false);
     }
 }
