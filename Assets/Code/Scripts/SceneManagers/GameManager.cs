@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
 
     public static int HealthCurrent;
     public int HealthMax = 3;
+
+    public static float gameTime = 15000f;
     
     void Awake() {
         if (Instance != null && Instance != this) {
