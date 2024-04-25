@@ -16,13 +16,13 @@ public class EventTriggerTest : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             Debug.Log("Dummy eat trigger!");
-            GameManager.TriggerSheepEaten();
+            // GameManager.TriggerSheepEaten();
         }
 
         if (Input.GetKeyDown(KeyCode.G))
         {
             Debug.Log("Dummy hit trigger!");
-            GameManager.TriggerWolfHit();
+            // GameManager.TriggerWolfHit();
         }
     }
 }

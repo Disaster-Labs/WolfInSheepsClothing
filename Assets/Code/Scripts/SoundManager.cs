@@ -164,7 +164,7 @@ public class SoundManager : MonoBehaviour
                                                 e.newState.ToString(),
                                                 duration,
                                                 1.0f));
-        currentState = e.newState.ToString();
+        currentState = e.newState;
     }
 
     public void PauseSounds(object sender, Boolean pauseAudio) {
