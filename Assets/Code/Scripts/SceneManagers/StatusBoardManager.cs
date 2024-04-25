@@ -14,9 +14,9 @@ using UnityEngine.UI;
 public class StatusBoardManager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText; 
-    public Image[] meatIcons;
+    public GameObject[] meatIcons;
 
-    public Image healthBar;
+    public GameObject[] healthBar;
 
     void Update()
     {
@@ -35,11 +35,14 @@ public class StatusBoardManager : MonoBehaviour
     {
         for (int i = 0; i < meatIcons.Length; i++)
         {
-            meatIcons[i].enabled = i < hungerLevel; // 显示或隐藏图标
+            meatIcons[i].transform.Find("FullVisual").gameObject.SetActive(i < hungerLevel);
         }
     }
     public void UpdateHealth(int health)
     {
-        healthBar.fillAmount = (float) health / 3.0f;
+        for (int i = 0; i < healthBar.Length; i++)
+        {
+            healthBar[i].transform.Find("FullVisual").gameObject.SetActive(i < health);
+        }
     }
 }
