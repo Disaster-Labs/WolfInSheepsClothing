@@ -17,7 +17,7 @@ public class Hunting : ShepherdState {
     private GridGraph graph;
 
     private int shepherdHuntRange = 70;
-    private float shepherdSpeed = 4;
+    private float shepherdSpeed = 7;
     private float shepherdWolfRange = 10;
 
     public void OnEnter(Shepherd shepherd) {
