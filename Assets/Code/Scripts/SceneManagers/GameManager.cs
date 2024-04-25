@@ -60,13 +60,13 @@ public class GameManager : MonoBehaviour
     private void WolfHit()
     {
         HealthCurrent -= 1;
-        Debug.Log("Wolf been hit");
+        // Debug.Log("Wolf been hit");
 
     }
     private void SheepEaten(object sender, EventArgs e)
     {
         score += 1;
         hunger += 0.5f;
-        Debug.Log("A sheep has been eaten! Updating game state...");
+        // Debug.Log("A sheep has been eaten! Updating game state...");
     }
 }

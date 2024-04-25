@@ -35,6 +35,7 @@ public class Wolf : MonoBehaviour
 
     public LayerMask sheepLayerMask;
     public LayerMask sheepFoodLayerMask;
+    public GameObject food;
     public HoldingFood holdingFood = new HoldingFood();
     public NotHoldingFood notHoldingFood = new NotHoldingFood();
 
@@ -129,6 +130,7 @@ public class HoldingFood : WolfState {
         this.wolf = wolf;
         wolf.anim.SetBool(Wolf.IS_HOLDING_FOOD, true);
         wolf.HaveSheepFollow();
+        wolf.food.SetActive(true);
     }
 
     public void OnInteract() {
@@ -167,6 +169,7 @@ public class NotHoldingFood : WolfState {
     public void OnEnter(Wolf wolf) {
         this.wolf = wolf;
         wolf.anim.SetBool(Wolf.IS_HOLDING_FOOD, false);
+        wolf.food.SetActive(false);
     }
 
     public void OnInteract() {

@@ -109,19 +109,9 @@ public class Patrolling : ShepherdState {
     private bool reverse = false;
 
     private void HandleRotation() {
-        Rigidbody2D rb = shepherd.GetComponent<Rigidbody2D>();
         shepherd.wolfDetection.gameObject.SetActive(true);
         
-        if (shepherd.shepherdPathType != ShepherdPathType.Turn) {
-            if (Mathf.Abs(rb.velocity.x) < 0.2f && rb.velocity.y < 0) {
-                shepherd.visual.sprite = shepherd.shepherdDown;
-            } else if (Mathf.Abs(rb.velocity.x) < 0.2f && rb.velocity.y > 0) {
-                shepherd.visual.sprite = shepherd.shepherdUp;
-            } else {
-                shepherd.visual.sprite = shepherd.shepherdSide;
-            }
-        } else {
-            shepherd.visual.sprite = shepherd.shepherdDown;
+        if (shepherd.shepherdPathType == ShepherdPathType.Turn) {
             shepherd.transform.localScale = new Vector3(1, 1, 1);
 
             float panTime = 4;
@@ -140,6 +130,5 @@ public class Patrolling : ShepherdState {
     public void OnExit() {
         shepherd.wolfDetection.gameObject.SetActive(false);
         onFirstPathReached = false;
-        shepherd.visual.sprite = shepherd.shepherdSide;
     }
 }

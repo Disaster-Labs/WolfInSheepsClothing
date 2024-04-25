@@ -56,6 +56,7 @@ MonoBehaviour:
   sheepFoodLayerMask:
     serializedVersion: 2
     m_Bits: 512
+  food: {fileID: 1072416560418068178}
   alertSheep: {fileID: 3377055161793977480}
   sheepFoodPrefab: {fileID: 5439091074318914312, guid: 59abc4311d7f84f3aa34a63c36b0311c,
     type: 3}
@@ -66,7 +67,6 @@ MonoBehaviour:
   wolfHideInLayerMask:
     serializedVersion: 2
     m_Bits: 2048
-  hidingInObject: {fileID: 0}
   anim: {fileID: 2707675744546289409}
 --- !u!114 &803737882901986996
 MonoBehaviour:
@@ -92,6 +92,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775a4c3024bcc4c2983dc63b2015c58b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet:
+    serializedVersion: 2
+    m_Bits: 4096
 --- !u!50 &6328467298175954730
 Rigidbody2D:
   serializedVersion: 4
@@ -480,6 +483,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7701ae8129e2d674dac45b32ec148375, type: 3}
+--- !u!1 &1072416560418068178 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4286319526106814389, guid: 7701ae8129e2d674dac45b32ec148375,
+    type: 3}
+  m_PrefabInstance: {fileID: 3863505499368309095}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2833761838730089433 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1355133413686596286, guid: 7701ae8129e2d674dac45b32ec148375,

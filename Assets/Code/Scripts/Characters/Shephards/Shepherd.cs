@@ -22,10 +22,6 @@ public class Shepherd : MonoBehaviour
     [NonSerialized] public Wolf wolf;
 
     [SerializeField] public ShepherdPathType shepherdPathType;
-    [SerializeField] public Sprite shepherdUp;
-    [SerializeField] public Sprite shepherdDown;
-    [SerializeField] public Sprite shepherdSide;
-    [SerializeField] public SpriteRenderer visual;
 
     public AstarPath astar;
     public WolfDetection wolfDetection;
