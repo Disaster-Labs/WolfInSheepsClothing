@@ -45,6 +45,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: SheepFoodContainer
       objectReference: {fileID: 0}
+    - target: {fileID: 2462800045075528783, guid: 6a0654720cdc8474da1f6324fea95aae,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2462800045075528783, guid: 6a0654720cdc8474da1f6324fea95aae,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8025538765339038108, guid: 6a0654720cdc8474da1f6324fea95aae,
         type: 3}
       propertyPath: m_LocalPosition.x
