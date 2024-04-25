@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public const string GAME_OVER_SCENE = "GameOverScene";
     public const string CREDITS_SCENE = "CreditsScene";
     
-    public static event System.Action<bool> OnGameEnd; 
+    public static event Action<bool> OnGameEnd; 
     public static int score = 0; 
 
     public static float hunger = 0;
