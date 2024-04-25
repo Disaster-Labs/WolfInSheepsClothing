@@ -112,10 +112,24 @@ public class WolfMovement : MonoBehaviour
         }
     }
 
+    private float invulnerableTime = 1f;
+    private float timeSinceHit = 0;
+
     private void OnTriggerEnter2D(Collider2D col) {
-        if (bullet == (bullet | (1 << col.gameObject.layer))) {
+        if (bullet == (bullet | (1 << col.gameObject.layer)) && timeSinceHit == 0) {
             OnWolfHit?.Invoke();
+            StartCoroutine(Invulnerable());
         }
+    }
+
+    private IEnumerator Invulnerable()
+    {
+        while (timeSinceHit < invulnerableTime) {
+            timeSinceHit += Time.deltaTime;
+            yield return null;
+        }
+
+        timeSinceHit = 0;
     }
 }
 
