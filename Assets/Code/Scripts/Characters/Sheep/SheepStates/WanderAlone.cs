@@ -15,6 +15,8 @@ public class WanderAlone : SheepState
     private SheepHerd herd;
     private Sheep sheep;
     private AIMovement aIMovement;
+    
+    private Vector2 strayCenter;
 
     public void OnEnter(SheepHerd herd, Sheep sheep) {
         this.herd = herd;
@@ -25,13 +27,8 @@ public class WanderAlone : SheepState
         Vector3 scale = sheep.gameObject.transform.localScale;
         aIMovement.scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
 
-        graph = herd.astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
-
-        graph.SetDimensions(15, 15 ,1);
-        graph.center = sheep.gameObject.transform.localPosition;
-        graph.is2D = true;
-        graph.collision.use2D = true;
-        AstarPath.active.Scan();
+        graph = herd.graph;
+        strayCenter = sheep.gameObject.transform.position;
 
         CheckHerds();
 
@@ -68,8 +65,11 @@ public class WanderAlone : SheepState
 
     private Vector2 CalculateTargetPos()
     {
-        GraphNode node = graph.nodes[Random.Range(0, graph.nodes.Length)];
-        return node.RandomPointOnSurface();
+        float sheepGrazeRange = 7.5f;
+            float randomX = Random.Range(-sheepGrazeRange, sheepGrazeRange);
+            float randomY = Random.Range(-sheepGrazeRange, sheepGrazeRange);
+
+        return new Vector2(randomX, randomY) + strayCenter;
     }
 
     private void OnPathComplete(Path p) {
@@ -90,7 +90,6 @@ public class WanderAlone : SheepState
     }
 
     public void OnExit() {
-        herd.astar.data.RemoveGraph(graph);
         herd.StopAllCoroutines();
     }
 }

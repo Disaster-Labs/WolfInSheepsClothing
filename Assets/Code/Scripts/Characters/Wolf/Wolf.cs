@@ -11,16 +11,8 @@ using UnityEngine;
 
 public class Wolf : MonoBehaviour
 { 
-    // TO BE REMOVED !!!!
-    // ------------
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.Tab)) {
-            OnEnterForest?.Invoke(this, EventArgs.Empty);
-        }
-    }
-    // ------------
-
     public event EventHandler OnEnterForest;
+    public event EventHandler OnExitForest;
     private WolfInput wolfInput;
 
     // Sounds
@@ -43,6 +35,7 @@ public class Wolf : MonoBehaviour
 
     public LayerMask sheepLayerMask;
     public LayerMask sheepFoodLayerMask;
+    public GameObject food;
     public HoldingFood holdingFood = new HoldingFood();
     public NotHoldingFood notHoldingFood = new NotHoldingFood();
 
@@ -50,11 +43,14 @@ public class Wolf : MonoBehaviour
     [SerializeField] private GameObject sheepFoodPrefab;
     [SerializeField] private Transform sheepFoodParent;
     [SerializeField] private LayerMask hideObjectLayerMask;
+    [SerializeField] private LayerMask wolfHideInLayerMask;
 
     private WolfState wolfState;
 
     private bool isHiding = false;
     public bool GetIsHiding() { return isHiding; }
+
+    [NonSerialized] public GameObject hidingInObject;
 
     // Animations
     public Animator anim;
@@ -79,6 +75,12 @@ public class Wolf : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D col) {
         if (hideObjectLayerMask == (hideObjectLayerMask | (1 << col.gameObject.layer))) {
             isHiding = !beingChased;
+        } 
+        
+        if (wolfHideInLayerMask == (wolfHideInLayerMask | (1 << col.gameObject.layer))) {
+            hidingInObject = col.gameObject;
+            isHiding = !beingChased;
+            OnEnterForest?.Invoke(this, EventArgs.Empty);
         }
 
         wolfState.OnCollisionEnter(col);
@@ -86,6 +88,9 @@ public class Wolf : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D col) {
         if (hideObjectLayerMask == (hideObjectLayerMask | (1 << col.gameObject.layer))) {
+            isHiding = false;
+        } else if (wolfHideInLayerMask == (wolfHideInLayerMask | (1 << col.gameObject.layer))) {
+            OnExitForest?.Invoke(this, EventArgs.Empty);
             isHiding = false;
         }
 
@@ -119,21 +124,38 @@ public interface WolfState {
 
 public class HoldingFood : WolfState {
     private Wolf wolf;
+    private GameObject eatenSheep;
 
     public void OnEnter(Wolf wolf) {
         this.wolf = wolf;
         wolf.anim.SetBool(Wolf.IS_HOLDING_FOOD, true);
         wolf.HaveSheepFollow();
+        wolf.food.SetActive(true);
     }
 
     public void OnInteract() {
-        wolf.StopSheepFollowing();
+        if (eatenSheep != null) {
+            eatenSheep.transform.parent.GetComponent<SheepHerd>().EatSheep(eatenSheep);
+            wolf.anim.SetTrigger(Wolf.EAT_SHEEP);
+            wolf.EatSheep();
+        } else {
+            wolf.StopSheepFollowing();
+        }
+
         wolf.ChangeState(wolf.notHoldingFood);
     }
 
-    public void OnCollisionEnter(Collider2D col) {}
+    public void OnCollisionEnter(Collider2D col) {
+        if (wolf.sheepLayerMask == (wolf.sheepLayerMask | (1 << col.gameObject.layer))) {
+            eatenSheep = col.gameObject;
+        } 
+    }
 
-    public void OnCollisionExit(Collider2D col) {}
+    public void OnCollisionExit(Collider2D col) {
+        if (wolf.sheepLayerMask == (wolf.sheepLayerMask | (1 << col.gameObject.layer))) {
+            eatenSheep = null;
+        } 
+    }
 
     public void OnExit() {
     }
@@ -147,6 +169,7 @@ public class NotHoldingFood : WolfState {
     public void OnEnter(Wolf wolf) {
         this.wolf = wolf;
         wolf.anim.SetBool(Wolf.IS_HOLDING_FOOD, false);
+        wolf.food.SetActive(false);
     }
 
     public void OnInteract() {

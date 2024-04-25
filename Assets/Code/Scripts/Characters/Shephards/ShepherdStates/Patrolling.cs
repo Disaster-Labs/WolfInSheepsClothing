@@ -6,10 +6,7 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using Pathfinding;
-using Unity.Collections;
 using UnityEngine;
 
 public class Patrolling : ShepherdState {
@@ -17,9 +14,17 @@ public class Patrolling : ShepherdState {
     private AIMovement aIMovement;
     private GridGraph graph;
     private bool onFirstPathReached = false;
+    private float startTime;
+    private float startRot = -720;
 
     public void OnEnter(Shepherd shepherd) {
-        shepherd.wolfDetection.gameObject.SetActive(true);
+        startTime = Time.time;
+
+        if (startRot == -720) {
+            startRot = shepherd.wolfDetection.transform.parent.transform.rotation.eulerAngles.z - 360;
+        }
+
+        shepherd.wolfDetection.gameObject.SetActive(false);
         shepherd.wolfDetection.OnWolfDetected += (_, _) => shepherd.ChangeState(shepherd.hunting);
 
         this.shepherd = shepherd;
@@ -30,12 +35,7 @@ public class Patrolling : ShepherdState {
         Vector3 scale = shepherd.transform.localScale;
         aIMovement.scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
 
-        graph = shepherd.astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
-        graph.SetDimensions(100, 100 ,1);
-        graph.center = shepherd.transform.position;
-        graph.is2D = true;
-        graph.collision.use2D = true;
-        AstarPath.active.Scan();
+        graph = shepherd.gridGraph;
 
         DoFirstPath();
     }
@@ -58,21 +58,22 @@ public class Patrolling : ShepherdState {
 
     private Vector2 CalculateTargetPos()
     {
+        float range = 8;
         Vector2 target;
 
         switch (shepherd.shepherdPathType) {
             case ShepherdPathType.Vertical:
-                if (shepherd.transform.position.y >= graph.center.y) {
-                    target = new Vector2(shepherd.transform.position.x, graph.center.y - graph.width);
+                if (shepherd.transform.position.y >= shepherd.startPos.y + range) {
+                    target = new Vector2(shepherd.transform.position.x, shepherd.startPos.y - range);
                 } else {
-                    target = new Vector2(shepherd.transform.position.x, graph.center.y + graph.width);
+                    target = new Vector2(shepherd.transform.position.x, shepherd.startPos.y + range);
                 }
                 break;
             case ShepherdPathType.Horizontal:
-                if (shepherd.transform.position.x >= graph.center.x) {
-                    target = new Vector2(graph.center.x - graph.depth, shepherd.transform.position.y);
+                if (shepherd.transform.position.x >= shepherd.startPos.x + range) {
+                    target = new Vector2(shepherd.startPos.x - range, shepherd.transform.position.y);
                 } else {
-                    target = new Vector2(graph.center.x + graph.depth, shepherd.transform.position.y);
+                    target = new Vector2(shepherd.startPos.x + range, shepherd.transform.position.y);
                 }
                 break;
             case ShepherdPathType.Turn:
@@ -96,41 +97,37 @@ public class Patrolling : ShepherdState {
     public void OnUpdate() {
         if (aIMovement.path == null) return;
         else if (aIMovement.reachedEndOfPath && !onFirstPathReached) {
-            shepherd.astar.data.RemoveGraph(graph);
-            graph = shepherd.astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
-            graph.SetDimensions(20, 20 ,1);
-            graph.center = shepherd.transform.position;
-            graph.is2D = true;
-            graph.collision.use2D = true;
-            AstarPath.active.Scan();
             onFirstPathReached = true;
         }
         else if (aIMovement.reachedEndOfPath) UpdatePath();
 
         aIMovement.UpdateMovement();
 
-        HandleRotation();
+        if (onFirstPathReached) HandleRotation();
     }
+    
+    private bool reverse = false;
 
-    private void HandleRotation()
-    {
-        Rigidbody2D rb = shepherd.GetComponent<Rigidbody2D>();
+    private void HandleRotation() {
+        shepherd.wolfDetection.gameObject.SetActive(true);
         
-        if (shepherd.shepherdPathType != ShepherdPathType.Turn) {
-            if (Mathf.Approximately(rb.velocity.x, 0) && rb.velocity.y < 0) {
-                shepherd.visual.sprite = shepherd.shepherdDown;
-            } else if (Mathf.Approximately(rb.velocity.x, 0) && rb.velocity.y > 0) {
-                shepherd.visual.sprite = shepherd.shepherdUp;
-            } else {
-                shepherd.visual.sprite = shepherd.shepherdSide;
+        if (shepherd.shepherdPathType == ShepherdPathType.Turn) {
+            shepherd.transform.localScale = new Vector3(1, 1, 1);
+
+            float panTime = 4;
+            if (Time.time - startTime > panTime) {
+                startTime = Time.time;
+                reverse = !reverse;
             }
-        } else {
+
             // have an animation for turning
+            float rotationZ = Mathf.Lerp(startRot, -startRot, (Time.time - startTime) / panTime);
+            rotationZ *= reverse ? -1 : 1;
+            shepherd.wolfDetection.transform.parent.transform.rotation = Quaternion.Euler(0, 0 ,rotationZ);
         }
     }
 
     public void OnExit() {
-        shepherd.astar.data.RemoveGraph(graph);
         shepherd.wolfDetection.gameObject.SetActive(false);
         onFirstPathReached = false;
     }

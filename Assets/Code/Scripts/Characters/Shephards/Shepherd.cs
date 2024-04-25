@@ -19,18 +19,15 @@ public enum ShepherdPathType {
 
 public class Shepherd : MonoBehaviour
 {
-    [System.NonSerialized] public Wolf wolf;
+    [NonSerialized] public Wolf wolf;
 
     [SerializeField] public ShepherdPathType shepherdPathType;
-    [SerializeField] public Sprite shepherdUp;
-    [SerializeField] public Sprite shepherdDown;
-    [SerializeField] public Sprite shepherdSide;
-    [SerializeField] public SpriteRenderer visual;
 
     public AstarPath astar;
     public WolfDetection wolfDetection;
     public ShepherdGun shepherdGun;
     public Vector2 startPos;
+    [NonSerialized] public GridGraph gridGraph;
 
     public Patrolling patrolling = new Patrolling();
     public Hunting hunting = new Hunting();
@@ -42,6 +39,8 @@ public class Shepherd : MonoBehaviour
     public event EventHandler<Boolean> ShepherdHunting;
 
     private void Start() {
+        gridGraph = astar.data.graphs[0] as GridGraph;
+
         wolf = FindObjectOfType<Wolf>();
         startPos = transform.position;
         ChangeState(patrolling);

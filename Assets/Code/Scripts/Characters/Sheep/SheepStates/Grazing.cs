@@ -11,6 +11,7 @@ using UnityEngine;
 
 public class Grazing : SheepState
 {
+    private GridGraph graph;
     private SheepHerd herd;
     private Sheep sheep;
     private AIMovement aIMovement;
@@ -25,17 +26,7 @@ public class Grazing : SheepState
             return;
         }
 
-        int firstNotDeadSheep = 0;
-        for (int i = 0; i < herd.sheeps.Length; i++) {
-            if (herd.sheeps[i].sheepState.GetType() != typeof(Dead)) {
-                firstNotDeadSheep = i;
-                break;
-            }
-        }
-
-        if (herd.sheeps[firstNotDeadSheep] == sheep) {
-            herd.UpdateGraph(new Vector3(15, 15 ,1), false);
-        }
+        graph = herd.graph;
 
         Animator anim = sheep.gameObject.GetComponent<Animator>();
         aIMovement = new AIMovement(sheep.gameObject.GetComponent<Seeker>(), 2, sheep.gameObject, anim);
@@ -48,15 +39,17 @@ public class Grazing : SheepState
         if (!aIMovement.seeker.IsDone()) return;
 
         Vector2 targetPos = CalculateTargetPos();
-        aIMovement.seeker.StartPath(sheep.gameObject.transform.position, targetPos, OnPathComplete, GraphMask.FromGraph(herd.gridGraph));
+        aIMovement.seeker.StartPath(sheep.gameObject.transform.position, targetPos, OnPathComplete, GraphMask.FromGraph(graph));
         aIMovement.reachedEndOfPath = false;
     }
 
     private Vector2 CalculateTargetPos()
     {
-        GridGraph grid = herd.gridGraph;
-        GraphNode node = grid.nodes[Random.Range(0, grid.nodes.Length)];
-        return node.RandomPointOnSurface();
+        float sheepGrazeRange = 7.5f;
+        float randomX = Random.Range(-sheepGrazeRange, sheepGrazeRange);
+        float randomY = Random.Range(-sheepGrazeRange, sheepGrazeRange);
+
+        return new Vector2(randomX, randomY) + (Vector2) herd.transform.position;
     }
 
     private void OnPathComplete(Path p) {

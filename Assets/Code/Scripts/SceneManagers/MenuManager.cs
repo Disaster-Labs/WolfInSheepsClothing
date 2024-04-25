@@ -20,6 +20,7 @@ public class MenuManager : MonoBehaviour
 
     public void Btn_StartGame()
     {
+        GameManager.Instance.ResetGame(); 
         SceneManager.LoadScene(GameManager.GAME_SCENE);
         Time.timeScale = 1f;
     }
@@ -31,8 +32,9 @@ public class MenuManager : MonoBehaviour
 
     public void Btn_BackMenu()
     {
-        SceneManager.LoadScene(GameManager.MAIN_MENU_SCENE);
         Time.timeScale = 1f;
+        SceneManager.LoadScene(GameManager.MAIN_MENU_SCENE);
+        
     }
 
     // public void Btn_HowTo(){

@@ -29,11 +29,9 @@ public class Following : SheepState
         Vector3 scale = sheep.gameObject.transform.localScale;
         aIMovement.scale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
 
-
-        UpdateGrid();
+        graph = herd.graph;
         UpdatePath();
         herd.StartCoroutine(InvokeUpdatePath());
-        herd.StartCoroutine(InvokeUpdateGrid());
     }
 
     private IEnumerator InvokeUpdatePath()
@@ -62,26 +60,6 @@ public class Following : SheepState
         }
     }
 
-    private IEnumerator InvokeUpdateGrid()
-    {
-        while (true) {
-            yield return new WaitForSeconds(3);
-            UpdateGrid();
-            yield return null;
-        }
-    }
-
-    private void UpdateGrid() {
-        if (graph != null) herd.astar.data.RemoveGraph(graph);
-        graph = herd.astar.data.AddGraph(typeof(GridGraph)) as GridGraph;
-
-        graph.SetDimensions(15, 15 ,1);
-        graph.center = sheep.gameObject.transform.position;
-        graph.is2D = true;
-        graph.collision.use2D = true;
-        AstarPath.active.Scan();
-    }
-
     public void OnUpdate() {
         // distance between sheep and herd should be at least ten to be able to eat the sheep
         if (Vector2.SqrMagnitude(sheep.gameObject.transform.position - herd.transform.position) > 100) {
@@ -90,7 +68,7 @@ public class Following : SheepState
             sheep.inHerd = true;
         }
 
-        if (Vector2.Distance(wolf.transform.position, sheep.gameObject.transform.position) <= 2) {
+        if ((wolf.transform.position - sheep.gameObject.transform.position).sqrMagnitude <= 4) {
             aIMovement.reachedEndOfPath = true;
             sheep.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             return;
@@ -100,7 +78,6 @@ public class Following : SheepState
     }
 
     public void OnExit() {
-        herd.astar.data.RemoveGraph(graph);
         herd.StopAllCoroutines();
     }
 }

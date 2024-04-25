@@ -4,6 +4,9 @@
 // Modified By:
 // ---------------------------------------
 
+// Code By John Leonard French
+// https://johnleonardfrench.com/how-to-fade-audio-in-unity-i-tested-every-method-this-ones-the-best/#second_method
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Audio;

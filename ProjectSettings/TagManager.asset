@@ -16,8 +16,8 @@ TagManager:
   - Wolf
   - SheepFood
   - HideableObject
-  - 
-  - 
+  - WolfHideIn
+  - Bullet
   - 
   - 
   - 
@@ -49,4 +49,7 @@ TagManager:
     locked: 0
   - name: HideableObject
     uniqueID: 611437737
+    locked: 0
+  - name: Foreground
+    uniqueID: 3465048563
     locked: 0

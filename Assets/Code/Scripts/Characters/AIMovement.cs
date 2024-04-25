@@ -71,25 +71,25 @@ public class AIMovement
         rb.velocity = velocity;
 
         if (dir.x < 0 && timePassedSinceFlip > 0f) {
-            gameObject.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
+            gameObject.transform.localScale = new Vector3(-Mathf.Abs(scale.x), scale.y, scale.z);
             timePassedSinceFlip = 0;
         } else if (dir.x > 0 && timePassedSinceFlip > 0f) {
-            gameObject.transform.localScale = new Vector3(scale.x, scale.y, scale.z);
+            gameObject.transform.localScale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
             timePassedSinceFlip = 0;
         }
 
-        if (!reachedEndOfPath && speed == 2) {
+        if (!reachedEndOfPath && speed < 6) {
             anim.SetBool(IS_WALKING, dir != Vector3.zero);
         } else if (!reachedEndOfPath) {
             anim.SetBool(IS_RUNNING, dir != Vector3.zero);
         }
 
         if (Mathf.Approximately(rb.velocity.x, 0) && rb.velocity.y < 0) {
-            anim.SetInteger(DIRECTION, ((int)Direction.Down));
+            anim.SetInteger(DIRECTION, (int)Direction.Down);
         } else if (Mathf.Approximately(rb.velocity.x, 0) && rb.velocity.y > 0) {
-            anim.SetInteger(DIRECTION, ((int)Direction.Up));
+            anim.SetInteger(DIRECTION, (int)Direction.Up);
         } else {
-            anim.SetInteger(DIRECTION, ((int)Direction.Side));
+            anim.SetInteger(DIRECTION, (int)Direction.Side);
         }
 
     }
