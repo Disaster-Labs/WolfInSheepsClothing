@@ -16,7 +16,9 @@ public class GameOverManager : MonoBehaviour
     public TextMeshProUGUI scoreText; 
     public TextMeshProUGUI messageText; 
     public GameObject gameOverCanvas;
-    public event EventHandler<Boolean> PauseAudio;
+
+    public SoundManager soundManager;
+
     void Start()
     {
         gameOverCanvas.SetActive(false);  
@@ -30,6 +32,7 @@ public class GameOverManager : MonoBehaviour
 
     private void HandleGameEnd(bool won)
     {   
+        soundManager.PauseSounds(null, true);
         
         Time.timeScale = 0f;
         gameOverCanvas.SetActive(true);  

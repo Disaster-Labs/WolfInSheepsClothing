@@ -7,14 +7,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Collections;
 using UnityEngine;
 
 public class WolfMovement : MonoBehaviour
 {
     // State 
     private WolfMovementState currentState;
-    private DefaultState defaultState = new DefaultState();
+    public Default defaultState = new Default();
+    public Hungry hungry = new Hungry();
+    public Eating eating = new Eating();
 
     // Input
     private WolfInput input;
@@ -39,11 +40,16 @@ public class WolfMovement : MonoBehaviour
         Down
     }
 
+    private Animator anim;
+
     // Sound Events
+    public event EventHandler<bool> WolfRunning;
     public class WolfMoveEventArgs { public bool isWalking = false; public bool isRunning = false; }
     public event EventHandler<WolfMoveEventArgs> WolfMoving;
     
-    private Animator anim;
+    // Damaging
+    [SerializeField] private LayerMask bullet;
+    public event Action OnWolfHit;
 
     private void Awake() {
         input = GetComponent<WolfInput>();
@@ -52,6 +58,7 @@ public class WolfMovement : MonoBehaviour
 
         input.OnMove += (_, e) => moveDirection = e.direction;
         input.OnSprint += (_, e) => isSprinting = e.isSprinting;
+        GetComponent<Wolf>().SheepEaten += (_, _) => ChangeState(eating);
 
         startScaleX = transform.localScale.x;
     }
@@ -82,8 +89,11 @@ public class WolfMovement : MonoBehaviour
         if (isSprinting) rb.velocity = moveDirection * sprintSpeed;
         else rb.velocity = moveDirection * walkSpeed;
 
-        anim.SetBool(IS_RUNNING, isSprinting && rb.velocity != Vector2.zero);
-        anim.SetBool(IS_WALKING, !isSprinting && rb.velocity != Vector2.zero);
+        anim.SetBool(IS_RUNNING, isSprinting && rb.velocity != Vector2.zero && currentState != hungry);
+        anim.SetBool(IS_WALKING, (!isSprinting || currentState == hungry) && rb.velocity != Vector2.zero);
+
+        if (isSprinting && rb.velocity != Vector2.zero) WolfRunning?.Invoke(this, true);
+        else WolfRunning?.Invoke(this, false);
 
         if (prevVel == Vector2.zero && rb.velocity != Vector2.zero) WolfMoving?.Invoke(this, new WolfMoveEventArgs {isWalking = !isSprinting, isRunning = isSprinting});
         else if (prevVel != Vector2.zero && rb.velocity == Vector2.zero) WolfMoving?.Invoke(this, new WolfMoveEventArgs {isWalking = false, isRunning = false});
@@ -101,6 +111,26 @@ public class WolfMovement : MonoBehaviour
             anim.SetInteger(DIRECTION, (int) Direction.Side);
         }
     }
+
+    private float invulnerableTime = 1f;
+    private float timeSinceHit = 0;
+
+    private void OnTriggerEnter2D(Collider2D col) {
+        if (bullet == (bullet | (1 << col.gameObject.layer)) && timeSinceHit == 0) {
+            OnWolfHit?.Invoke();
+            StartCoroutine(Invulnerable());
+        }
+    }
+
+    private IEnumerator Invulnerable()
+    {
+        while (timeSinceHit < invulnerableTime) {
+            timeSinceHit += Time.deltaTime;
+            yield return null;
+        }
+
+        timeSinceHit = 0;
+    }
 }
 
 // States that affect movement
@@ -113,14 +143,52 @@ public class WolfMovementState {
     public virtual void OnUpdate(WolfMovement wolf) {}
 }
 
-public class DefaultState : WolfMovementState
+public class Default : WolfMovementState
 {
     public override void OnEnter() {
         walkSpeed = 7f;
         sprintSpeed = 12f;
+    }
 
-        // start some animation
+    public override void OnUpdate(WolfMovement wolf) {
+        if (GameManager.hunger <= 0) {
+            wolf.ChangeState(wolf.hungry);
+        }
     }
 }
 
-// States to add: Hungry, Damaged ... 
+public class Hungry : WolfMovementState
+{
+    public override void OnEnter() {
+        walkSpeed = 7f;
+        sprintSpeed = 7f;
+    }
+
+    public override void OnUpdate(WolfMovement wolf) {
+        if (GameManager.hunger > 0) {
+            wolf.ChangeState(wolf.defaultState);
+        }
+    }
+}
+
+public class Eating : WolfMovementState
+{
+    float startTime;
+    float animTime = 2;
+
+    public override void OnEnter() {
+        walkSpeed = 0f;
+        sprintSpeed = 0f;
+
+        startTime = Time.time;
+    }
+
+    public override void OnUpdate(WolfMovement wolf)
+    {
+        if (Time.time - startTime > animTime) {
+            wolf.ChangeState(wolf.defaultState);
+        }
+    }
+}
+
+// States to add: Damaged ... 

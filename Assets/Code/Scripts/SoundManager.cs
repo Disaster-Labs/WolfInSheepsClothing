@@ -90,6 +90,7 @@ public class SoundManager : MonoBehaviour
 
         foreach (Shepherd shepherd in shepherds) {
             shepherd.ShepherdHunting += PlayShepherdHuntingAudio;
+            shepherd.transform.GetChild(2).GetComponent<ShepherdGun>().OnShot += PlayHuntingRifleAudio;
         }
     }
 
@@ -213,7 +214,7 @@ public class SoundManager : MonoBehaviour
         audioSrc.PlayOneShot(shepherdAlerted, oneShotVol);
     }
 
-    public void PlayShepherdHuntingAudio(object sender, Boolean isHunting) {
+    public void PlayShepherdHuntingAudio(object sender, bool isHunting) {
         wolfBeingHunted = isHunting;
     }
 

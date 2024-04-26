@@ -16,7 +16,7 @@ public class Wolf : MonoBehaviour
     private WolfInput wolfInput;
 
     // Sounds
-    public class MusicEventArgs { public WolfStatus currentState; public WolfStatus newState; }
+    public class MusicEventArgs { public WolfStatus newState; }
     public event EventHandler<MusicEventArgs> UpdateBGMusic;
     public event EventHandler SheepEaten;
 
@@ -25,16 +25,19 @@ public class Wolf : MonoBehaviour
     public void SetBeingChased(bool beingChased) {
         alertSheep.CanAlertSheep(beingChased);
         this.beingChased = beingChased;
+    }
 
+    private void LateUpdate() {
         if (beingChased) {
-            UpdateBGMusic?.Invoke(this, new MusicEventArgs { currentState = WolfStatus.Undetected, newState = WolfStatus.Identified});
+            UpdateBGMusic?.Invoke(this, new MusicEventArgs { newState = WolfStatus.Identified});
         } else {
-            UpdateBGMusic?.Invoke(this, new MusicEventArgs { currentState = WolfStatus.Identified, newState = WolfStatus.Undetected});
+            UpdateBGMusic?.Invoke(this, new MusicEventArgs { newState = WolfStatus.Undetected});
         }
     }
 
     public LayerMask sheepLayerMask;
     public LayerMask sheepFoodLayerMask;
+    public GameObject food;
     public HoldingFood holdingFood = new HoldingFood();
     public NotHoldingFood notHoldingFood = new NotHoldingFood();
 
@@ -129,6 +132,7 @@ public class HoldingFood : WolfState {
         this.wolf = wolf;
         wolf.anim.SetBool(Wolf.IS_HOLDING_FOOD, true);
         wolf.HaveSheepFollow();
+        wolf.food.SetActive(true);
     }
 
     public void OnInteract() {
@@ -167,6 +171,7 @@ public class NotHoldingFood : WolfState {
     public void OnEnter(Wolf wolf) {
         this.wolf = wolf;
         wolf.anim.SetBool(Wolf.IS_HOLDING_FOOD, false);
+        wolf.food.SetActive(false);
     }
 
     public void OnInteract() {

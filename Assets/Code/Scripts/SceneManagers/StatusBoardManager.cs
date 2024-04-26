@@ -31,7 +31,7 @@ public class StatusBoardManager : MonoBehaviour
     public void ScoreBoard(int score)
     {
         if (scoreText != null)
-            scoreText.text = "Score:    " + GameManager.score; 
+            scoreText.text = "x" + GameManager.score; 
     }
     public void UpdateHunger(float hungerLevel)
     {

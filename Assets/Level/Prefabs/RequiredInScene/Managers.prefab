@@ -48,20 +48,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5783784978814886248, guid: a9f9d1ec12a62db489c705e765fa1dbd,
+        type: 3}
+      propertyPath: hungerDecayRate
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 6628514176651183075, guid: a9f9d1ec12a62db489c705e765fa1dbd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.2086003
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6628514176651183075, guid: a9f9d1ec12a62db489c705e765fa1dbd,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.096082
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6628514176651183075, guid: a9f9d1ec12a62db489c705e765fa1dbd,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.35433546
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6628514176651183075, guid: a9f9d1ec12a62db489c705e765fa1dbd,
         type: 3}
