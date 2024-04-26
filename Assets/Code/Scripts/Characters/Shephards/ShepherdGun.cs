@@ -4,6 +4,7 @@
 // Modified By:
 // ---------------------------------------
 
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -17,6 +18,9 @@ public class ShepherdGun : MonoBehaviour
     private Animator anim;
 
     private const string IS_SHOOTING = "IsShooting";
+
+    // Sound
+    public event EventHandler OnShot;
 
     public void ShootAtPosition(Vector2 pos) {
         wolfPos = pos;
@@ -105,6 +109,7 @@ public class ShepherdGun : MonoBehaviour
         Vector2 dir = (wolfPos - (Vector2) transform.position).normalized;
         Quaternion bulletRotation = Quaternion.FromToRotation(Vector3.right, dir);
         bullet = Instantiate(bulletPrefab, transform.position, bulletRotation);
+        OnShot?.Invoke(this, EventArgs.Empty);
          
         startTime = Time.time;
         float bulletLifeSpan = 3f;
