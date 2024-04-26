@@ -79,5 +79,6 @@ public class Following : SheepState
 
     public void OnExit() {
         herd.StopAllCoroutines();
+        aIMovement.OnExit();
     }
 }

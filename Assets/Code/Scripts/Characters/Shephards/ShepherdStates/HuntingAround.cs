@@ -58,8 +58,7 @@ public class HuntingAround : ShepherdState
         aIMovement.seeker.StartPath(shepherd.gameObject.transform.position, targetPos, OnPathComplete, GraphMask.FromGraph(graph));
     }
 
-    private Vector2 CalculateTargetPos()
-    {
+    private Vector2 CalculateTargetPos() {
         Vector2 center = wolf.hidingInObject.transform.position;
         int points = 10;
         float x_i = shepherd.gameObject.transform.position.x - center.x;
@@ -88,7 +87,7 @@ public class HuntingAround : ShepherdState
     }
 
     private IEnumerator GiveUp() {
-        yield return new WaitForSeconds(20);
+        yield return new WaitForSeconds(15);
         shepherd.ChangeState(shepherd.patrolling);
     }
 
@@ -96,5 +95,6 @@ public class HuntingAround : ShepherdState
         shepherd.wolfDetection.gameObject.SetActive(false);
         wolf.OnExitForest -= ChangeState;
         shepherd.StopCoroutine(cor);
+        aIMovement.OnExit();
     }
 }

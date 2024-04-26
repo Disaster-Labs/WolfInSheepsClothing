@@ -16,6 +16,7 @@ public class WolfMovement : MonoBehaviour
     public Default defaultState = new Default();
     public Hungry hungry = new Hungry();
     public Eating eating = new Eating();
+    public DeadWolf dead = new DeadWolf();
 
     // Input
     private WolfInput input;
@@ -77,6 +78,8 @@ public class WolfMovement : MonoBehaviour
 
     private void Update() {
         if (currentState != null) currentState.OnUpdate(this);
+
+        if (GameManager.HealthCurrent == 0) ChangeState(dead);
     }
 
     private void FixedUpdate() {
@@ -112,12 +115,13 @@ public class WolfMovement : MonoBehaviour
         }
     }
 
-    private float invulnerableTime = 1f;
+    private float invulnerableTime = 0;
     private float timeSinceHit = 0;
 
     private void OnTriggerEnter2D(Collider2D col) {
         if (bullet == (bullet | (1 << col.gameObject.layer)) && timeSinceHit == 0) {
             OnWolfHit?.Invoke();
+            Destroy(col.gameObject);
             StartCoroutine(Invulnerable());
         }
     }
@@ -188,6 +192,14 @@ public class Eating : WolfMovementState
         if (Time.time - startTime > animTime) {
             wolf.ChangeState(wolf.defaultState);
         }
+    }
+}
+
+public class DeadWolf : WolfMovementState
+{
+    public override void OnEnter() {
+        walkSpeed = 0f;
+        sprintSpeed = 0f;
     }
 }
 

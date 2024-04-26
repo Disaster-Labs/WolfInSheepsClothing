@@ -91,5 +91,6 @@ public class WanderAlone : SheepState
 
     public void OnExit() {
         herd.StopAllCoroutines();
+        aIMovement.OnExit();
     }
 }
