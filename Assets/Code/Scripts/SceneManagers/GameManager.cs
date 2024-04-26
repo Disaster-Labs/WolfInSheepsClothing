@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     public static int score = 0; 
 
     public static float hunger = 0;
-    public float hungerDecayRate = 0.1f;
+    public float hungerDecayRate;
     [SerializeField] private WolfMovement wolfMovement;
     [SerializeField] private Wolf wolf;
     private bool isRunning;

@@ -46,11 +46,9 @@ public class ShepherdGun : MonoBehaviour
             StartCoroutine(IncomingShot());
             CancelInvoke();
             InvokeRepeating("ShootWolf", 4, 4);
-            Debug.Log("Within 20 meters");
         } else {
             CancelInvoke();
             InvokeRepeating("ShootWolf", 0.2f, 0.2f);
-            Debug.Log("Not within 20 meters");
         }
     }
 
@@ -111,13 +109,13 @@ public class ShepherdGun : MonoBehaviour
         startTime = Time.time;
         float bulletLifeSpan = 3f;
         while (Time.time - startTime < bulletLifeSpan) {
+            if (Time.time - startTime >= 0.5) anim.SetBool(IS_SHOOTING, false);
+
             // movement
-            bullet.transform.position += (Vector3) dir * 50 * Time.deltaTime;
-            Debug.Log(Time.deltaTime);
+            bullet.transform.position += (Vector3) dir * 30 * Time.deltaTime;
             yield return null;
         }
 
         Destroy(bullet);
-        anim.SetBool(IS_SHOOTING, false);
     }
 }
