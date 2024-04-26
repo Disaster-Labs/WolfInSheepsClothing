@@ -79,14 +79,14 @@ public class AIMovement
         }
 
         if (!reachedEndOfPath && speed < 6) {
-            anim.SetBool(IS_WALKING, dir != Vector3.zero);
+            anim.SetBool(IS_WALKING, Mathf.Abs(rb.velocity.x) > 0.2f || Mathf.Abs(rb.velocity.y) > 0.2f);
         } else if (!reachedEndOfPath) {
-            anim.SetBool(IS_RUNNING, dir != Vector3.zero);
+            anim.SetBool(IS_RUNNING, Mathf.Abs(rb.velocity.x) > 0.2f || Mathf.Abs(rb.velocity.y) > 0.2f);
         }
 
-        if (Mathf.Approximately(rb.velocity.x, 0) && rb.velocity.y < 0) {
+        if (Mathf.Abs(rb.velocity.x) < 0.2f && rb.velocity.y < 0) {
             anim.SetInteger(DIRECTION, (int)Direction.Down);
-        } else if (Mathf.Approximately(rb.velocity.x, 0) && rb.velocity.y > 0) {
+        } else if (Mathf.Abs(rb.velocity.x) < 0.2f && rb.velocity.y > 0) {
             anim.SetInteger(DIRECTION, (int)Direction.Up);
         } else {
             anim.SetInteger(DIRECTION, (int)Direction.Side);

@@ -49,13 +49,11 @@ public class StatusBoardManager : MonoBehaviour
     }
     public void UpdateTimerDisplay(TimeSpan timeLeft)
     {   
-
-
         if (timeLeft.TotalSeconds <= 10)
         {
             timerText.color = Color.red; 
         }
 
-        timerText.text = string.Format("{0:D2}:{1:D2}:{2:D2}",timeLeft.Minutes, timeLeft.Seconds, timeLeft.Milliseconds / 10);
+        timerText.text = string.Format("{0:D2}:{1:D2}",timeLeft.Minutes, timeLeft.Seconds);
     }  
 }

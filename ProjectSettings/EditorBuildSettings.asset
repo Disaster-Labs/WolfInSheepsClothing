@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Level/Scenes/TestingScenes/Boyi/MainMenuScene - Copy.unity
-    guid: 35242ef026aff4b349244a8a22c0b14a
+    path: Assets/Level/Scenes/FinalScenes/MainMenuScene.unity
+    guid: 784d82348473d4e85add2c8f35ebca56
   - enabled: 1
     path: Assets/Level/Scenes/FinalScenes/GameScene.unity
     guid: ed612e852336d48468f9e4f02ce073dd

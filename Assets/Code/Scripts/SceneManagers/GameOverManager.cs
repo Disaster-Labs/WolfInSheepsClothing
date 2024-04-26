@@ -38,13 +38,13 @@ public class GameOverManager : MonoBehaviour
         gameOverCanvas.SetActive(true);  
         if (won)
         {
-            messageText.text = "You win!";
-            scoreText.text = "Your Score is: " + GameManager.score.ToString();
+            messageText.text = "Times Up!";
+            scoreText.text = "Sheep Eaten: " + GameManager.score.ToString();
         }
         else
         {
-            messageText.text = "You died!";
-            scoreText.text = "Your Current Score is: "+ GameManager.score.ToString(); 
+            messageText.text = "You Got Shot!";
+            scoreText.text = "Sheep Eaten: "+ GameManager.score.ToString(); 
         }
     }
 

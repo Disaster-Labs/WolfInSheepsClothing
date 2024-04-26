@@ -30,7 +30,10 @@ public class Wolf : MonoBehaviour
     private void LateUpdate() {
         if (beingChased) {
             UpdateBGMusic?.Invoke(this, new MusicEventArgs { newState = WolfStatus.Identified});
-        } else {
+        } else if (inBush) {
+            UpdateBGMusic?.Invoke(this, new MusicEventArgs { newState = WolfStatus.Suspicious});
+        }
+        else {
             UpdateBGMusic?.Invoke(this, new MusicEventArgs { newState = WolfStatus.Undetected});
         }
     }
@@ -51,6 +54,7 @@ public class Wolf : MonoBehaviour
 
     private bool isHiding = false;
     public bool GetIsHiding() { return isHiding; }
+    private bool inBush = false;
 
     [NonSerialized] public GameObject hidingInObject;
 
@@ -82,6 +86,7 @@ public class Wolf : MonoBehaviour
         if (wolfHideInLayerMask == (wolfHideInLayerMask | (1 << col.gameObject.layer))) {
             hidingInObject = col.gameObject;
             isHiding = !beingChased;
+            inBush = beingChased;
             OnEnterForest?.Invoke(this, EventArgs.Empty);
         }
 
@@ -94,6 +99,7 @@ public class Wolf : MonoBehaviour
         } else if (wolfHideInLayerMask == (wolfHideInLayerMask | (1 << col.gameObject.layer))) {
             OnExitForest?.Invoke(this, EventArgs.Empty);
             isHiding = false;
+            inBush = false;
         }
 
         wolfState.OnCollisionExit(col);
