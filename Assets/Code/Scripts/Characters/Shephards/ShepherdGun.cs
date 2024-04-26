@@ -4,9 +4,7 @@
 // Modified By:
 // ---------------------------------------
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShepherdGun : MonoBehaviour
@@ -14,7 +12,6 @@ public class ShepherdGun : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     private LineRenderer lineRenderer;
 
-    private Vector2 wolfPosOnShot;
     private Vector2 wolfPos;
     private GameObject bullet;
     private Animator anim;
@@ -32,16 +29,29 @@ public class ShepherdGun : MonoBehaviour
     private void OnEnable() {
         lineRenderer = GetComponent<LineRenderer>();
 
-        InvokeRepeating("ShootWolf", 4, 4);
+        InvokeRepeating("ShootWolf", 2, 4);
     }
 
     private void OnDisable() {
         CancelInvoke();
+        StopAllCoroutines();
+        lineRenderer.startColor = Color.clear;
+        lineRenderer.endColor = Color.clear;
         Destroy(bullet);
     }
 
     private void ShootWolf() {
-        StartCoroutine(IncomingShot());
+        // within 10 meters
+        if ((wolfPos - (Vector2) transform.position).sqrMagnitude < 400) {
+            StartCoroutine(IncomingShot());
+            CancelInvoke();
+            InvokeRepeating("ShootWolf", 4, 4);
+            Debug.Log("Within 20 meters");
+        } else {
+            CancelInvoke();
+            InvokeRepeating("ShootWolf", 0.2f, 0.2f);
+            Debug.Log("Not within 20 meters");
+        }
     }
 
     private IEnumerator IncomingShot()
@@ -49,39 +59,61 @@ public class ShepherdGun : MonoBehaviour
         lineRenderer.startWidth = 0.3f;
         lineRenderer.endWidth = 0.4f;
         lineRenderer.numCapVertices = 3;
-        lineRenderer.startColor = Color.red;
-        lineRenderer.endColor = Color.red;
+        lineRenderer.startColor = Color.clear;
+        lineRenderer.endColor = Color.clear;
 
         float startTime = Time.time;
-        float shotPrepTime = 1f;
+        float shotPrepTime = 2f;
+
+        // Queue based system
+        // Queue wolfPoses = new Queue();
+
+        // while (Time.time - startTime < shotPrepTime) {
+        //     if (Time.time - startTime > 0.3f) {
+        //         lineRenderer.SetPosition(0, transform.position);
+        //         Vector2 pointAtDir = -((Vector2) transform.position - (Vector2) wolfPoses.Dequeue()).normalized;
+        //         Vector2 pointAt = (Vector2) transform.position + pointAtDir * 40;
+
+        //         bool hitWolf = Physics2D.Linecast(transform.position, pointAt, wolf);
+
+        //         lineRenderer.SetPosition(1, hitWolf ? wolfPos : pointAt);
+        //     } 
+            
+        //     wolfPoses.Enqueue(wolfPos);
+            
+        //     yield return null;
+        // }
+
+
         while (Time.time - startTime < shotPrepTime) {
             lineRenderer.SetPosition(0, transform.position);
+            // Vector2 pointAtDir = -((Vector2) transform.position - wolfPos).normalized;
+            // Vector2 pointAt = (Vector2) transform.position + pointAtDir * 40;
             lineRenderer.SetPosition(1, wolfPos);
+
+            if (Time.time - startTime < 0.2) {
+                lineRenderer.startColor = new Color(1, 0, 0, 0.7f);
+                lineRenderer.endColor = new Color(1, 0, 0, 0.7f);
+            }
 
             if (Time.time - startTime >= shotPrepTime - 0.2f) anim.SetBool(IS_SHOOTING, true);
             yield return null;
         }
-
-        wolfPosOnShot = wolfPos;
         
         // play shooting sound
         lineRenderer.startColor = Color.clear;
         lineRenderer.endColor = Color.clear;
-        bullet = Instantiate(bulletPrefab);
+
+        Vector2 dir = (wolfPos - (Vector2) transform.position).normalized;
+        Quaternion bulletRotation = Quaternion.FromToRotation(Vector3.right, dir);
+        bullet = Instantiate(bulletPrefab, transform.position, bulletRotation);
          
         startTime = Time.time;
-        float bulletTravelTime = 0.35f;
-        while (Time.time - startTime < bulletTravelTime) {
-            Quaternion bulletRotation = Quaternion.FromToRotation(Vector3.right, (Vector3) wolfPos - transform.position);
-            bullet.transform.rotation = bulletRotation;
-            bullet.transform.position = Vector2.Lerp(transform.position, wolfPosOnShot, (Time.time - startTime) / bulletTravelTime);
-            yield return null;
-        }
-
-        startTime = Time.time;
-        float bulletDestroyTime = 0.5f;
-        while (Time.time - startTime < bulletDestroyTime) {
-            bullet.transform.position += ((Vector3) wolfPos - transform.position).normalized * Time.deltaTime * 20f;
+        float bulletLifeSpan = 3f;
+        while (Time.time - startTime < bulletLifeSpan) {
+            // movement
+            bullet.transform.position += (Vector3) dir * 50 * Time.deltaTime;
+            Debug.Log(Time.deltaTime);
             yield return null;
         }
 

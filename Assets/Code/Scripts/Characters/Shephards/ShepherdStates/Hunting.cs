@@ -18,7 +18,7 @@ public class Hunting : ShepherdState {
 
     private Coroutine cor;
 
-    private float shepherdSpeed = 4;
+    private float shepherdSpeed = 7;
     private float shepherdWolfRange = 10;
 
     public void OnEnter(Shepherd shepherd) {
