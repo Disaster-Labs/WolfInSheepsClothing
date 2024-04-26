@@ -15,14 +15,16 @@ public class GameManager : MonoBehaviour
     
     // Scene Names
     public const string MAIN_MENU_SCENE = "MainMenuScene";
-    public const string GAME_SCENE = "GameScene_Abby";
+    public const string GAME_SCENE = "GameScene";
     public const string GAME_OVER_SCENE = "GameOverScene";
     public const string CREDITS_SCENE = "CreditsScene";
+
+    private const string KILLED = "Killed";
     
     public static event Action<bool> OnGameEnd; 
     public static int score = 0; 
 
-    public static float hunger = 0;
+    public static float hunger = 3;
     public float hungerDecayRate;
     [SerializeField] private WolfMovement wolfMovement;
     [SerializeField] private Wolf wolf;
@@ -72,12 +74,25 @@ public class GameManager : MonoBehaviour
 
         if (HealthCurrent <= 0)
         {
-            OnGameEnd?.Invoke(false);  
+            FindObjectOfType<WolfMovement>().transform.GetChild(0).GetComponent<Animator>().SetBool(KILLED, true);
+            Shepherd[] shepherds = FindObjectsByType<Shepherd>(FindObjectsSortMode.None);
+            foreach (Shepherd shepherd in shepherds) {
+                shepherd.ChangeState(new Capturing());
+            }
+            
+            StartCoroutine(WaitForAnim());
         }
+
         if (timeLeft.TotalMilliseconds <= 0)
         {
             OnGameEnd?.Invoke(true);  
         }
+    }
+
+    private IEnumerator WaitForAnim()
+    {
+        yield return new WaitForSeconds(2);
+        OnGameEnd?.Invoke(false);  
     }
 
     private void WolfHit()

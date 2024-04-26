@@ -91,6 +91,10 @@ public class AIMovement
         } else {
             anim.SetInteger(DIRECTION, (int)Direction.Side);
         }
+    }
 
+    public void OnExit() {
+        anim.SetBool(IS_WALKING, false);
+        anim.SetBool(IS_RUNNING, false);
     }
 }

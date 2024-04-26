@@ -117,10 +117,10 @@ public class ShepherdGun : MonoBehaviour
             if (Time.time - startTime >= 0.5) anim.SetBool(IS_SHOOTING, false);
 
             // movement
-            bullet.transform.position += (Vector3) dir * 30 * Time.deltaTime;
+            if (bullet != null) bullet.transform.position += (Vector3) dir * 30 * Time.deltaTime;
             yield return null;
         }
 
-        Destroy(bullet);
+        if (bullet != null) Destroy(bullet);
     }
 }

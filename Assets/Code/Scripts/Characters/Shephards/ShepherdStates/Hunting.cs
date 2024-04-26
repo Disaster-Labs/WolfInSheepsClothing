@@ -108,5 +108,6 @@ public class Hunting : ShepherdState {
         shepherd.shepherdGun.gameObject.SetActive(false);
         // shepherd.astar.data.RemoveGraph(graph);
         shepherd.StopCoroutine(cor);
+        aIMovement.OnExit();
     }
 }

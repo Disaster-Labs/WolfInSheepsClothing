@@ -130,5 +130,6 @@ public class Patrolling : ShepherdState {
     public void OnExit() {
         shepherd.wolfDetection.gameObject.SetActive(false);
         onFirstPathReached = false;
+        aIMovement.OnExit();
     }
 }
