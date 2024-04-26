@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     public static int HealthCurrent;
     public int HealthMax = 3;
 
-    public static float gameTime = 150000f;
+    public static float gameTime = 300000;
     public static TimeSpan timeLeft;
     
     public void ResetGame()
