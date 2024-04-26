@@ -16,7 +16,7 @@ public class Wolf : MonoBehaviour
     private WolfInput wolfInput;
 
     // Sounds
-    public class MusicEventArgs { public WolfStatus currentState; public WolfStatus newState; }
+    public class MusicEventArgs { public WolfStatus newState; }
     public event EventHandler<MusicEventArgs> UpdateBGMusic;
     public event EventHandler SheepEaten;
 
@@ -25,11 +25,13 @@ public class Wolf : MonoBehaviour
     public void SetBeingChased(bool beingChased) {
         alertSheep.CanAlertSheep(beingChased);
         this.beingChased = beingChased;
+    }
 
+    private void LateUpdate() {
         if (beingChased) {
-            UpdateBGMusic?.Invoke(this, new MusicEventArgs { currentState = WolfStatus.Undetected, newState = WolfStatus.Identified});
+            UpdateBGMusic?.Invoke(this, new MusicEventArgs { newState = WolfStatus.Identified});
         } else {
-            UpdateBGMusic?.Invoke(this, new MusicEventArgs { currentState = WolfStatus.Identified, newState = WolfStatus.Undetected});
+            UpdateBGMusic?.Invoke(this, new MusicEventArgs { newState = WolfStatus.Undetected});
         }
     }
 
